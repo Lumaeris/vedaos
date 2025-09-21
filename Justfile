@@ -11,8 +11,6 @@ iso-hardened-amd:
 
 iso-server:
     #!/bin/sh
-    echo "Not yet switched to CentOS Stream base image! Giving 5 seconds to cancel this action..."
-    sleep 5s
     sudo podman pull ghcr.io/lumaeris/vedaos-server:latest
     mkdir output
     sudo podman run --rm -it --privileged --pull=newer --security-opt label=type:unconfined_t -v ./config_server.toml:/config.toml:ro -v ./output:/output -v /var/lib/containers/storage:/var/lib/containers/storage quay.io/centos-bootc/bootc-image-builder:latest --type anaconda-iso --use-librepo=True ghcr.io/lumaeris/vedaos-server:latest

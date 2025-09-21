@@ -1,46 +1,84 @@
 ---
 # yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
-# image will be published to ghcr.io/<user>/<name>
 name: vedaos-server
-# description will be included in the image's metadata
 description: This is my personal OS image.
+base-image: quay.io/centos-bootc/centos-bootc
+image-version: c10s
 
-# the base image to build on top of (FROM) and the version tag to use
-base-image: ghcr.io/ublue-os/ucore-hci
-image-version: stable
-
-# module configuration, executed in order
-# you can include multiple instances of the same module
 modules:
-  - type: script
-    snippets:
-      - "dnf5 copr enable @caddy/caddy -y"
+  - type: dnf
+    install:
+      packages:
+        - epel-release
 
   - type: dnf
     repos:
       cleanup: true
-      copr:
-        - pgdev/zola
+      files:
+        - https://pkgs.tailscale.com/stable/centos/10/tailscale.repo
+      copr: 
+        - ublue-os/packages
     install:
+      install-weak-deps: false
       packages:
-        - repo: copr:copr.fedorainfracloud.org:group_caddy:caddy
+        - repo: epel
           packages:
-            - caddy # force installing caddy from copr
-        - wget
-        - htop
-        - zola
+            - just
+        - cockpit-machines
+        - cockpit-networkmanager
+        - cockpit-podman
+        - cockpit-selinux
+        - cockpit-storaged
+        - cockpit-system
+        - firewalld
+        - git-core
+        - libvirt-client
+        - libvirt-daemon
+        - libvirt-daemon-kvm
+        - NetworkManager-wifi
+        - open-vm-tools
+        - pcp-zeroconf
+        - qemu-guest-agent
+        - rsync
+        - systemd-resolved
+        - udisks2-lvm2
+        - virt-install
+        - xdg-user-dirs
+        - tailscale
+        - ublue-os-libvirt-workarounds
+    remove:
+      packages:
+        - adcli
+        - libdnf-plugin-subscription-manager
+        - python3-subscription-manager-rhsm
+        - subscription-manager
+        - subscription-manager-rhsm-certificates
+        - toolbox
+        - yggdrasil
+        - epel-release
+
+  - type: files
+    files:
+      - source: system_files/server
+        destination: /
 
   - type: script
     scripts:
-      - install-3xui.sh
+      - resolved.sh
     snippets:
-      - "dnf5 copr disable @caddy/caddy -y"
+      - "sed -i 's|^ExecStart=.*|ExecStart=/usr/bin/bootc update --quiet|' /usr/lib/systemd/system/bootc-fetch-apply-updates.service"
+      - "sed -i 's|^OnUnitInactiveSec=.*|OnUnitInactiveSec=7d\nPersistent=true|' /usr/lib/systemd/system/bootc-fetch-apply-updates.timer"
+      - "sed -i 's|#AutomaticUpdatePolicy.*|AutomaticUpdatePolicy=stage|' /etc/rpm-ostreed.conf"
+      - "sed -i 's|#LockLayering.*|LockLayering=true|' /etc/rpm-ostreed.conf"
 
   - type: systemd
     system:
       enabled:
-        - x-ui
-      disabled:
-        - coreos-oci-migration-motd.service
+        - sshd
+        - firewalld
+        - podman-auto-update.timer
+        - tailscaled
+
+  - type: initramfs
 
   - type: signing
