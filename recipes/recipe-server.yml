@@ -18,6 +18,8 @@ modules:
         - https://pkgs.tailscale.com/stable/centos/10/tailscale.repo
       copr: 
         - ublue-os/packages
+      keys:
+        - https://pkgs.tailscale.com/stable/centos/10/repo.gpg
     install:
       install-weak-deps: false
       packages:
