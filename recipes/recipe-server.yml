@@ -10,14 +10,21 @@ modules:
     install:
       packages:
         - epel-release
-
-  - type: script
-    snippets:
-      - "dnf config-manager --add-repo 'https://pkgs.tailscale.com/stable/centos/10/tailscale.repo'"
+    remove:
+      packages:
+        - adcli
+        - libdnf-plugin-subscription-manager
+        - python3-subscription-manager-rhsm
+        - subscription-manager
+        - subscription-manager-rhsm-certificates
+        - toolbox
+        - yggdrasil
 
   - type: dnf
     repos:
       cleanup: true
+      files:
+        - https://pkgs.tailscale.com/stable/centos/10/tailscale.repo
       copr: 
         - ublue-os/packages
     install:
@@ -50,13 +57,6 @@ modules:
         - ublue-os-libvirt-workarounds
     remove:
       packages:
-        - adcli
-        - libdnf-plugin-subscription-manager
-        - python3-subscription-manager-rhsm
-        - subscription-manager
-        - subscription-manager-rhsm-certificates
-        - toolbox
-        - yggdrasil
         - epel-release
 
   - type: files
