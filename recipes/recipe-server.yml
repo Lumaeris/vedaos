@@ -78,6 +78,9 @@ modules:
         - firewalld
         - podman-auto-update.timer
         - tailscaled
+    user:
+      enabled:
+        - podman-auto-update.timer
 
   - type: initramfs
 
