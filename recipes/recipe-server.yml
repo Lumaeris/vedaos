@@ -7,14 +7,13 @@ image-version: c10s
 
 modules:
   - type: dnf
-    repos:
-      cleanup: true
-      files:
-        - https://pkgs.tailscale.com/stable/centos/10/tailscale.repo
     install:
       packages:
         - epel-release
-        - tailscale
+
+  - type: script
+    snippets:
+      - "dnf config-manager --add-repo 'https://pkgs.tailscale.com/stable/centos/10/tailscale.repo'"
 
   - type: dnf
     repos:
@@ -47,6 +46,7 @@ modules:
         - udisks2-lvm2
         - virt-install
         - xdg-user-dirs
+        - tailscale
         - ublue-os-libvirt-workarounds
     remove:
       packages:
