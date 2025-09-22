@@ -83,6 +83,4 @@ modules:
       enabled:
         - podman-auto-update.timer
 
-  - type: initramfs
-
   - type: signing
