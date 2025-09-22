@@ -6,6 +6,13 @@ bootc switch --mutate-in-place --transport registry ghcr.io/lumaeris/vedaos-serv
 """
 
 [customizations.installer.modules]
-disable = [
-    "org.fedoraproject.Anaconda.Modules.Payloads"
+enable = [
+  "org.fedoraproject.Anaconda.Modules.Storage",
+  "org.fedoraproject.Anaconda.Modules.Runtime",
+  "org.fedoraproject.Anaconda.Modules.Users",
+  "org.fedoraproject.Anaconda.Modules.Network",
+  "org.fedoraproject.Anaconda.Modules.Security",
+  "org.fedoraproject.Anaconda.Modules.Services",
+  "org.fedoraproject.Anaconda.Modules.Subscription",
+  "org.fedoraproject.Anaconda.Modules.Timezone"
 ]
