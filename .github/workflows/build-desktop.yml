@@ -2,7 +2,7 @@ name: Build desktop
 on:
   schedule:
     - cron:
-        "00 07 * * *" # build at 07:00 UTC every day
+        "00 06 * * *" # build at 06:00 UTC every day
   push:
     paths:
       - "recipes/recipe-desktop.yml"
