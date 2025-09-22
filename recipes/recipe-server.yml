@@ -5,8 +5,6 @@ description: This is my personal OS image.
 base-image: quay.io/centos-bootc/centos-bootc
 image-version: c10s
 
-nushell-version: none
-
 modules:
   - type: dnf
     install:
@@ -26,9 +24,11 @@ modules:
     repos:
       cleanup: true
       files:
-        - https://pkgs.tailscale.com/stable/centos/10/tailscale.repo
+        - tailscale.repo
       copr: 
         - ublue-os/packages
+      keys:
+        - tailscale.asc
     install:
       install-weak-deps: false
       packages:

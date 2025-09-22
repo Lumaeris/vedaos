@@ -1,0 +1,7 @@
+[tailscale-stable]
+name=Tailscale stable
+baseurl=https://pkgs.tailscale.com/stable/centos/10/$basearch
+enabled=1
+type=rpm
+repo_gpgcheck=0
+gpgcheck=0
