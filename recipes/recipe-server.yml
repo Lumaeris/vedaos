@@ -5,6 +5,8 @@ description: This is my personal OS image.
 base-image: quay.io/centos-bootc/centos-bootc
 image-version: c10s
 
+nushell-version: none
+
 modules:
   - type: dnf
     install:
@@ -55,6 +57,8 @@ modules:
         - xdg-user-dirs
         - tailscale
         - ublue-os-libvirt-workarounds
+    
+  - type: dnf
     remove:
       packages:
         - epel-release
