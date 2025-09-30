@@ -11,15 +11,14 @@ modules:
       cleanup: true
       files:
         - https://repository.mullvad.net/rpm/stable/mullvad.repo
-        - https://packages.microsoft.com/yumrepos/vscode/config.repo
         - https://download.docker.com/linux/fedora/docker-ce.repo
+        - vscodium.repo
+      keys:
+        - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/-/raw/master/pub.gpg
     optfix:
       - "Mullvad VPN"
     install:
       packages:
-        - repo: vscode-yum
-          packages:
-            - code
         - repo: docker-ce-stable
           packages:
             - containerd.io
@@ -33,6 +32,7 @@ modules:
         - rclone
         - libcgroup
         - mullvad-vpn
+        - codium
 
   - type: systemd
     system:
@@ -40,11 +40,16 @@ modules:
         - docker.socket
         - podman.socket
         - mullvad-daemon.service
+        - tailscaled.service
   
   - type: files
     files:
       - source: system_files/desktop
         destination: /
+
+  - type: script
+    scripts:
+      - install-lsfgvk.sh
     
   - type: script
     snippets:

@@ -1,4 +1,4 @@
-name: Build desktop
+name: Build desktop and deck
 on:
   schedule:
     - cron:
@@ -6,6 +6,7 @@ on:
   push:
     paths:
       - "recipes/recipe-desktop.yml"
+      - "recipes/recipe-deck.yml"
 
   pull_request:
   workflow_dispatch: # allow manually triggering builds
@@ -27,6 +28,7 @@ jobs:
         recipe:
           # !! Add your recipes here
           - recipe-desktop.yml
+          - recipe-deck.yml
     steps:
       # the build is fully handled by the reusable github action
       - name: Build Custom Image

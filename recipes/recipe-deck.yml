@@ -1,0 +1,39 @@
+---
+# yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
+name: vedaos-deck
+description: This is my personal OS image.
+base-image: ghcr.io/ublue-os/bazzite-deck-gnome
+image-version: stable
+
+modules:
+  - type: dnf
+    repos:
+      cleanup: true
+      files:
+        - https://repository.mullvad.net/rpm/stable/mullvad.repo
+    optfix:
+      - "Mullvad VPN"
+    install:
+      packages:
+        - mullvad-vpn
+
+  - type: systemd
+    system:
+      enabled:
+        - mullvad-daemon.service
+        - tailscaled.service
+  
+  - type: files
+    files:
+      - source: system_files/deck
+        destination: /
+
+  - type: script
+    scripts:
+      - install-lsfgvk.sh
+    
+  - type: script
+    snippets:
+      - "dnf5 clean all"
+
+  - type: signing
