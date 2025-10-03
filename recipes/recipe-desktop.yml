@@ -33,6 +33,19 @@ modules:
         - libcgroup
         - mullvad-vpn
         - codium
+    remove:
+      packages:
+        - bazaar
+
+  - type: default-flatpaks
+    configurations:
+      - notify: true
+        scope: system
+        repo:
+          title: Flathub (system)
+        install:
+          - io.github.kolunmi.Bazaar
+          - io.podman_desktop.PodmanDesktop
 
   - type: systemd
     system:
