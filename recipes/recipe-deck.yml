@@ -16,6 +16,18 @@ modules:
     install:
       packages:
         - mullvad-vpn
+    remove:
+      packages:
+        - bazaar
+
+  - type: default-flatpaks
+    configurations:
+      - notify: true
+        scope: system
+        repo:
+          title: Flathub (system)
+        install:
+          - io.github.kolunmi.Bazaar
 
   - type: systemd
     system:
