@@ -3,7 +3,7 @@
 
 set -ouex pipefail
 
-LSFG_TAG=$(curl --fail --retry 5 --retry-delay 5 --retry-all-errors -s https://api.github.com/repos/PancakeTAS/lsfg-vk/releases | grep tag_name | cut -d : -f2 | tr -d 'v", ' | head -1)
+LSFG_TAG=$(curl --fail --retry 5 --retry-delay 5 --retry-all-errors -s https://api.github.com/repos/PancakeTAS/lsfg-vk/releases/latest | grep tag_name | cut -d : -f2 | tr -d 'v", ' | head -1)
 
 echo 'Installing lsfg-vk.'
 dnf5 install -y \

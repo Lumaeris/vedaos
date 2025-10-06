@@ -17,7 +17,6 @@ modules:
         - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/-/raw/master/pub.gpg
     optfix:
       - "Mullvad VPN"
-      - "Filen"
     install:
       packages:
         - repo: docker-ce-stable
@@ -34,7 +33,6 @@ modules:
         - libcgroup
         - mullvad-vpn
         - codium
-        - https://cdn.filen.io/@filen/desktop/release/latest/Filen_linux_x86_64.rpm
     remove:
       packages:
         - bazaar
