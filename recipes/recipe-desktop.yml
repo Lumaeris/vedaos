@@ -57,6 +57,11 @@ modules:
   
   - type: files
     files:
+      - source: system_files/shared
+        destination: /
+
+  - type: files
+    files:
       - source: system_files/desktop
         destination: /
 
@@ -65,9 +70,15 @@ modules:
       - install-lsfgvk.sh
     snippets:
       - "ln -s /usr/share/ublue-os/bazaar /etc/bazaar"
+      - "sed -i 's|/usr/share/ublue-os/|/run/host/etc/|g' /usr/share/ublue-os/bazaar/config.yaml"
     
   - type: script
     snippets:
       - "dnf5 clean all"
+
+  - type: systemd
+    user:
+      enabled:
+        - bazaar.service
 
   - type: signing
