@@ -60,10 +60,7 @@ modules:
   - type: script
     scripts:
       - install-lsfgvk.sh
-    snippets:
-      - "mv /usr/share/ublue-os/bazaar /etc"
-      - "sed -i 's|/usr/share/ublue-os/|/run/host/etc/|g' /etc/bazaar/config.yaml"
-      - "sed -i '/io\.github\.kolunmi\.Bazaar/d' /etc/bazaar/blocklist.txt"
+      - so-bazaar.sh
     
   - type: script
     snippets:
