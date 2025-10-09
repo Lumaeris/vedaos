@@ -28,12 +28,6 @@ modules:
           title: Flathub (system)
         install:
           - io.github.kolunmi.Bazaar
-
-  - type: systemd
-    system:
-      enabled:
-        - mullvad-daemon.service
-        - tailscaled.service
   
   - type: files
     files:
@@ -49,14 +43,19 @@ modules:
     scripts:
       - install-lsfgvk.sh
     snippets:
-      - "ln -s /usr/share/ublue-os/bazaar /etc/bazaar"
-      - "sed -i 's|/usr/share/ublue-os/|/run/host/etc/|g' /usr/share/ublue-os/bazaar/config.yaml"
+      - "mv /usr/share/ublue-os/bazaar /etc"
+      - "sed -i 's|/usr/share/ublue-os/|/run/host/etc/|g' /etc/bazaar/config.yaml"
+      - "sed -i '/io\.github\.kolunmi\.Bazaar/d' /etc/bazaar/blocklist.txt"
     
   - type: script
     snippets:
       - "dnf5 clean all"
 
   - type: systemd
+    system:
+      enabled:
+        - mullvad-daemon.service
+        - tailscaled.service
     user:
       enabled:
         - bazaar.service
