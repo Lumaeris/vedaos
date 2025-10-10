@@ -1,11 +1,11 @@
-name: Build desktop hardened
+name: Build desktop LTS
 on:
   schedule:
     - cron:
-        "00 07 * * *" # build at 07:00 UTC every day
+        "00 06 * * *" # build at 07:00 UTC every day
   push:
     paths:
-      - "recipes/recipe-desktop-hardened-amd.yml"
+      - "recipes/recipe-desktop-lts.yml"
 
   pull_request:
   workflow_dispatch: # allow manually triggering builds
@@ -26,7 +26,7 @@ jobs:
       matrix:
         recipe:
           # !! Add your recipes here
-          - recipe-desktop-hardened-amd.yml
+          - recipe-desktop-lts.yml
     steps:
       # the build is fully handled by the reusable github action
       - name: Build Custom Image

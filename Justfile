@@ -5,9 +5,9 @@ iso-desktop:
     #!/bin/sh
     bluebuild generate-iso -R podman --iso-name vedaos.iso image ghcr.io/lumaeris/vedaos
 
-iso-hardened-amd:
+iso-desktop-lts:
     #!/bin/sh
-    bluebuild generate-iso -R podman --secure-boot-url "https://github.com/secureblue/secureblue/raw/refs/heads/live/files/system/etc/pki/akmods/certs/akmods-secureblue.der" --enrollment-password "secureblue" --iso-name vedaos-hardened-amd.iso image ghcr.io/lumaeris/vedaos-hardened:amd
+    #bluebuild generate-iso -R podman --iso-name vedaos-lts.iso image ghcr.io/lumaeris/vedaos-lts
 
 iso-server:
     #!/bin/sh

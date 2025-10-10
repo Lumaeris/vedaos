@@ -1,0 +1,30 @@
+---
+# yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
+name: vedaos-lts
+description: This is my personal OS image.
+base-image: ghcr.io/ublue-os/bluefin
+image-version: lts
+
+modules:
+  - type: dnf
+    repos:
+      cleanup: true
+      files:
+        - https://repository.mullvad.net/rpm/stable/mullvad.repo
+    optfix:
+      - "Mullvad VPN"
+    install:
+      packages:
+        - mullvad-vpn
+
+  - type: script
+    scripts:
+      - build-install-input-remapper.sh
+
+  - type: systemd
+    system:
+      enabled:
+        - mullvad-daemon.service
+        - tailscaled.service
+
+  - type: signing
