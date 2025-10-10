@@ -20,6 +20,8 @@ modules:
   - type: script
     scripts:
       - build-install-input-remapper.sh
+    snippets:
+      - "dnf clean all"
 
   - type: systemd
     system:
