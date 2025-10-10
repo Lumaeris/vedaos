@@ -3,7 +3,7 @@
 # Tell this script to exit if there are any errors.
 set -oue pipefail
 
-dnf -y --setopt=install_weak_deps=False install gtksourceview4 python3-devel python3-pydantic python3-psutil python3-setuptools
+dnf -y --setopt=install_weak_deps=False install gtksourceview4 python3-devel python3-pydantic python3-psutil python3-setuptools python3-pip
 pip install -y evdev-binary
 
 pushd . > /dev/null
