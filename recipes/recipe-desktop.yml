@@ -33,6 +33,7 @@ modules:
         - libcgroup
         - mullvad-vpn
         - codium
+        - flatpak-builder
     remove:
       packages:
         - bazaar
