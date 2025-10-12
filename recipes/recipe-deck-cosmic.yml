@@ -27,8 +27,6 @@ modules:
   - type: script
     scripts:
       - install-lsfgvk.sh
-    
-  - type: script
     snippets:
       - "dnf5 clean all"
 

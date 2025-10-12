@@ -1,12 +1,12 @@
-name: Build desktop and deck
+name: Build desktop and deck (Cosmium)
 on:
   schedule:
     - cron:
         "00 06 * * *" # build at 06:00 UTC every day
   push:
     paths:
-      - "recipes/recipe-desktop.yml"
-      - "recipes/recipe-deck.yml"
+      - "recipes/recipe-desktop-cosmic.yml"
+      - "recipes/recipe-deck-cosmic.yml"
 
   pull_request:
   workflow_dispatch: # allow manually triggering builds
@@ -27,8 +27,8 @@ jobs:
       matrix:
         recipe:
           # !! Add your recipes here
-          - recipe-desktop.yml
-          - recipe-deck.yml
+          - recipe-desktop-cosmic.yml
+          - recipe-deck-cosmic.yml
     steps:
       # taken from secureblue, might speedup maximizing build disk space!
       # https://github.com/secureblue/secureblue/blob/aad24ddb05fe8b390919beb7f536d0b749f7244b/.github/workflows/build-one-recipe.yml#L44-L50 
