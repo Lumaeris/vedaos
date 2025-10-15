@@ -3,7 +3,7 @@
 name: vedaos-cosmic
 description: This is my personal OS image.
 # Cosmium is a project of mine with COSMIC DE! open https://github.com/Cosmium-OS/Cosmium to learn more
-base-image: ghcr.io/cosmium-os/cosmium
+base-image: ghcr.io/cosmium-os/cosmium-nvidia
 image-version: testing
 
 modules:
