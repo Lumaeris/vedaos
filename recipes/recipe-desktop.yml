@@ -36,6 +36,7 @@ modules:
     remove:
       packages:
         - bazaar
+        - gnome-shell-extension-caffeine
 
   - type: default-flatpaks
     configurations:
@@ -46,6 +47,10 @@ modules:
         install:
           - io.github.kolunmi.Bazaar
           - io.podman_desktop.PodmanDesktop
+
+  - type: gnome-extensions
+    install:
+      - 517 # Caffeine
   
   - type: files
     files:

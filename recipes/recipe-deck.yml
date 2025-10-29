@@ -19,6 +19,7 @@ modules:
     remove:
       packages:
         - bazaar
+        - gnome-shell-extension-caffeine
 
   - type: default-flatpaks
     configurations:
@@ -28,6 +29,10 @@ modules:
           title: Flathub (system)
         install:
           - io.github.kolunmi.Bazaar
+
+  - type: gnome-extensions
+    install:
+      - 517 # Caffeine
   
   - type: files
     files:
