@@ -49,6 +49,7 @@ modules:
   - type: gnome-extensions
     install:
       - 517 # Caffeine
+      - 3843 # Just Perfection
   
   - type: files
     files:
