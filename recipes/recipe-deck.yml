@@ -22,7 +22,7 @@ modules:
 
   - type: default-flatpaks
     configurations:
-      - notify: true
+      - notify: false
         scope: system
         repo:
           title: Flathub (system)
@@ -53,8 +53,5 @@ modules:
       enabled:
         - mullvad-daemon.service
         - tailscaled.service
-    user:
-      enabled:
-        - bazaar.service
 
   - type: signing
