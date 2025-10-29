@@ -15,8 +15,6 @@ modules:
         - vscodium.repo
       keys:
         - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/-/raw/master/pub.gpg
-    optfix:
-      - "Mullvad VPN"
     install:
       packages:
         - repo: docker-ce-stable

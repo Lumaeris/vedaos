@@ -11,8 +11,6 @@ modules:
       cleanup: true
       files:
         - https://repository.mullvad.net/rpm/stable/mullvad.repo
-    optfix:
-      - "Mullvad VPN"
     install:
       packages:
         - mullvad-vpn
