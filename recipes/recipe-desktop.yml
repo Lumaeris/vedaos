@@ -64,7 +64,6 @@ modules:
     scripts:
       - install-lsfgvk.sh
       - so-bazaar.sh
-      - install-input-remapper.sh
     snippets:
       - "dnf5 clean all"
 
