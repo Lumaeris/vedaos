@@ -14,11 +14,9 @@ modules:
     install:
       packages:
         - mullvad-vpn
-        - input-remapper
     remove:
       packages:
         - bazaar
-        - input-remapper
 
   - type: default-flatpaks
     configurations:
