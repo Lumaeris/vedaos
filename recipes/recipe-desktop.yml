@@ -7,18 +7,17 @@ image-version: stable
 
 modules:
   - type: dnf
-    remove:
-      packages:
-        - bazaar
-        - input-remapper
-
-  - type: dnf
     repos:
       cleanup: true
       files:
         - https://repository.mullvad.net/rpm/stable/mullvad.repo
     install:
+      packages:
         - mullvad-vpn
+        - input-remapper
+    remove:
+      packages:
+        - bazaar
         - input-remapper
 
   - type: default-flatpaks
