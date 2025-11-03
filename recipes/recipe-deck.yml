@@ -32,6 +32,11 @@ modules:
     install:
       - 517 # Caffeine
       - 3843 # Just Perfection
+  
+  - type: files
+    files:
+      - source: system_files/shared
+        destination: /
 
   - type: files
     files:
