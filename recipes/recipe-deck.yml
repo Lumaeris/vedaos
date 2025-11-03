@@ -56,6 +56,5 @@ modules:
     system:
       enabled:
         - mullvad-daemon.service
-        - tailscaled.service
 
   - type: signing
