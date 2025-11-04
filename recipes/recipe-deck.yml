@@ -17,6 +17,7 @@ modules:
     remove:
       packages:
         - bazaar
+        - gnome-shell-extension-caffeine
 
   - type: default-flatpaks
     configurations:
@@ -29,6 +30,7 @@ modules:
 
   - type: gnome-extensions
     install:
+      - 517 # Caffeine
       - 3843 # Just Perfection
   
   - type: files
@@ -54,7 +56,5 @@ modules:
     system:
       enabled:
         - mullvad-daemon.service
-  
-  - type: initramfs
 
   - type: signing
