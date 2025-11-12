@@ -1,0 +1,3 @@
+#!/usr/bin/bash
+
+exit 7 # "no updates available". I don't use it anyway.
