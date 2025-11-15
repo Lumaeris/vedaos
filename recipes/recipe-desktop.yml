@@ -29,6 +29,7 @@ modules:
         - libcgroup
         - codium
         - mullvad-vpn
+        - foundry
     remove:
       packages:
         - bazaar
