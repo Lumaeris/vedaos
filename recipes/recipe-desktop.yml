@@ -2,7 +2,7 @@
 # yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
 name: vedaos
 description: This is my personal OS image.
-base-image: ghcr.io/ublue-os/bazzite-dx-nvidia-gnome
+base-image: ghcr.io/ublue-os/bazzite-gnome-nvidia-open
 image-version: stable
 
 modules:
@@ -11,8 +11,23 @@ modules:
       cleanup: true
       files:
         - https://repository.mullvad.net/rpm/stable/mullvad.repo
+        - https://download.docker.com/linux/fedora/docker-ce.repo
+        - vscodium.repo
+      keys:
+        - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/-/raw/master/pub.gpg
     install:
       packages:
+        - repo: docker-ce-stable
+          packages:
+            - containerd.io
+            - docker-buildx-plugin
+            - docker-ce
+            - docker-ce-cli
+            - docker-compose-plugin
+        - android-tools
+        - qemu-kvm
+        - libcgroup
+        - codium
         - mullvad-vpn
     remove:
       packages:
@@ -52,6 +67,8 @@ modules:
   - type: systemd
     system:
       enabled:
+        - docker.socket
+        - podman.socket
         - mullvad-daemon.service
     user:
       enabled:
