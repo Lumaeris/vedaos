@@ -12,7 +12,7 @@ modules:
       - source: system
         destination: /
 
-  # a replica of ublue's base image
+  # a bit stripped down replica of ublue's base image
   - from-file: common/base.yml
 
   # install brew. updates would be handled with uupd
@@ -36,12 +36,12 @@ modules:
       - "AKMODNV_PATH=/tmp/akmods-nv-rpms IMAGE_NAME='vedaos-next' /tmp/nvidia-install.sh"
       - "rm -rf /tmp/{akmods-nv-rpms,nvidia-install.sh}"
 
-  # install gnome and a few things. some unnecessary rpms would be removed in the next step
-  # TODO: replace it eventually with "exclude" whenever dnf module will support it
+  # install gnome and a few things
   # took it from bluefin lts :)
   - type: dnf
     install:
       packages:
+        - flatpak
         - NetworkManager-adsl
         - f43-backgrounds-gnome
         - gdm
@@ -71,16 +71,8 @@ modules:
         - plymouth-system-theme
         - systemd-container
         - libcamera-v4l2
-
-  # we're doing it here since dnf module does "remove" step before processing "install"
-  - type: dnf
     remove:
       packages:
-        - PackageKit
-        - PackageKit-command-not-found
-        - gnome-software-fedora-langpacks
-        - gnome-extensions-app
-        - gnome-software
         - console-login-helper-messages
 
   # enable systemd services

@@ -1,16 +1,13 @@
 modules:
-  # delete chsh since we don't need it, create roothome dir, swap OpenCL-ICD-Loader to ocl-icd, add fedora-multimedia and swap to better multimedia rpms
+  # delete chsh since we don't need it, create roothome dir, add fedora-multimedia
   - type: script
     snippets:
       - "rm -f /usr/bin/chsh"
       - "rm -f /usr/bin/lchsh"
       - "mkdir -p /var/roothome"
       - "dnf5 install -y dnf5-plugins"
-      - "dnf5 -y swap --repo='fedora' OpenCL-ICD-Loader ocl-icd"
       - "dnf5 config-manager addrepo --from-repofile='https://negativo17.org/repos/fedora-multimedia.repo'"
       - "dnf5 config-manager setopt fedora-multimedia.priority=90"
-      - "dnf5 distro-sync --skip-unavailable -y --repo='fedora-multimedia' intel-gmmlib intel-mediasdk intel-vpl-gpu-rt libheif libva libva-intel-media-driver mesa-dri-drivers mesa-filesystem mesa-libEGL mesa-libGL mesa-libgbm mesa-va-drivers mesa-vulkan-drivers"
-      - "dnf5 versionlock add intel-gmmlib intel-mediasdk intel-vpl-gpu-rt libheif libva libva-intel-media-driver mesa-dri-drivers mesa-filesystem mesa-libEGL mesa-libGL mesa-libgbm mesa-va-drivers mesa-vulkan-drivers"
 
   # replace rpm-ostree with a patched one since upstream rpm has a bug in F43 that prevents users from layering stuff
   # TODO: remove when it's patched upstream
@@ -24,7 +21,7 @@ modules:
         packages:
           - rpm-ostree
 
-  # install so called "batteries" coined by ublue. also remove unnecessary stuff
+  # install so called "batteries" coined by ublue
   - type: dnf
     repos:
       cleanup: true
@@ -33,6 +30,7 @@ modules:
         - ublue-os/staging
     install:
       packages:
+        - ocl-icd
         - ublue-os-luks
         - ublue-os-udev-rules
         - fedora-repos-archive
@@ -93,13 +91,6 @@ modules:
         - xhost
         - xorg-x11-xauth
         - yubikey-manager
-
-  - type: dnf
-    remove:
-      packages:
-        - fedora-flathub-remote
-        - google-noto-sans-cjk-vf-fonts
-        - default-fonts-cjk-sans
 
   # add flathub, a way better flatpak repo
   - type: script 

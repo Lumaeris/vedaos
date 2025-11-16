@@ -63,7 +63,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo $GITHUB_TOKEN | podman login -u lumaeris --password-stdin ghcr.io
-          skopeo copy docker://ghcr.io/lumaeris/vedaos-next:latest docker://ghcr.io/lumaeris/vedaos-next:stable
-          skopeo copy docker://ghcr.io/lumaeris/vedaos-next:latest docker://ghcr.io/lumaeris/vedaos-next:stable-43
-          podman logout ghcr.io
+          echo $GITHUB_TOKEN | sudo podman login -u lumaeris --password-stdin ghcr.io
+          sudo skopeo copy docker://ghcr.io/lumaeris/vedaos-next:latest docker://ghcr.io/lumaeris/vedaos-next:stable
+          sudo skopeo copy docker://ghcr.io/lumaeris/vedaos-next:latest docker://ghcr.io/lumaeris/vedaos-next:stable-43
+          sudo podman logout ghcr.io
