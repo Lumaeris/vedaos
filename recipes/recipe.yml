@@ -133,7 +133,6 @@ modules:
       - "mkdir -p /etc/flatpak/remotes.d/"
       - "curl --retry 3 -Lo /etc/flatpak/remotes.d/flathub.flatpakrepo https://dl.flathub.org/repo/flathub.flatpakrepo"
       - "rm -rf /usr/lib/systemd/system/flatpak-add-fedora-repos.service"
-      - "systemctl enable flatpak-add-flathub-repos.service"
 
   # some finishing touches
   - type: script
@@ -145,6 +144,7 @@ modules:
       - "sed -i 's/enable docker/disable docker/' /usr/lib/systemd/system-preset/90-default.preset"
       - "systemctl preset docker.service docker.socket"
       - "sed -i '/^REDHAT_BUGZILLA_PRODUCT=/d;/^REDHAT_BUGZILLA_PRODUCT_VERSION=/d;/^REDHAT_SUPPORT_PRODUCT=/d;/^REDHAT_SUPPORT_PRODUCT_VERSION=/d' /usr/lib/os-release"
+      - "dnf5 versionlock clear"
 
   # enable systemd services
   - type: systemd
@@ -155,6 +155,7 @@ modules:
         - systemd-resolved.service
         - tailscaled.service
         - uupd.timer
+        - flatpak-add-flathub-repos.service
 
   - type: initramfs
 

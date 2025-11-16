@@ -9,6 +9,32 @@ modules:
       - "dnf5 config-manager addrepo --from-repofile='https://negativo17.org/repos/fedora-multimedia.repo'"
       - "dnf5 config-manager setopt fedora-multimedia.priority=90"
 
+  # install packages from fedora-multimedia
+  - type: dnf
+    install:
+      skip-unavailable: true
+      packages:
+        - repo: fedora-multimedia
+          packages:
+            - intel-gmmlib
+            - intel-mediasdk
+            - intel-vpl-gpu-rt
+            - libheif
+            - libva
+            - libva-intel-media-driver
+            - mesa-dri-drivers
+            - mesa-filesystem
+            - mesa-libEGL
+            - mesa-libGL
+            - mesa-libgbm
+            - mesa-va-drivers
+            - mesa-vulkan-drivers
+
+  # lock rpms from fedora-multimedia
+  - type: script
+    snippets:
+      - "dnf5 versionlock add intel-gmmlib intel-mediasdk intel-vpl-gpu-rt libheif libva libva-intel-media-driver mesa-dri-drivers mesa-filesystem mesa-libEGL mesa-libGL mesa-libgbm mesa-va-drivers mesa-vulkan-drivers"
+
   # replace rpm-ostree with a patched one since upstream rpm has a bug in F43 that prevents users from layering stuff
   # TODO: remove when it's patched upstream
   - type: dnf
@@ -101,5 +127,4 @@ modules:
       - "curl -sSLo /usr/lib/systemd/system-generators/coreos-sulogin-force-generator https://raw.githubusercontent.com/coreos/fedora-coreos-config/refs/heads/stable/overlay.d/05core/usr/lib/systemd/system-generators/coreos-sulogin-force-generator"
       - "chmod +x /usr/lib/systemd/system-generators/coreos-sulogin-force-generator"
       - "mv '/usr/share/doc/just/README.中文.md' '/usr/share/doc/just/README.zh-cn.md'"
-      - "dnf5 versionlock clear"
       - "ln -s '/usr/share/fonts/google-noto-sans-cjk-fonts' '/usr/share/fonts/noto-cjk'"
