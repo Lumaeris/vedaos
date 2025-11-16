@@ -28,10 +28,11 @@ modules:
         - mesa-va-drivers
         - mesa-vulkan-drivers
 
-  # lock rpms from fedora-multimedia
+  # lock rpms from fedora-multimedia, swap OpenCL-ICD-Loader to ocl-icd
   - type: script
     snippets:
       - "dnf5 versionlock add intel-gmmlib intel-mediasdk intel-vpl-gpu-rt libheif libva libva-intel-media-driver mesa-dri-drivers mesa-filesystem mesa-libEGL mesa-libGL mesa-libgbm mesa-va-drivers mesa-vulkan-drivers"
+      - "dnf5 -y swap --repo='fedora' OpenCL-ICD-Loader ocl-icd"
 
   # replace rpm-ostree with a patched one since upstream rpm has a bug in F43 that prevents users from layering stuff
   # TODO: remove when it's patched upstream
@@ -54,7 +55,6 @@ modules:
         - ublue-os/staging
     install:
       packages:
-        - ocl-icd
         - ublue-os-luks
         - ublue-os-udev-rules
         - fedora-repos-archive
