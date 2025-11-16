@@ -118,6 +118,13 @@ modules:
         - foundry
         - codium
 
+  # install steam
+  - type: dnf
+    install:
+      install-weak-deps: false
+      packages:
+        - steam
+
   # set new os-release values
   - type: os-release
     properties:
