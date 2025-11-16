@@ -14,21 +14,19 @@ modules:
     install:
       skip-unavailable: true
       packages:
-        - repo: fedora-multimedia
-          packages:
-            - intel-gmmlib
-            - intel-mediasdk
-            - intel-vpl-gpu-rt
-            - libheif
-            - libva
-            - libva-intel-media-driver
-            - mesa-dri-drivers
-            - mesa-filesystem
-            - mesa-libEGL
-            - mesa-libGL
-            - mesa-libgbm
-            - mesa-va-drivers
-            - mesa-vulkan-drivers
+        - intel-gmmlib
+        - intel-mediasdk
+        - intel-vpl-gpu-rt
+        - libheif
+        - libva
+        - libva-intel-media-driver
+        - mesa-dri-drivers
+        - mesa-filesystem
+        - mesa-libEGL
+        - mesa-libGL
+        - mesa-libgbm
+        - mesa-va-drivers
+        - mesa-vulkan-drivers
 
   # lock rpms from fedora-multimedia
   - type: script
