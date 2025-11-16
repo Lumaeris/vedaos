@@ -35,6 +35,8 @@ modules:
   - type: dnf
     repos:
       cleanup: true
+      copr:
+        - ublue-os/packages
       files:
         - https://pkgs.tailscale.com/stable/fedora/tailscale.repo
     install:
