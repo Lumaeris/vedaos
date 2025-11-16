@@ -1,0 +1,92 @@
+---
+# yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
+name: vedaos-next
+description: This is my personal OS image.
+base-image: quay.io/fedora/fedora-bootc
+image-version: 43
+
+modules:
+  # copying system files over to the system
+  - type: files
+    files:
+      - source: system
+        destination: /
+
+  # a replica of ublue's base image
+  - from-file: common/base.yml
+
+  # install brew. updates would be handled with uupd
+  - type: brew
+    brew-analytics: false
+    auto-update: false
+    auto-upgrade: false
+
+  # copy over nvidia-open akmods to the image for the next step
+  - type: copy
+    from: ghcr.io/ublue-os/akmods-nvidia-open:main-43-x86_64
+    src: /rpms
+    dest: /tmp/akmods-nv-rpms
+
+  # install nvidia drivers using ublue script and their akmods
+  # we will need to eventually do it on our own, but for the time being that's good enough
+  - type: script
+    snippets:
+      - "curl -sSL --retry 3 -Lo /tmp/nvidia-install.sh https://github.com/ublue-os/main/raw/refs/heads/main/build_files/nvidia-install.sh"
+      - "chmod +x /tmp/nvidia-install.sh"
+      - "AKMODNV_PATH=/tmp/akmods-nv-rpms IMAGE_NAME='vedaos-next' /tmp/nvidia-install.sh"
+      - "rm -rf /tmp/{akmods-nv-rpms,nvidia-install.sh}"
+
+  # install gnome and a few things. some unnecessary rpms would be removed in the next step
+  # TODO: replace it eventually with "exclude" whenever dnf module will support it
+  # took it from bluefin lts :)
+  - type: dnf
+    install:
+      packages:
+        - NetworkManager-adsl
+        - f43-backgrounds-gnome
+        - gdm
+        - gnome-bluetooth
+        - gnome-color-manager
+        - gnome-control-center
+        - gnome-initial-setup
+        - gnome-remote-desktop
+        - gnome-session-wayland-session
+        - gnome-settings-daemon
+        - gnome-shell
+        - gnome-user-docs
+        - gvfs-fuse
+        - gvfs-goa
+        - gvfs-gphoto2
+        - gvfs-mtp
+        - gvfs-smb
+        - libsane-hpaio
+        - nautilus
+        - orca
+        - ptyxis
+        - sane-backends-drivers-scanners
+        - xdg-desktop-portal-gnome
+        - xdg-user-dirs-gtk
+        - yelp-tools
+        - plymouth
+        - plymouth-system-theme
+        - systemd-container
+        - libcamera-v4l2
+
+  # we're doing it here since dnf module does "remove" step before processing "install"
+  - type: dnf
+    remove:
+      packages:
+        - PackageKit
+        - PackageKit-command-not-found
+        - gnome-software-fedora-langpacks
+        - gnome-extensions-app
+        - gnome-software
+        - console-login-helper-messages
+
+  # enable systemd services
+  - type: systemd
+    system:
+      enabled:
+        - gdm.service
+
+  - type: signing
