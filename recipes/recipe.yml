@@ -6,12 +6,6 @@ base-image: quay.io/fedora/fedora-bootc
 image-version: 43
 
 modules:
-  # copying system files over to the system
-  - type: files
-    files:
-      - source: system
-        destination: /
-
   # a bit stripped down replica of ublue's base image
   - from-file: common/base.yml
 
@@ -37,11 +31,16 @@ modules:
       - "rm -rf /tmp/{akmods-nv-rpms,nvidia-install.sh}"
 
   # install gnome and a few things
-  # took it from bluefin lts :)
+  # took it from bluefin lts and zirconium :)
   - type: dnf
+    repos:
+      cleanup: true
+      files:
+        - https://pkgs.tailscale.com/stable/fedora/tailscale.repo
     install:
       packages:
         - flatpak
+        - tailscale
         - NetworkManager-adsl
         - f43-backgrounds-gnome
         - gdm
@@ -71,14 +70,90 @@ modules:
         - plymouth-system-theme
         - systemd-container
         - libcamera-v4l2
+        - NetworkManager-wifi
+        - atheros-firmware
+        - brcmfmac-firmware
+        - iwlegacy-firmware
+        - iwlwifi-dvm-firmware
+        - iwlwifi-mvm-firmware
+        - mt7xxx-firmware
+        - nxpwireless-firmware
+        - realtek-firmware
+        - tiwilink-firmware
+        - alsa-firmware
+        - alsa-sof-firmware
+        - alsa-tools-firmware
+        - intel-audio-firmware
+        - gnome-disk-utility
+        - uupd
     remove:
       packages:
         - console-login-helper-messages
+
+  # install docker and some dev tools
+  - type: dnf
+    repos:
+      cleanup: true
+      files:
+        - https://download.docker.com/linux/fedora/docker-ce.repo
+        - vscodium.repo
+      keys:
+        - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/-/raw/master/pub.gpg
+    install:
+      packages:
+        - repo: docker-ce-stable
+          packages:
+            - docker-ce
+            - docker-ce-cli
+            - docker-compose-plugin
+        - libcgroup
+        - foundry
+        - codium
+
+  # set new os-release values
+  - type: os-release
+    properties:
+      ID: vedaos
+      ID_LIKE: fedora
+      NAME: VedaOS
+      PRETTY_NAME: VedaOS 43
+      DEFAULT_HOSTNAME: vedaos
+
+  # add flathub, a way better flatpak repo, and kill fedora flatpaks
+  - type: script 
+    snippets:
+      - "mkdir -p /etc/flatpak/remotes.d/"
+      - "curl --retry 3 -Lo /etc/flatpak/remotes.d/flathub.flatpakrepo https://dl.flathub.org/repo/flathub.flatpakrepo"
+      - "rm -rf /usr/lib/systemd/system/flatpak-add-fedora-repos.service"
+      - "systemctl enable flatpak-add-flathub-repos.service"
+
+  # some finishing touches
+  - type: script
+    snippets:
+      - "sed -i 's|uupd|& --disable-module-distrobox|' /usr/lib/systemd/system/uupd.service"
+      - "ln -s /usr/libexec/docker/cli-plugins/docker-compose /usr/bin/docker-compose"
+      - "mkdir -p /usr/lib/sysctl.d"
+      - "echo 'net.ipv4.ip_forward = 1' >/usr/lib/sysctl.d/docker-ce.conf"
+      - "sed -i 's/enable docker/disable docker/' /usr/lib/systemd/system-preset/90-default.preset"
+      - "systemctl preset docker.service docker.socket"
+      - "sed -i '/^REDHAT_BUGZILLA_PRODUCT=/d;/^REDHAT_BUGZILLA_PRODUCT_VERSION=/d;/^REDHAT_SUPPORT_PRODUCT=/d;/^REDHAT_SUPPORT_PRODUCT_VERSION=/d' /usr/lib/os-release"
 
   # enable systemd services
   - type: systemd
     system:
       enabled:
         - gdm.service
+        - systemd-timesyncd
+        - systemd-resolved.service
+        - tailscaled.service
+        - uupd.timer
+      
+  # copying system files over to the system
+  - type: files
+    files:
+      - source: system
+        destination: /
+
+  - type: initramfs
 
   - type: signing

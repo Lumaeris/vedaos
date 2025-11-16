@@ -92,13 +92,6 @@ modules:
         - xorg-x11-xauth
         - yubikey-manager
 
-  # add flathub, a way better flatpak repo
-  - type: script 
-    snippets:
-      - "mkdir -p /etc/flatpak/remotes.d/"
-      - "curl --retry 3 -Lo /etc/flatpak/remotes.d/flathub.flatpakrepo https://dl.flathub.org/repo/flathub.flatpakrepo"
-      - "mv -f /usr/lib/systemd/system/flatpak-add-flathub-repos.service /usr/lib/systemd/system/flatpak-add-fedora-repos.service"
-
   # install cosign directly from github, use CoreOS' generator for emergency/rescue boot, bunch of workarounds
   - type: script
     scripts:
