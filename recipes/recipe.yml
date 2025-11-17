@@ -12,6 +12,13 @@ modules:
       - source: system
         destination: /
 
+  # install fedora logos before doing anything else for the time being,
+  # otherwise aurora-logos would be installed instead for some reason
+  - type: dnf
+    install:
+      packages:
+        - fedora-logos
+
   # a bit stripped down replica of ublue's base image
   - from-file: common/base.yml
 
