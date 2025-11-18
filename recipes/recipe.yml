@@ -121,6 +121,7 @@ modules:
             - docker-compose-plugin
         - libcgroup
         - foundry
+        - git
 
   # install steam
   - type: dnf
