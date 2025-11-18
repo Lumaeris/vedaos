@@ -6,18 +6,18 @@ base-image: quay.io/fedora/fedora-bootc
 image-version: 43
 
 modules:
-  # copying system files over to the system
-  - type: files
-    files:
-      - source: system
-        destination: /
-
   # install fedora logos before doing anything else for the time being,
   # otherwise aurora-logos would be installed instead for some reason
   - type: dnf
     install:
       packages:
         - fedora-logos
+
+  # copying system files over to the system
+  - type: files
+    files:
+      - source: system
+        destination: /
 
   # a bit stripped down replica of ublue's base image
   - from-file: common/base.yml
