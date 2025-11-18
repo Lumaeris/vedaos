@@ -120,6 +120,7 @@ modules:
       - 615 # AppIndicator Support
       - 3193 # Blue my Shell
       - 4269 # Alphabetical App Grid
+      - 5105 # RebootToUEFI
       - 7535 # Accent Icons
       - 8084 # adw-gtk3 Colorizer
 
