@@ -102,9 +102,13 @@ modules:
         - intel-audio-firmware
         - gnome-disk-utility
         - uupd
+
+  # remove some leftovers
+  - type: dnf
     remove:
       packages:
         - console-login-helper-messages
+        - gnome-tour
 
   # install docker and some dev tools
   - type: dnf
@@ -156,6 +160,9 @@ modules:
       - "sed -i 's/enable docker/disable docker/' /usr/lib/systemd/system-preset/90-default.preset"
       - "systemctl preset docker.service docker.socket"
       - "sed -i '/^REDHAT_BUGZILLA_PRODUCT=/d;/^REDHAT_BUGZILLA_PRODUCT_VERSION=/d;/^REDHAT_SUPPORT_PRODUCT=/d;/^REDHAT_SUPPORT_PRODUCT_VERSION=/d' /usr/lib/os-release"
+      - "echo 'Hidden=true' >> /usr/share/applications/htop.desktop"
+      - "echo 'Hidden=true' >> /usr/share/applications/nvtop.desktop"
+      - "echo 'Hidden=true' >> /usr/share/applications/nvidia-settings.desktop"
       - "dnf5 versionlock clear"
 
   # enable systemd services
@@ -168,6 +175,9 @@ modules:
         - tailscaled.service
         - uupd.timer
         - flatpak-add-flathub-repos.service
+      masked:
+        - bootc-fetch-apply-updates.timer
+        - bootc-fetch-apply-updates.service
 
   - type: initramfs
 
