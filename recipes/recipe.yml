@@ -103,6 +103,7 @@ modules:
         - gnome-disk-utility
         - uupd
         - unzip
+        - adw-gtk3-theme
 
   # remove some leftovers
   - type: dnf
@@ -118,11 +119,15 @@ modules:
       - 517 # Caffeine
       - 615 # AppIndicator Support
       - 3193 # Blue my Shell
+      - 4269 # Alphabetical App Grid
+      - 7535 # Accent Icons
+      - 8084 # adw-gtk3 Colorizer
 
   # add gschema overrides
   - type: gschema-overrides
     include:
       - zz0-extensions.gschema.override # enable installed extensions
+      - zz1-theme.gschema.override # theme overrides
 
   # install docker and some dev tools
   - type: dnf
@@ -166,6 +171,8 @@ modules:
 
   # some finishing touches
   - type: script
+    scripts:
+      - install-morewaita.sh
     snippets:
       - "sed -i 's|uupd|& --disable-module-distrobox|' /usr/lib/systemd/system/uupd.service"
       - "ln -s /usr/libexec/docker/cli-plugins/docker-compose /usr/bin/docker-compose"
