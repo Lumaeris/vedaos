@@ -110,6 +110,19 @@ modules:
         - console-login-helper-messages
         - gnome-tour
 
+  # install gnome extensions
+  - type: gnome-extensions
+    install:
+      - 19 # User Themes
+      - 517 # Caffeine
+      - 615 # AppIndicator Support
+      - 3193 # Blue my Shell
+
+  # add gschema overrides
+  - type: gschema-overrides
+    include:
+      - zz0-extensions.gschema.override # enable installed extensions
+
   # install docker and some dev tools
   - type: dnf
     repos:

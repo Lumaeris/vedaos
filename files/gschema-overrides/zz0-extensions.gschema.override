@@ -1,0 +1,2 @@
+[org.gnome.shell] 
+enabled-extensions=['appindicatorsupport@rgcjonas.gmail.com', 'user-theme@gnome-shell-extensions.gcampax.github.com', 'blur-my-shell@aunetx', 'caffeine@patapon.info']
