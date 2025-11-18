@@ -54,6 +54,7 @@ modules:
         - https://pkgs.tailscale.com/stable/fedora/tailscale.repo
     install:
       packages:
+        - input-remapper
         - flatpak
         - tailscale
         - NetworkManager-adsl
