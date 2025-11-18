@@ -1,7 +1,7 @@
 ---
 # yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
 name: vedaos-next
-description: This is my personal OS image.
+description: Opinionated custom image with Steam, GNOME and minimum installed packages, based on fedora-bootc.
 base-image: quay.io/fedora/fedora-bootc
 image-version: 43
 
@@ -185,6 +185,7 @@ modules:
       - "echo 'Hidden=true' >> /usr/share/applications/htop.desktop"
       - "echo 'Hidden=true' >> /usr/share/applications/nvtop.desktop"
       - "echo 'Hidden=true' >> /usr/share/applications/nvidia-settings.desktop"
+      - "sed -i 's@/usr/bin/steam@/usr/bin/vedaos-steam@g' /usr/share/applications/steam.desktop"
       - "dnf5 versionlock clear"
 
   # enable systemd services

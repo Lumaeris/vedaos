@@ -1,0 +1,6 @@
+#!/usr/bin/bash
+
+# Nvidia crash fix
+export __GL_CONSTANT_FRAME_RATE_HINT=3
+
+/usr/bin/steam "$@"
