@@ -111,9 +111,6 @@ modules:
       cleanup: true
       files:
         - https://download.docker.com/linux/fedora/docker-ce.repo
-        - vscodium.repo
-      keys:
-        - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/-/raw/master/pub.gpg
     install:
       packages:
         - repo: docker-ce-stable
@@ -123,7 +120,6 @@ modules:
             - docker-compose-plugin
         - libcgroup
         - foundry
-        - codium
 
   # install steam
   - type: dnf
