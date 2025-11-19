@@ -112,6 +112,7 @@ modules:
       packages:
         - console-login-helper-messages
         - gnome-tour
+        - toolbox
 
   # install gnome extensions
   - type: gnome-extensions
