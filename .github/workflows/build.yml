@@ -29,24 +29,24 @@ jobs:
     steps:
       # taken from secureblue, might speedup maximizing build disk space!
       # https://github.com/secureblue/secureblue/blob/aad24ddb05fe8b390919beb7f536d0b749f7244b/.github/workflows/build-one-recipe.yml#L44-L50 
-      - name: Optimize build times
-        shell: bash
-        run: |
-          echo 'set man-db/auto-update false' | sudo debconf-communicate
-          sudo dpkg-reconfigure man-db
-          sudo rm -f /var/lib/man-db/auto-update
-          sudo sed -i 's/^update_initramfs=.*/update_initramfs=no/' /etc/initramfs-tools/update-initramfs.conf
+      #- name: Optimize build times
+      #  shell: bash
+      #  run: |
+      #    echo 'set man-db/auto-update false' | sudo debconf-communicate
+      #    sudo dpkg-reconfigure man-db
+      #    sudo rm -f /var/lib/man-db/auto-update
+      #    sudo sed -i 's/^update_initramfs=.*/update_initramfs=no/' /etc/initramfs-tools/update-initramfs.conf
       # faster alternative method for maximizing build disk space, thanks secureblue!
       # https://github.com/secureblue/secureblue/blob/aad24ddb05fe8b390919beb7f536d0b749f7244b/.github/workflows/build-one-recipe.yml#L52
-      - name: Free disk space
-        shell: bash
-        run: |
-          sudo rm -rf /usr/share/dotnet || true
-          sudo rm -rf /opt/ghc || true
-          sudo rm -rf /usr/local/.ghcup || true
-          sudo docker image prune --all --force || true
-          sudo swapoff -a || true
-          sudo rm -f /mnt/swapfile || true
+      #- name: Free disk space
+      #  shell: bash
+      #  run: |
+      #    sudo rm -rf /usr/share/dotnet || true
+      #    sudo rm -rf /opt/ghc || true
+      #    sudo rm -rf /usr/local/.ghcup || true
+      #    sudo docker image prune --all --force || true
+      #    sudo swapoff -a || true
+      #    sudo rm -f /mnt/swapfile || true
       # the build is fully handled by the reusable github action
       - name: Build Custom Image
         uses: blue-build/github-action@v1.9
@@ -55,7 +55,7 @@ jobs:
           cosign_private_key: ${{ secrets.SIGNING_SECRET }}
           registry_token: ${{ github.token }}
           pr_event_number: ${{ github.event.number }}
-          maximize_build_space: false
+          maximize_build_space: true
           rechunk: true
           retry_push_count: 3
       # tagging as stable
