@@ -22,26 +22,17 @@ modules:
   # a bit stripped down replica of ublue's base image
   - from-file: common/base.yml
 
+  # swap kernel and install nvidia drivers and kmod
+  - type: script
+    scripts:
+      - swap-kernel.sh
+      - install-nvidia.sh
+
   # install brew. updates would be handled with uupd
   - type: brew
     brew-analytics: false
     auto-update: false
     auto-upgrade: false
-
-  # copy over nvidia-open akmods to the image for the next step
-  - type: copy
-    from: ghcr.io/ublue-os/akmods-nvidia-open:main-43-x86_64
-    src: /rpms
-    dest: /tmp/akmods-nv-rpms
-
-  # install nvidia drivers using ublue script and their akmods
-  # we will need to eventually do it on our own, but for the time being that's good enough
-  - type: script
-    snippets:
-      - "curl -sSL --retry 3 -Lo /tmp/nvidia-install.sh https://github.com/ublue-os/main/raw/refs/heads/main/build_files/nvidia-install.sh"
-      - "chmod +x /tmp/nvidia-install.sh"
-      - "AKMODNV_PATH=/tmp/akmods-nv-rpms IMAGE_NAME='vedaos-next' /tmp/nvidia-install.sh"
-      - "rm -rf /tmp/{akmods-nv-rpms,nvidia-install.sh}"
 
   # install gnome and a few things
   # took it from bluefin lts and zirconium :)
@@ -192,6 +183,7 @@ modules:
       - "echo 'Hidden=true' >> /usr/share/applications/nvtop.desktop"
       - "echo 'Hidden=true' >> /usr/share/applications/nvidia-settings.desktop"
       - "sed -i 's@/usr/bin/steam@/usr/bin/vedaos-steam@g' /usr/share/applications/steam.desktop"
+      - "dnf5 -y copr disable bieszczaders/kernel-cachyos"
       - "dnf5 versionlock clear"
 
   # enable systemd services
@@ -205,9 +197,16 @@ modules:
         - uupd.timer
         - flatpak-add-flathub-repos.service
         - input-remapper.service
+      disabled:
+        - bootc-fetch-apply-updates.timer
+        - bootc-fetch-apply-updates.service
+        - akmods-keygen@akmods-keygen.service
+        - akmods-keygen.target
       masked:
         - bootc-fetch-apply-updates.timer
         - bootc-fetch-apply-updates.service
+        - akmods-keygen@akmods-keygen.service
+        - akmods-keygen.target
 
   - type: initramfs
 
