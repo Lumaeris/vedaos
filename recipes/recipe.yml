@@ -177,6 +177,7 @@ modules:
   - type: script
     scripts:
       - install-morewaita.sh
+      - install-maplemono.sh
     snippets:
       - "sed -i 's|uupd|& --disable-module-distrobox|' /usr/lib/systemd/system/uupd.service"
       - "ln -s /usr/libexec/docker/cli-plugins/docker-compose /usr/bin/docker-compose"
