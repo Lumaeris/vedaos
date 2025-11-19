@@ -1,3 +1,9 @@
+[org.gnome.desktop.wm.keybindings]
+switch-applications=['<Super>Tab']
+switch-applications-backward=['<Shift><Super>Tab']
+switch-windows=['<Alt>Tab']
+switch-windows-backward=['<Shift><Alt>Tab']
+
 [org.gtk.Settings.FileChooser]
 sort-directories-first=true
 
