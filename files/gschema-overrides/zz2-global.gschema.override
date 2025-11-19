@@ -8,9 +8,12 @@ sort-directories-first=true
 show-create-link=true
 
 [org.gnome.Ptyxis]
+interface-style='system'
 restore-session=false
 restore-window-size=false
 audible-bell=false
+profile-uuids=['2871e8027773ae74d6c87a5f659bbc74']
+default-profile-uuid='2871e8027773ae74d6c87a5f659bbc74'
 
 [org.gnome.shell] 
 favorite-apps=['org.mozilla.firefox.desktop', 'steam.desktop', 'io.github.kolunmi.Bazaar.desktop', 'org.gnome.Ptyxis.desktop', 'org.gnome.Nautilus.desktop']
