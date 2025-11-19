@@ -130,6 +130,7 @@ modules:
     include:
       - zz0-extensions.gschema.override # enable installed extensions
       - zz1-theme.gschema.override # theme overrides
+      - zz2-global.gschema.override # everything else
 
   # install docker and some dev tools
   - type: dnf

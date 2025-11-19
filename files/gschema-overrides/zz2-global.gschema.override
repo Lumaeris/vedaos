@@ -1,0 +1,16 @@
+[org.gtk.Settings.FileChooser]
+sort-directories-first=true
+
+[org.gtk.gtk4.Settings.FileChooser]
+sort-directories-first=true
+
+[org.gnome.nautilus.preferences]
+show-create-link=true
+
+[org.gnome.Ptyxis]
+restore-session=false
+restore-window-size=false
+audible-bell=false
+
+[org.gnome.shell] 
+favorite-apps=['org.mozilla.firefox.desktop', 'steam.desktop', 'io.github.kolunmi.Bazaar.desktop', 'org.gnome.Ptyxis.desktop', 'org.gnome.Nautilus.desktop']
