@@ -119,7 +119,8 @@ modules:
       - 19 # User Themes
       - 517 # Caffeine
       - 615 # AppIndicator Support
-      - 3193 # Blue my Shell
+      - 3193 # Blur my Shell
+      - 4222 # Hot Edge
       - 4269 # Alphabetical App Grid
       - 5105 # RebootToUEFI
       - 7535 # Accent Icons

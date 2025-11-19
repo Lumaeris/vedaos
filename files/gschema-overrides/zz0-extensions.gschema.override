@@ -1,2 +1,2 @@
 [org.gnome.shell] 
-enabled-extensions=['appindicatorsupport@rgcjonas.gmail.com', 'user-theme@gnome-shell-extensions.gcampax.github.com', 'blur-my-shell@aunetx', 'caffeine@patapon.info', 'adw-gtk3-colorizer@NiffirgkcaJ.github.com', 'accent-directories@taiwbi.com', 'AlphabeticalAppGrid@stuarthayhurst', 'reboottouefi@ubaygd.com']
+enabled-extensions=['appindicatorsupport@rgcjonas.gmail.com', 'user-theme@gnome-shell-extensions.gcampax.github.com', 'blur-my-shell@aunetx', 'caffeine@patapon.info', 'adw-gtk3-colorizer@NiffirgkcaJ.github.com', 'accent-directories@taiwbi.com', 'AlphabeticalAppGrid@stuarthayhurst', 'reboottouefi@ubaygd.com', 'hotedge@jonathan.jdoda.ca']
