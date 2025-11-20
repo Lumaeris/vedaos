@@ -32,7 +32,7 @@ dnf5 config-manager setopt fedora-multimedia.enabled=0
 KERNEL_VERSION="$(rpm -q "kernel-cachyos" --queryformat '%{VERSION}-cachyos1.fc43.%{ARCH}')"
 
 # download and enable fedora-nvidia repo
-curl -Lo /etc/yum.repos.d/negativo17-fedora-nvidia.repo https://negativo17.org/repos/fedora-nvidia.repo
+curl --retry 3 -Lo /etc/yum.repos.d/negativo17-fedora-nvidia.repo https://negativo17.org/repos/fedora-nvidia.repo
 sed -i '/^enabled=1/a\priority=90' /etc/yum.repos.d/negativo17-fedora-nvidia.repo
 
 dnf5 install -y "akmod-nvidia"
@@ -53,7 +53,7 @@ modinfo /usr/lib/modules/${KERNEL_VERSION}/extra/nvidia/nvidia{,-drm,-modeset,-p
 # shellcheck disable=SC2086
 modinfo -l /usr/lib/modules/${KERNEL_VERSION}/extra/nvidia/nvidia{,-drm,-modeset,-peermem,-uvm}.ko.xz
 
-#curl -L https://nvidia.github.io/libnvidia-container/stable/rpm/nvidia-container-toolkit.repo \
+#curl --retry 3 -L https://nvidia.github.io/libnvidia-container/stable/rpm/nvidia-container-toolkit.repo \
 #    -o /etc/yum.repos.d/nvidia-container-toolkit.repo
 #sed -i 's/^gpgcheck=0/gpgcheck=1/' /etc/yum.repos.d/nvidia-container-toolkit.repo
 #sed -i 's/^enabled=0.*/enabled=1/' /etc/yum.repos.d/nvidia-container-toolkit.repo
@@ -71,7 +71,7 @@ if [[ "$kmod_version" != "$negativo_version" ]]; then
     exit 1
 fi
 
-curl -L https://raw.githubusercontent.com/NVIDIA/dgx-selinux/master/bin/RHEL9/nvidia-container.pp \
+curl --retry 3 -L https://raw.githubusercontent.com/NVIDIA/dgx-selinux/master/bin/RHEL9/nvidia-container.pp \
     -o nvidia-container.pp
 semodule -i nvidia-container.pp
 

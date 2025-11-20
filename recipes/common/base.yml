@@ -122,7 +122,7 @@ modules:
       - install-cosign.sh
       - fix-brew.sh # we're doing it here so it won't error out in snippets
     snippets:
-      - "curl -sSLo /usr/lib/systemd/system-generators/coreos-sulogin-force-generator https://raw.githubusercontent.com/coreos/fedora-coreos-config/refs/heads/stable/overlay.d/05core/usr/lib/systemd/system-generators/coreos-sulogin-force-generator"
+      - "curl --retry 3 -sSLo /usr/lib/systemd/system-generators/coreos-sulogin-force-generator https://raw.githubusercontent.com/coreos/fedora-coreos-config/refs/heads/stable/overlay.d/05core/usr/lib/systemd/system-generators/coreos-sulogin-force-generator"
       - "chmod +x /usr/lib/systemd/system-generators/coreos-sulogin-force-generator"
       - "mv '/usr/share/doc/just/README.中文.md' '/usr/share/doc/just/README.zh-cn.md'"
       - "ln -s '/usr/share/fonts/google-noto-sans-cjk-fonts' '/usr/share/fonts/noto-cjk'"
