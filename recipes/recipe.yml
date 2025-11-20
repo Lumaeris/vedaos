@@ -98,6 +98,7 @@ modules:
         - glibc-all-langpacks
         - wget
         - jetbrains-mono-fonts-all
+        - fuse
 
   # remove some leftovers
   - type: dnf
