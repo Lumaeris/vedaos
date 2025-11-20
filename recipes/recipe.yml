@@ -318,6 +318,8 @@ modules:
       - "echo 'Hidden=true' >> /usr/share/applications/htop.desktop"
       - "echo 'Hidden=true' >> /usr/share/applications/nvtop.desktop"
       - "echo 'Hidden=true' >> /usr/share/applications/nvidia-settings.desktop"
+      - "mkdir -p /usr/lib/extest"
+      - "curl --retry 3 -Lo /usr/lib/extest/libextest.so https://github.com/bazzite-org/extest/releases/latest/download/libextest.so"
       - "sed -i 's@/usr/bin/steam@/usr/bin/vedaos-steam@g' /usr/share/applications/steam.desktop"
       - "dnf5 versionlock clear"
 

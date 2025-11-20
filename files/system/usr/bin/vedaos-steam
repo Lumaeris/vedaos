@@ -3,4 +3,14 @@
 # Nvidia crash fix
 export __GL_CONSTANT_FRAME_RATE_HINT=3
 
-/usr/bin/steam "$@"
+if [[ "$XDG_SESSION_TYPE" == "wayland" ]]; then
+  # https://github.com/Supreeeme/extest (https://github.com/bazzite-org/extest)
+  # Extest is a drop in replacement for the X11 XTEST extension.
+  # It creates a virtual device with the uinput kernel module.
+  # It's been primarily developed for allowing the desktop functionality
+  # on the Steam Controller to work while Steam is open on Wayland.
+  # Also supports Steam Input as a whole.
+  env LD_PRELOAD=/usr/lib/extest/libextest.so /usr/bin/steam "$@"
+else
+  /usr/bin/steam "$@"
+fi
