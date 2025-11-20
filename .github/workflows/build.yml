@@ -38,6 +38,7 @@ jobs:
           sudo sed -i 's/^update_initramfs=.*/update_initramfs=no/' /etc/initramfs-tools/update-initramfs.conf
       # faster alternative method for maximizing build disk space, thanks secureblue!
       # https://github.com/secureblue/secureblue/blob/aad24ddb05fe8b390919beb7f536d0b749f7244b/.github/workflows/build-one-recipe.yml#L52
+      # android dir was added by me
       - name: Free disk space
         shell: bash
         run: |
