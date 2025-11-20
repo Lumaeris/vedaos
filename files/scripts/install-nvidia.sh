@@ -29,7 +29,7 @@ dnf5 install -y mesa-dri-drivers.i686 mesa-filesystem.i686 mesa-libEGL.i686 mesa
 # Disable Multimedia
 dnf5 config-manager setopt fedora-multimedia.enabled=0
 
-KERNEL_VERSION="$(rpm -q "kernel-cachyos" --queryformat '%{VERSION}-cachyos1.fc43.%{ARCH}')"
+KERNEL_VERSION="$(ls /lib/modules)"
 
 # download and enable fedora-nvidia repo
 curl --retry 3 -Lo /etc/yum.repos.d/negativo17-fedora-nvidia.repo https://negativo17.org/repos/fedora-nvidia.repo
