@@ -228,6 +228,7 @@ modules:
         - jetbrains-mono-fonts-all
         - fuse-libs
         - squashfuse-libs
+        - glycin-thumbnailer
       exclude:
         - gnome-tour
 
