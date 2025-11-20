@@ -34,3 +34,5 @@ pushd /usr/lib/kernel/install.d
 mv -f 05-rpmostree.install.bak 05-rpmostree.install
 mv -f 50-dracut.install.bak 50-dracut.install
 popd
+
+dnf5 -y copr disable bieszczaders/kernel-cachyos

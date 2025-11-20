@@ -183,7 +183,6 @@ modules:
       - "echo 'Hidden=true' >> /usr/share/applications/nvtop.desktop"
       - "echo 'Hidden=true' >> /usr/share/applications/nvidia-settings.desktop"
       - "sed -i 's@/usr/bin/steam@/usr/bin/vedaos-steam@g' /usr/share/applications/steam.desktop"
-      - "dnf5 -y copr disable bieszczaders/kernel-cachyos"
       - "dnf5 versionlock clear"
 
   # enable systemd services
