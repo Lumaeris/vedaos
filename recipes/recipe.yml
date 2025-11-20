@@ -6,12 +6,12 @@ base-image: quay.io/fedora/fedora-bootc
 image-version: 43
 
 modules:
-  # install fedora logos before doing anything else for the time being,
-  # otherwise aurora-logos would be installed instead for some reason
+  # install fedora logos and dnf5-plugins that is needed for copr management and other actions
   - type: dnf
     install:
       packages:
         - fedora-logos
+        - dnf5-plugins
 
   # copying system files over to the system
   - type: files
@@ -19,8 +19,136 @@ modules:
       - source: system
         destination: /
 
-  # a bit stripped down replica of ublue's base image
-  - from-file: common/base.yml
+  # delete chsh since we don't need it, create roothome dir, add fedora-multimedia
+  - type: script
+    snippets:
+      - "rm -f /usr/bin/chsh"
+      - "rm -f /usr/bin/lchsh"
+      - "mkdir -p /var/roothome"
+      - "dnf5 config-manager addrepo --from-repofile='https://negativo17.org/repos/fedora-multimedia.repo'"
+      - "dnf5 config-manager setopt fedora-multimedia.priority=90"
+  
+  # install packages from fedora-multimedia, swap OpenCL-ICD-Loader to ocl-icd
+  - type: dnf
+    install:
+      skip-unavailable: true
+      packages:
+        - intel-gmmlib
+        - intel-mediasdk
+        - intel-vpl-gpu-rt
+        - libheif
+        - libva
+        - libva-intel-media-driver
+        - mesa-dri-drivers
+        - mesa-filesystem
+        - mesa-libEGL
+        - mesa-libGL
+        - mesa-libgbm
+        - mesa-va-drivers
+        - mesa-vulkan-drivers
+    replace:
+      - from-repo: fedora
+        packages:
+          - old: OpenCL-ICD-Loader
+            new: ocl-icd
+
+  # lock rpms from fedora-multimedia
+  - type: script
+    snippets:
+      - "dnf5 versionlock add intel-gmmlib intel-mediasdk intel-vpl-gpu-rt libheif libva libva-intel-media-driver mesa-dri-drivers mesa-filesystem mesa-libEGL mesa-libGL mesa-libgbm mesa-va-drivers mesa-vulkan-drivers"
+
+  # replace rpm-ostree with a patched one since upstream rpm has a bug in F43 that prevents users from layering stuff
+  # TODO: remove when it's patched upstream
+  - type: dnf
+    repos:
+      cleanup: true
+      copr:
+        - ublue-os/staging
+    replace:
+      - from-repo: copr:copr.fedorainfracloud.org:ublue-os:staging
+        packages:
+          - rpm-ostree
+
+  # install so called "batteries" coined by ublue
+  - type: dnf
+    repos:
+      cleanup: true
+      copr:
+        - ublue-os/packages
+        - ublue-os/staging
+    install:
+      packages:
+        - ublue-os-luks
+        - ublue-os-udev-rules
+        - fedora-repos-archive
+        - zstd
+        - alsa-firmware
+        - apr
+        - apr-util
+        - distrobox
+        - fdk-aac
+        - ffmpeg
+        - ffmpeg-libs
+        - ffmpegthumbnailer
+        - flatpak-spawn
+        - fuse
+        - fzf
+        - google-noto-sans-balinese-fonts
+        - google-noto-sans-cjk-fonts
+        - google-noto-sans-javanese-fonts
+        - google-noto-sans-sundanese-fonts
+        - grub2-tools-extra
+        - heif-pixbuf-loader
+        - htop
+        - intel-vaapi-driver
+        - just
+        - libavcodec
+        - libcamera
+        - libcamera-gstreamer
+        - libcamera-ipa
+        - libheif
+        - libcamera-tools
+        - libfdk-aac
+        - libimobiledevice-utils
+        - libratbag-ratbagd
+        - libva-utils
+        - lshw
+        - net-tools
+        - nvme-cli
+        - nvtop
+        - openrgb-udev-rules
+        - openssl
+        - oversteer-udev
+        - pam-u2f
+        - pam_yubico
+        - pamu2fcfg
+        - pipewire-plugin-libcamera
+        - powerstat
+        - smartmontools
+        - solaar-udev
+        - squashfs-tools
+        - symlinks
+        - tcpdump
+        - tmux
+        - traceroute
+        - usbmuxd
+        - vim
+        - wireguard-tools
+        - wl-clipboard
+        - xhost
+        - xorg-x11-xauth
+        - yubikey-manager
+
+  # install cosign directly from github, use CoreOS' generator for emergency/rescue boot, bunch of workarounds
+  - type: script
+    scripts:
+      - install-cosign.sh
+      - fix-brew.sh # we're doing it here so it won't error out in snippets
+    snippets:
+      - "curl --retry 3 -sSLo /usr/lib/systemd/system-generators/coreos-sulogin-force-generator https://raw.githubusercontent.com/coreos/fedora-coreos-config/refs/heads/stable/overlay.d/05core/usr/lib/systemd/system-generators/coreos-sulogin-force-generator"
+      - "chmod +x /usr/lib/systemd/system-generators/coreos-sulogin-force-generator"
+      - "mv '/usr/share/doc/just/README.中文.md' '/usr/share/doc/just/README.zh-cn.md'"
+      - "ln -s '/usr/share/fonts/google-noto-sans-cjk-fonts' '/usr/share/fonts/noto-cjk'"
 
   # swap kernel and install nvidia drivers and kmod
   - type: script
@@ -100,13 +228,14 @@ modules:
         - jetbrains-mono-fonts-all
         - fuse-libs
         - squashfuse-libs
+      exclude:
+        - gnome-tour
 
   # remove some leftovers
   - type: dnf
     remove:
       packages:
         - console-login-helper-messages
-        - gnome-tour
         - toolbox
 
   # install gnome extensions
@@ -161,8 +290,13 @@ modules:
       NAME: VedaOS
       PRETTY_NAME: VedaOS 43
       DEFAULT_HOSTNAME: vedaos
+      VERSION_CODENAME: Next
+      HOME_URL: https://github.com/Lumaeris/vedaos
+      DOCUMENTATION_URL: https://github.com/Lumaeris/vedaos
+      SUPPORT_URL: https://github.com/Lumaeris/vedaos/issues
+      BUG_REPORT_URL: https://github.com/Lumaeris/vedaos/issues
 
-  # add flathub, a way better flatpak repo, and kill fedora flatpaks
+  # add flathub, a way better flatpak repo, and remove fedora flatpaks
   - type: script 
     snippets:
       - "mkdir -p /etc/flatpak/remotes.d/"
