@@ -1,1 +1,1 @@
-# VedaOS Next
+# VedaOS (Next)
