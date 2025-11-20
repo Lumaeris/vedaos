@@ -7,7 +7,7 @@ enable-hot-corners=false
 accent-color='purple'
 gtk-theme='adw-gtk3-dark'
 icon-theme='MoreWaita'
-monospace-font-name="Maple Mono NF CN 12"
+monospace-font-name="JetBrains Mono 12"
 
 [org.gnome.mutter]
 center-new-windows=true
