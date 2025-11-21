@@ -12,7 +12,7 @@ dnf5 -y config-manager setopt "*fedora*".exclude="kernel kernel-core kernel-modu
 
 # enable cachyos kernel copr repo
 # not lto because of nvidia
-dnf5 -y copr enable kernel-cachyos
+dnf5 -y copr enable bieszczaders/kernel-cachyos
 
 # create a shims to bypass kernel install triggering dracut/rpm-ostree
 # seems to be minimal impact, but allows progress on build
@@ -33,10 +33,10 @@ mv -f 50-dracut.install.bak 50-dracut.install
 popd
 
 # enable cachyos kernel addons copr repo
-dnf5 -y copr enable kernel-cachyos-addons
+dnf5 -y copr enable bieszczaders/kernel-cachyos-addons
 
 # install scx-scheds
 dnf5 -y install scx-scheds
 
-dnf5 -y copr disable kernel-cachyos
-dnf5 -y copr disable kernel-cachyos-addons
+dnf5 -y copr disable bieszczaders/kernel-cachyos
+dnf5 -y copr disable bieszczaders/kernel-cachyos-addons
