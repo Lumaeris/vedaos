@@ -329,7 +329,7 @@ modules:
     system:
       enabled:
         - gdm.service
-        - systemd-timesyncd
+        - systemd-timesyncd.service
         - systemd-resolved.service
         - tailscaled.service
         - uupd.timer

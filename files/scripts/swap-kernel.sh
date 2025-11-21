@@ -10,8 +10,9 @@ dnf5 -y remove kernel* && rm -r -f /usr/lib/modules/*
 # exclude pulling kernel from fedora repos
 dnf5 -y config-manager setopt "*fedora*".exclude="kernel kernel-core kernel-modules kernel-modules-core kernel-modules-extra kernel-devel kernel-headers"
 
-# enable kernel blu copr repo
-dnf5 -y copr enable sentry/kernel-blu
+# enable cachyos kernel copr repo
+# not lto because of nvidia
+dnf5 -y copr enable kernel-cachyos
 
 # create a shims to bypass kernel install triggering dracut/rpm-ostree
 # seems to be minimal impact, but allows progress on build
@@ -24,11 +25,18 @@ chmod +x  05-rpmostree.install 50-dracut.install
 popd
 
 # install kernel
-dnf5 -y install --allowerasing kernel kernel-modules-extra kernel-devel akmods
+dnf5 -y install --allowerasing kernel-cachyos kernel-cachyos-devel-matched akmods
 
 pushd /usr/lib/kernel/install.d
 mv -f 05-rpmostree.install.bak 05-rpmostree.install
 mv -f 50-dracut.install.bak 50-dracut.install
 popd
 
-dnf5 -y copr disable sentry/kernel-blu
+# enable cachyos kernel addons copr repo
+dnf5 -y copr enable kernel-cachyos-addons
+
+# install scx-scheds
+dnf5 -y install scx-scheds
+
+dnf5 -y copr disable kernel-cachyos
+dnf5 -y copr disable kernel-cachyos-addons
