@@ -27,7 +27,7 @@ dnf5 -y install --allowerasing kernel kernel-modules-extra kernel-devel akmods
 
 # enable terra repo and install kmod
 dnf5 -y config-manager addrepo --from-repofile=https://raw.githubusercontent.com/terrapkg/subatomic-repos/main/terra.repo
-dnf5 -y install --setopt=install_weak_deps=False v4l2loopback
+dnf5 -y install --setopt=install_weak_deps=False v4l2loopback help2man
 
 pushd /usr/lib/kernel/install.d
 mv -f 05-rpmostree.install.bak 05-rpmostree.install
@@ -37,6 +37,8 @@ popd
 KERNEL_VERSION="$(ls /lib/modules)"
 akmods --force --kernels "${KERNEL_VERSION}" --kmod "v4l2loopback"
 
+rm -f /etc/yum.repos.d/terra*.repo
+
 # enable cachyos kernel addons copr repo
 dnf5 -y copr enable bieszczaders/kernel-cachyos-addons
 
@@ -45,4 +47,3 @@ dnf5 -y install scx-scheds
 
 dnf5 -y copr disable sentry/kernel-blu
 dnf5 -y copr disable bieszczaders/kernel-cachyos-addons
-rm -f /etc/yum.repos.d/terra*.repo
