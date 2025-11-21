@@ -9,9 +9,8 @@ dnf5 -y remove kernel* && rm -r -f /usr/lib/modules/*
 # exclude pulling kernel from fedora repos
 dnf5 -y config-manager setopt "*fedora*".exclude="kernel kernel-core kernel-modules kernel-modules-core kernel-modules-extra kernel-devel kernel-headers"
 
-# enable kernel blu and ublue akmods copr repos
+# enable kernel blu copr repo
 dnf5 -y copr enable sentry/kernel-blu
-dnf5 -y copr enable ublue-os/akmods
 
 # create a shims to bypass kernel install triggering dracut/rpm-ostree
 # seems to be minimal impact, but allows progress on build
@@ -20,11 +19,14 @@ mv 05-rpmostree.install 05-rpmostree.install.bak
 mv 50-dracut.install 50-dracut.install.bak
 printf '%s\n' '#!/bin/sh' 'exit 0' > 05-rpmostree.install
 printf '%s\n' '#!/bin/sh' 'exit 0' > 50-dracut.install
-chmod +x  05-rpmostree.install 50-dracut.install
+chmod +x 05-rpmostree.install 50-dracut.install
 popd
 
-# install kernel and akmods
+# install kernel
 dnf5 -y install --allowerasing kernel kernel-modules-extra kernel-devel akmods
+
+# enable terra repo and install kmod
+dnf5 -y config-manager addrepo --from-repofile=https://raw.githubusercontent.com/terrapkg/subatomic-repos/main/terra.repo
 dnf5 -y install --setopt=install_weak_deps=False v4l2loopback
 
 pushd /usr/lib/kernel/install.d
@@ -42,5 +44,5 @@ dnf5 -y copr enable bieszczaders/kernel-cachyos-addons
 dnf5 -y install scx-scheds
 
 dnf5 -y copr disable sentry/kernel-blu
-dnf5 -y copr disable ublue-os/akmods
 dnf5 -y copr disable bieszczaders/kernel-cachyos-addons
+rm -f /etc/yum.repos.d/terra*.repo
