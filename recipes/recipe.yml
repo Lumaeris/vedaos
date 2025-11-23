@@ -295,24 +295,15 @@ modules:
       packages:
         - steam
 
-  # exclude pulling gamescope from fedora repos in order to install bazzite's fork (that's so annoying)
+  # give bazzite copr repos a priority, install gamescope
   - type: script
     snippets:
-      - "dnf5 -y config-manager setopt 'fedora*'.exclude='gamescope*'"
-
-  # install gamescope
-  - type: dnf
-    repos:
-      cleanup: true
-      copr:
-        - bazzite-org/bazzite
-        - bazzite-org/bazzite-multilib
-    install:
-      packages:
-        - gamescope.x86_64
-        - gamescope-libs.x86_64
-        - gamescope-libs.i686
-        - gamescope-shaders
+      - "dnf5 -y copr enable bazzite-org/bazzite"
+      - "dnf5 -y copr enable bazzite-org/bazzite-multilib"
+      - "dnf5 -y config-manager setopt '*bazzite*'.priority=90"
+      - "dnf5 -y install gamescope-libs gamescope-shaders"
+      - "dnf5 -y copr disable bazzite-org/bazzite"
+      - "dnf5 -y copr disable bazzite-org/bazzite-multilib"
 
   # set new os-release values
   - type: os-release
