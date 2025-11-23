@@ -1,1 +1,71 @@
-# VedaOS (Next)
+# VedaOS
+
+Opinionated custom image with Steam, GNOME and minimum installed packages, based on [fedora-bootc](https://docs.fedoraproject.org/en-US/bootc/). Personal project with frequent changes.
+
+<img width="1920" height="1080" alt="Screenshot" src="https://github.com/user-attachments/assets/e5873fae-ac1f-41e4-b6e7-0adbfe73f39a" />
+
+Ready and fully functional for daily usage. Even though it's created for myself, you can use it if all you need is native Steam, Flatpak and Homebrew apps :slightly_smiling_face:
+
+## What does it have?
+
+- Starting from `quay.io/fedora/fedora-bootc` instead of [Fedora Silverblue](https://fedoraproject.org/atomic-desktops/silverblue), that way we don't get any unwanted changes/packages from Silverblue.
+- Same "bateries" you would expect from any [Universal Blue base image](https://github.com/ublue-os/main).
+- Necessary packages for [GNOME](https://gnome.org). Took an inspiration from [Bluefin LTS](https://github.com/ublue-os/bluefin-lts).
+- [Some extensions](#extensions) for GNOME!
+- Applied [MoreWaita](https://github.com/somepaulo/MoreWaita) and [adw-gtk3](https://github.com/lassekongo83/adw-gtk3) by default.
+- [NVIDIA Open drivers](https://github.com/NVIDIA/open-gpu-kernel-modules) are included out of the box (you can still use it on your AMD machine). Supporting GPUs starting from GTX 16xx and RTX series.
+- Natively available [Steam](https://steampowered.com). Do I need to say much?
+- [Gamescope](https://github.com/bazzite-org/gamescope) is here if needed.
+- [extest](https://github.com/bazzite-org/extest) library is included as well so Steam won't freak out of seeing any controller.
+- rpm-ostree is available for layering packages! ***But*** it's not adviced to do so, unless it's [Mullvad VPN](http://mullvad.net/) or something similar.
+- [Homebrew](https://brew.sh/) is available as well! [Universal Blue's tap](https://github.com/ublue-os/homebrew-tap) does work here (I'm using their VSCodium package just fine)!
+- [Tailscale](https://tailscale.com) since why not.
+- [Winetricks](https://github.com/Winetricks/winetricks). Still useful. `¯\_(ᵕ—ᴗ—)_/¯`
+- [foundry](https://gitlab.gnome.org/GNOME/foundry). kolunmi suggested it to me as an alternative for GNOME Builder. I've yet to try it...
+- [distrobox](https://distrobox.it/)! A better alternative to toolbx.
+- Using [BlueBuild](https://blue-build.org/) as a toolkit to create these images! It really does a heavy-lifting so we don't have to manually fix something that broke just because. [Their CLI](https://github.com/blue-build/cli) is also included here.
+- Oh, we also have an autoupdater - [uupd](https://github.com/ublue-os/uupd)!
+
+### Extensions
+
+- [User Themes](https://extensions.gnome.org/extension/19)
+- [Caffeine](https://extensions.gnome.org/extension/517)
+- [AppIndicator Support](https://extensions.gnome.org/extension/615)
+- [Blur my Shell](https://extensions.gnome.org/extension/3193)
+- [Hot Edge](https://extensions.gnome.org/extension/4222)
+- [Alphabetical App Grid](https://extensions.gnome.org/extension/4269)
+- [RebootToUEFI](https://extensions.gnome.org/extension/5105)
+- [Accent Icons](https://extensions.gnome.org/extension/7535)
+- [adw-gtk3 Colorizer](https://extensions.gnome.org/extension/8084)
+
+Feel free to disable them and install your favorites using [Extension Manager](https://flathub.org/apps/com.mattjakeman.ExtensionManager). Oh btw, they aren't configured in any way. All defaults babeh!
+
+## Installation
+
+Realistically you *shouldn't* rebase from any existing installation since it does leave out some unnecessary leftovers as it usually does Bazzite. But if you have to, then here's a command (don't forget to add `--enforce-container-sigpolicy` after doing so and rebooting so you'll be on signed image):
+
+```bash
+sudo bootc switch ghcr.io/lumaeris/vedaos:stable
+```
+
+I want to also do an ISO, but that's for later(TM).
+
+## Interesting images
+
+Here's a lil list of images that were done my friendos! :D
+
+- [Zirconium](https://github.com/zirconium-dev/zirconium) - THE Niri bootc image. It already does have some users!
+- [XeniaOS](https://github.com/XeniaMeraki/XeniaOS) - Also a Niri bootc image, but this time using [Arch bootc](https://github.com/bootcrew/arch-bootc) image. Highly experimental.
+- [solarpowered](https://github.com/askpng/solarpowered) - Yet another personal image. We share some experiences with each other to resolve some issues and stuff.
+- [Entire Bootcrew project](https://github.com/bootcrew)! Tulip really cooked hard here.
+
+## Verification
+These images are signed with [Sigstore](https://www.sigstore.dev/)'s [cosign](https://github.com/sigstore/cosign).
+
+### Verify `cosign.pub`
+
+Download the `cosign.pub` file from this repo and run the following command within the same directory:
+
+```bash
+cosign verify --key cosign.pub ghcr.io/lumaeris/vedaos
+```
