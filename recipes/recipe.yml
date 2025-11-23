@@ -296,6 +296,20 @@ modules:
       packages:
         - steam
 
+  # install gamescope
+  - type: dnf
+    repos:
+      cleanup: true
+      copr:
+        - bazzite-org/bazzite
+        - bazzite-org/bazzite-multilib
+    install:
+      packages:
+        - gamescope.x86_64
+        - gamescope-libs.x86_64
+        - gamescope-libs.i686
+        - gamescope-shaders
+
   # set new os-release values
   - type: os-release
     properties:
@@ -328,7 +342,7 @@ modules:
       - "echo 'net.ipv4.ip_forward = 1' >/usr/lib/sysctl.d/docker-ce.conf"
       - "sed -i 's/enable docker/disable docker/' /usr/lib/systemd/system-preset/90-default.preset"
       - "systemctl preset docker.service docker.socket"
-      - "sed -i '/^REDHAT_BUGZILLA_PRODUCT=/d;/^REDHAT_BUGZILLA_PRODUCT_VERSION=/d;/^REDHAT_SUPPORT_PRODUCT=/d;/^REDHAT_SUPPORT_PRODUCT_VERSION=/d' /usr/lib/os-release"
+      - "sed -i '/^REDHAT_BUGZILLA_PRODUCT=/d;/^REDHAT_BUGZILLA_PRODUCT_VERSION=/d;/^REDHAT_SUPPORT_PRODUCT=/d;/^REDHAT_SUPPORT_PRODUCT_VERSION=/d;/^SUPPORT_END=/d' /usr/lib/os-release"
       - "echo 'Hidden=true' >> /usr/share/applications/htop.desktop"
       - "echo 'Hidden=true' >> /usr/share/applications/nvtop.desktop"
       - "echo 'Hidden=true' >> /usr/share/applications/nvidia-settings.desktop"
