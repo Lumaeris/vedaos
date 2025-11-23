@@ -9,7 +9,7 @@ Ready and fully functional for daily usage. Even though it's created for myself,
 ## What does it have?
 
 - Starting from `quay.io/fedora/fedora-bootc` instead of [Fedora Silverblue](https://fedoraproject.org/atomic-desktops/silverblue), that way we don't get any unwanted changes/packages from Silverblue.
-- Same "bateries" you would expect from any [Universal Blue base image](https://github.com/ublue-os/main).
+- Same "batteries" you would expect from any [Universal Blue base image](https://github.com/ublue-os/main).
 - Necessary packages for [GNOME](https://gnome.org). Took an inspiration from [Bluefin LTS](https://github.com/ublue-os/bluefin-lts).
 - [Some extensions](#extensions) for GNOME!
 - Applied [MoreWaita](https://github.com/somepaulo/MoreWaita) and [adw-gtk3](https://github.com/lassekongo83/adw-gtk3) by default.
@@ -52,7 +52,7 @@ I want to also do an ISO, but that's for later(TM).
 
 ## Interesting images
 
-Here's a lil list of images that were done my friendos! :D
+Here's a lil list of images that were done by my friendos! :D
 
 - [Zirconium](https://github.com/zirconium-dev/zirconium) - THE Niri bootc image. It already does have some users!
 - [XeniaOS](https://github.com/XeniaMeraki/XeniaOS) - Also a Niri bootc image, but this time using [Arch bootc](https://github.com/bootcrew/arch-bootc) image. Highly experimental.
