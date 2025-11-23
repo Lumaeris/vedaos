@@ -298,7 +298,7 @@ modules:
   # exclude pulling gamescope from fedora repos in order to install bazzite's fork (that's so annoying)
   - type: script
     snippets:
-      - "dnf5 -y config-manager setopt '*fedora*'.exclude='gamescope*'"
+      - "dnf5 -y config-manager setopt 'fedora*'.exclude='gamescope*'"
 
   # install gamescope
   - type: dnf
