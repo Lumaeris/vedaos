@@ -228,6 +228,8 @@ modules:
         - fuse-libs
         - squashfuse-libs
         - glycin-thumbnailer
+        - fira-code-fonts
+        - nerd-fonts
       exclude:
         - gnome-tour
 

@@ -27,8 +27,7 @@ jobs:
         recipe:
           - recipe.yml
     steps:
-      # taken from secureblue, might speedup maximizing build disk space!
-      # https://github.com/secureblue/secureblue/blob/aad24ddb05fe8b390919beb7f536d0b749f7244b/.github/workflows/build-one-recipe.yml#L44-L50 
+      # added from secureblue
       - name: Optimize build times
         shell: bash
         run: |
@@ -36,9 +35,7 @@ jobs:
           sudo dpkg-reconfigure man-db
           sudo rm -f /var/lib/man-db/auto-update
           sudo sed -i 's/^update_initramfs=.*/update_initramfs=no/' /etc/initramfs-tools/update-initramfs.conf
-      # faster alternative method for maximizing build disk space, thanks secureblue!
-      # https://github.com/secureblue/secureblue/blob/aad24ddb05fe8b390919beb7f536d0b749f7244b/.github/workflows/build-one-recipe.yml#L52
-      # android dir was added by me
+      # short and fast max build space alternative from secureblue. android dir was added manually to add ~12gb
       - name: Free disk space
         shell: bash
         run: |
