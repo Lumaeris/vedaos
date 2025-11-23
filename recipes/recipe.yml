@@ -177,7 +177,6 @@ modules:
         - flatpak
         - tailscale
         - NetworkManager-adsl
-        - f43-backgrounds-gnome
         - gdm
         - gnome-bluetooth
         - gnome-color-manager
@@ -231,6 +230,18 @@ modules:
         - glycin-thumbnailer
       exclude:
         - gnome-tour
+
+  # install some backgrounds
+  - type: dnf
+    repos:
+      cleanup: true
+      copr:
+        - bazzite-org/bazzite
+    install:
+      packages:
+        - f43-backgrounds-gnome
+        - gnome-backgrounds
+        - steamdeck-backgrounds
 
   # remove some leftovers
   - type: dnf
