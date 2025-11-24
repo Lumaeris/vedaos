@@ -6,8 +6,7 @@ on:
   push:
     paths-ignore: # don't rebuild if only documentation has changed
       - "**.md"
-
-  pull_request:
+  #pull_request:
   workflow_dispatch: # allow manually triggering builds
 concurrency:
   # only run one build at a time
@@ -57,8 +56,9 @@ jobs:
           maximize_build_space: false
           rechunk: true
           retry_push_count: 3
-      # tagging as stable
+      # tagging as stable (only if built from main branch)
       - name: Copy custom image and tag it as stable
+        if: github.ref_name == 'main'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
