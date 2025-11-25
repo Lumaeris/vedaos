@@ -265,6 +265,7 @@ modules:
       packages:
         - foundry
         - git
+        - podman-compose
 
   # install steam
   - type: dnf
