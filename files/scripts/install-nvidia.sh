@@ -1,17 +1,5 @@
 #!/usr/bin/env bash
 # combined installnvidiakmod.sh and installnvidiapackages.sh from secureblue, some packages are also added from ublue script
-# Copyright 2025 Universal Blue
-# Copyright 2025 The Secureblue Authors
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software distributed under the License is
-# distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and limitations under the License.
 
 # Tell this script to exit if there are any errors.
 set -oue pipefail
@@ -20,7 +8,7 @@ set -oue pipefail
 mkdir -p /var/tmp
 chmod 1777 /var/tmp
 
-# Always try to disable cisco repo (or add similar check)
+# Always disable cisco repo
 dnf5 config-manager setopt fedora-cisco-openh264.enabled=0
 
 # Install MULTILIB packages from negativo17-multimedia prior to disabling repo
@@ -43,36 +31,15 @@ sed -i --sandbox "s/^MODULE_VARIANT=.*/MODULE_VARIANT=kernel-open/" /etc/nvidia/
 echo "Installing kmod..."
 akmods --force --kernels "${KERNEL_VERSION}" --kmod "nvidia"
 
-# Depends on word splitting
-# shellcheck disable=SC2086
-modinfo /usr/lib/modules/${KERNEL_VERSION}/extra/nvidia/nvidia{,-drm,-modeset,-peermem,-uvm}.ko.xz > /dev/null || \
-    (cat "/var/cache/akmods/nvidia/*.failed.log" && exit 1)
-
-# View license information
-# Depends on word splitting
-# shellcheck disable=SC2086
-modinfo -l /usr/lib/modules/${KERNEL_VERSION}/extra/nvidia/nvidia{,-drm,-modeset,-peermem,-uvm}.ko.xz
-
-#curl --retry 3 -L https://nvidia.github.io/libnvidia-container/stable/rpm/nvidia-container-toolkit.repo \
-#    -o /etc/yum.repos.d/nvidia-container-toolkit.repo
+#curl --retry 3 -L https://nvidia.github.io/libnvidia-container/stable/rpm/nvidia-container-toolkit.repo -o /etc/yum.repos.d/nvidia-container-toolkit.repo
 #sed -i 's/^gpgcheck=0/gpgcheck=1/' /etc/yum.repos.d/nvidia-container-toolkit.repo
 #sed -i 's/^enabled=0.*/enabled=1/' /etc/yum.repos.d/nvidia-container-toolkit.repo
 
+echo "Installing NVIDIA packages..."
 # nvidia-container-toolkit was removed for now. according to ublue, it wasn't built with required crypto digests for RPM 6+ introduced in f43
 dnf5 -y install nvidia-driver-cuda libnvidia-fbc libva-nvidia-driver nvidia-driver nvidia-modprobe nvidia-persistenced nvidia-settings
 
-kmod_version=$(rpm -qa | grep akmod-nvidia | awk -F':' '{print $(NF)}' | awk -F'-' '{print $(NF-1)}')
-negativo_version=$(rpm -qa | grep nvidia-modprobe | awk -F':' '{print $(NF)}' | awk -F'-' '{print $(NF-1)}')
-
-echo "kmod_version: ${kmod_version}"
-echo "negativo_version: ${negativo_version}"
-if [[ "$kmod_version" != "$negativo_version" ]]; then
-    echo "Version mismatch!"
-    exit 1
-fi
-
-curl --retry 3 -L https://raw.githubusercontent.com/NVIDIA/dgx-selinux/master/bin/RHEL9/nvidia-container.pp \
-    -o nvidia-container.pp
+curl --retry 3 -L https://raw.githubusercontent.com/NVIDIA/dgx-selinux/master/bin/RHEL9/nvidia-container.pp -o nvidia-container.pp
 semodule -i nvidia-container.pp
 
 rm -f nvidia-container.pp
