@@ -57,18 +57,6 @@ modules:
     snippets:
       - "dnf5 versionlock add intel-gmmlib intel-mediasdk intel-vpl-gpu-rt libheif libva libva-intel-media-driver mesa-dri-drivers mesa-filesystem mesa-libEGL mesa-libGL mesa-libgbm mesa-va-drivers mesa-vulkan-drivers"
 
-  # replace rpm-ostree with a patched one since upstream rpm has a bug in F43 that prevents users from layering stuff
-  # TODO: remove when it's patched upstream
-  - type: dnf
-    repos:
-      cleanup: true
-      copr:
-        - ublue-os/staging
-    replace:
-      - from-repo: copr:copr.fedorainfracloud.org:ublue-os:staging
-        packages:
-          - rpm-ostree
-
   # install so called "batteries" coined by ublue
   - type: dnf
     repos:
