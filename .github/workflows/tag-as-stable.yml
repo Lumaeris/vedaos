@@ -1,5 +1,4 @@
 name: Tag as Stable
-# in case build.yml fails at the last step. probably won't happen but still
 on:
   workflow_dispatch: # allow manually triggering builds
 concurrency:

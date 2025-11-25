@@ -55,14 +55,11 @@ jobs:
           pr_event_number: ${{ github.event.number }}
           maximize_build_space: false
           rechunk: true
+          # swap to build_chunked_oci from rechunk when ready
+          # build_chunked_oci: true
+          # max_layers: 100 # I don't think we need more than that
           retry_push_count: 3
       # tagging as stable (only if built from main branch)
       - name: Copy custom image and tag it as stable
         if: github.ref_name == 'main'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          echo $GITHUB_TOKEN | sudo podman login -u lumaeris --password-stdin ghcr.io
-          sudo skopeo copy docker://ghcr.io/lumaeris/vedaos:latest docker://ghcr.io/lumaeris/vedaos:stable
-          sudo skopeo copy docker://ghcr.io/lumaeris/vedaos:latest docker://ghcr.io/lumaeris/vedaos:stable-43
-          sudo podman logout ghcr.io
+        uses: ./.github/workflows/tag-as-stable.yml
