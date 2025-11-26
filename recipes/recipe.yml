@@ -266,6 +266,7 @@ modules:
         - foundry
         - git
         - podman-compose
+        - flatpak-builder
 
   # install steam
   - type: dnf

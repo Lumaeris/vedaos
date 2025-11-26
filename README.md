@@ -21,7 +21,8 @@ Ready and fully functional for daily usage. Even though it's created for myself,
 - [Homebrew](https://brew.sh/) is available as well! [Universal Blue's tap](https://github.com/ublue-os/homebrew-tap) does work here (I'm using their VSCodium package just fine)!
 - [Tailscale](https://tailscale.com) since why not.
 - [Winetricks](https://github.com/Winetricks/winetricks). Still useful. `¯\_(ᵕ—ᴗ—)_/¯`
-- [foundry](https://gitlab.gnome.org/GNOME/foundry). kolunmi suggested it to me as an alternative for GNOME Builder. I've yet to try it...
+- [foundry](https://gitlab.gnome.org/GNOME/foundry). kolunmi suggested it to me as an alternative for GNOME Builder. It requires [flatpak-builder](https://github.com/flatpak/flatpak-builder) to be installed, which it is now.
+- [Podman](https://podman.io/) and [podman-compose](https://github.com/containers/podman-compose) is here. Not the fan of the latter but it's needed for [WinBoat](https://www.winboat.app/), so whatever.
 - [distrobox](https://distrobox.it/)! A better alternative to toolbx.
 - Using [BlueBuild](https://blue-build.org/) as a toolkit to create these images! It really does a heavy-lifting so we don't have to manually fix something that broke just because. [Their CLI](https://github.com/blue-build/cli) is also included here.
 - Oh, we also have an autoupdater - [uupd](https://github.com/ublue-os/uupd)!

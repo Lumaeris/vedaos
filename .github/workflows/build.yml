@@ -6,7 +6,6 @@ on:
   push:
     paths-ignore: # don't rebuild if only documentation has changed
       - "**.md"
-  #pull_request:
   workflow_dispatch: # allow manually triggering builds
 concurrency:
   # only run one build at a time
@@ -49,6 +48,8 @@ jobs:
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
           persist-credentials: false
+          sparse-checkout: |
+            .github
       # the build is fully handled by the reusable github action
       - name: Build Custom Image
         uses: blue-build/github-action@v1.9
@@ -59,9 +60,8 @@ jobs:
           pr_event_number: ${{ github.event.number }}
           maximize_build_space: false
           rechunk: true
-          # swap to build_chunked_oci from rechunk when ready
+          # swap to build_chunked_oci from rechunk when ready (we need /etc/group fix by tulip here as well)
           # build_chunked_oci: true
-          # max_layers: 100 # I don't think we need more than that
           retry_push_count: 3
       # tagging as stable (only if built from main branch)
       - name: Copy custom image and tag it as stable
