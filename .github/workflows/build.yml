@@ -44,12 +44,6 @@ jobs:
           sudo swapoff -a || true
           sudo rm -f /mnt/swapfile || true
           sudo rm -rf /usr/local/lib/android || true
-      - name: Checkout repo
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
-        with:
-          persist-credentials: false
-          sparse-checkout: |
-            .github
       # the build is fully handled by the reusable github action
       - name: Build Custom Image
         uses: blue-build/github-action@v1.9
@@ -66,4 +60,10 @@ jobs:
       # tagging as stable (only if built from main branch)
       - name: Copy custom image and tag it as stable
         if: github.ref_name == 'main'
-        uses: ./.github/workflows/tag-as-stable.yml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo $GITHUB_TOKEN | sudo podman login -u lumaeris --password-stdin ghcr.io
+          sudo skopeo copy docker://ghcr.io/lumaeris/vedaos:latest docker://ghcr.io/lumaeris/vedaos:stable
+          sudo skopeo copy docker://ghcr.io/lumaeris/vedaos:latest docker://ghcr.io/lumaeris/vedaos:stable-43
+          sudo podman logout ghcr.io
