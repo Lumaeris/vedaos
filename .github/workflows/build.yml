@@ -46,7 +46,7 @@ jobs:
           sudo rm -rf /usr/local/lib/android || true
       # the build is fully handled by the reusable github action
       - name: Build Custom Image
-        uses: blue-build/github-action@v1.9
+        uses: blue-build/github-action@v1.10
         with:
           recipe: ${{ matrix.recipe }}
           cosign_private_key: ${{ secrets.SIGNING_SECRET }}
