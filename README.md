@@ -63,6 +63,27 @@ Here's a lil list of images that were done by my friendos! :D
 - [solarpowered](https://github.com/askpng/solarpowered) - Yet another personal image. We share some experiences with each other to resolve some issues and stuff.
 - [Entire Bootcrew project](https://github.com/bootcrew)! Tulip really cooked hard here.
 
+## Dependence on Universal Blue
+
+This list only exists for informational purposes.
+
+### Direct
+
+- ~~hhd's rechunker~~ - not anymore! We use upstream's `build-chunked-oci` as mentioned above.
+- Some packages marked as "batteries" - oversteer-udev, ublue-os-luks and ublue-os-udev-rules.
+- brew - I can swap to official archive but ublue one is tested the most.
+- uupd - even though it was designed for ublue systems, it can still be used on any atomic system.
+- Steam Deck backgrounds repackaged by Bazzite.
+- Bazzite's fork of Gamescope.
+- Bazzite's fork of libextest.
+
+### In-direct
+
+- Package lists taken from ublue base image and Bluefin LTS.
+- Some specific useful fixes from them.
+- The reason I started using Fedora Atomic in a first place :P.
+- BlueBuild was influenced by ublue, now it's independent from them.
+
 ## Verification
 These images are signed with [Sigstore](https://www.sigstore.dev/)'s [cosign](https://github.com/sigstore/cosign).
 
