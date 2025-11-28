@@ -49,7 +49,7 @@ Feel free to disable them and install your favorites using [Extension Manager](h
 Realistically you *shouldn't* rebase from any existing installation since it does leave out some unnecessary leftovers as it usually does Bazzite. But if you have to, then here's a command (don't forget to add `--enforce-container-sigpolicy` after doing so and rebooting so you'll be on signed image):
 
 ```bash
-sudo bootc switch ghcr.io/lumaeris/vedaos:stable
+sudo bootc switch ghcr.io/lumaeris/vedaos
 ```
 
 I want to also do an ISO, but that's for later(TM).

@@ -44,13 +44,3 @@ jobs:
           maximize_build_space: true
           build_chunked_oci: true
           retry_push_count: 3
-      # tagging as stable (only if built from main branch)
-      - name: Copy custom image and tag it as stable
-        if: github.ref_name == 'main'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          echo $GITHUB_TOKEN | sudo podman login -u lumaeris --password-stdin ghcr.io
-          sudo skopeo copy docker://ghcr.io/lumaeris/vedaos:latest docker://ghcr.io/lumaeris/vedaos:stable
-          sudo skopeo copy docker://ghcr.io/lumaeris/vedaos:latest docker://ghcr.io/lumaeris/vedaos:stable-43
-          sudo podman logout ghcr.io
