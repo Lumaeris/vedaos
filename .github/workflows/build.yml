@@ -42,9 +42,7 @@ jobs:
           registry_token: ${{ github.token }}
           pr_event_number: ${{ github.event.number }}
           maximize_build_space: true
-          rechunk: true
-          # swap to build_chunked_oci from rechunk when ready (we need /etc/group fix by tulip here as well)
-          # build_chunked_oci: true
+          build_chunked_oci: true
           retry_push_count: 3
       # tagging as stable (only if built from main branch)
       - name: Copy custom image and tag it as stable
