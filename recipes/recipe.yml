@@ -214,6 +214,7 @@ modules:
         - squashfuse-libs
         - glycin-thumbnailer
         - fira-code-fonts
+        - hyfetch
       exclude:
         - gnome-tour
 
