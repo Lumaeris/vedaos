@@ -8,9 +8,6 @@ set -oue pipefail
 mkdir -p /var/tmp
 chmod 1777 /var/tmp
 
-# Always disable cisco repo
-dnf5 config-manager setopt fedora-cisco-openh264.enabled=0
-
 # Install MULTILIB packages from negativo17-multimedia prior to disabling repo
 dnf5 install -y mesa-dri-drivers.i686 mesa-filesystem.i686 mesa-libEGL.i686 mesa-libGL.i686 mesa-libgbm.i686 mesa-va-drivers.i686 mesa-vulkan-drivers.i686
 

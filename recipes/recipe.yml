@@ -27,8 +27,9 @@ modules:
       - "mkdir -p /var/roothome"
       - "dnf5 config-manager addrepo --from-repofile='https://negativo17.org/repos/fedora-multimedia.repo'"
       - "dnf5 config-manager setopt fedora-multimedia.priority=90"
+      - "dnf5 config-manager setopt fedora-cisco-openh264.enabled=0"
   
-  # install packages from fedora-multimedia, swap OpenCL-ICD-Loader to ocl-icd
+  # install packages from fedora-multimedia, install ocl-icd
   - type: dnf
     install:
       skip-unavailable: true
@@ -46,11 +47,7 @@ modules:
         - mesa-libgbm
         - mesa-va-drivers
         - mesa-vulkan-drivers
-    replace:
-      - from-repo: fedora
-        packages:
-          - old: OpenCL-ICD-Loader
-            new: ocl-icd
+        - ocl-icd
 
   # lock rpms from fedora-multimedia
   - type: script

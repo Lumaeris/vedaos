@@ -9,6 +9,7 @@ Ready and fully functional for daily usage. Even though it's created for myself,
 ## What does it have?
 
 - Starting from `quay.io/fedora/fedora-bootc` instead of [Fedora Silverblue](https://fedoraproject.org/atomic-desktops/silverblue), that way we don't get any unwanted changes/packages from Silverblue.
+- Uses [CachyOS' kernel](https://github.com/CachyOS/linux-cachyos) (not LTO unfortunatelly because of NVIDIA bug of some sort).
 - One of the first [BlueBuild](https://blue-build.org/) images to switch to rpm-ostree's [`build-chunked-oci`](https://coreos.github.io/rpm-ostree/build-chunked-oci/) instead of relying on [hhd's rechunker](https://github.com/hhd-dev/rechunk) which had unnecessary fixes and file permission issues.
 - Includes a service to fix `/etc/group` and `/etc/gshadow` desynchronization caused by hhd's rechunker, provided by Tulip (@tulilirockz)! ([`/usr/bin/rechunker-group-fix`](https://github.com/Lumaeris/vedaos/blob/main/files/system/usr/bin/rechunker-group-fix) and [related systemd service](https://github.com/Lumaeris/vedaos/blob/main/files/system/usr/lib/systemd/system/rechunker-group-fix.service))
 - Same "batteries" you would expect from any [Universal Blue base image](https://github.com/ublue-os/main).
