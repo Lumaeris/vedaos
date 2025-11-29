@@ -1,0 +1,2 @@
+#!/usr/bin/bash
+just -f /usr/share/vedaos/just/00-start.just "${@}"
