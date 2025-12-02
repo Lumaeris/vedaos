@@ -334,6 +334,7 @@ modules:
         - flatpak-add-flathub-repos.service
         - input-remapper.service
         - rechunker-group-fix.service
+        - nvctk-cdi.service
       disabled:
         - bootc-fetch-apply-updates.timer
         - bootc-fetch-apply-updates.service
