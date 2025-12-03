@@ -58,7 +58,7 @@ I want to also do an ISO, but that's for later(TM).
 
 Here's a lil list of images that were done by my friendos! :D
 
-- [Zirconium](https://github.com/zirconium-dev/zirconium) - THE Niri bootc image. It already does have some users!
+- [Zirconium](https://github.com/zirconium-dev/zirconium) - THE Niri bootc image. It already does have some users! I've PR'd NVIDIA support btw.
 - [XeniaOS](https://github.com/XeniaMeraki/XeniaOS) - Also a Niri bootc image, but this time using [Arch bootc](https://github.com/bootcrew/arch-bootc) image. Highly experimental.
 - [solarpowered](https://github.com/askpng/solarpowered) - Yet another personal image. We share some experiences with each other to resolve some issues and stuff.
 - [Entire Bootcrew project](https://github.com/bootcrew)! Tulip really cooked hard here.
