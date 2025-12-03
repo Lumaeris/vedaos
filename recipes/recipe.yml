@@ -293,8 +293,8 @@ modules:
       PRETTY_NAME: VedaOS 43
       DEFAULT_HOSTNAME: vedaos
       VERSION_CODENAME: Next
-      HOME_URL: https://github.com/Lumaeris/vedaos
-      DOCUMENTATION_URL: https://github.com/Lumaeris/vedaos
+      HOME_URL: https://lumaeris.com/vedaos
+      DOCUMENTATION_URL: https://lumaeris.com/vedaos
       SUPPORT_URL: https://github.com/Lumaeris/vedaos/issues
       BUG_REPORT_URL: https://github.com/Lumaeris/vedaos/issues
 
