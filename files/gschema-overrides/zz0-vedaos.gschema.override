@@ -1,3 +1,17 @@
+[org.gnome.desktop.wm.preferences]
+button-layout='appmenu:minimize,maximize,close'
+
+[org.gnome.desktop.interface]
+color-scheme='prefer-dark'
+enable-hot-corners=false
+accent-color='purple'
+gtk-theme='adw-gtk3-dark'
+icon-theme='MoreWaita'
+monospace-font-name="JetBrains Mono 12"
+
+[org.gnome.mutter]
+center-new-windows=true
+
 [org.gnome.desktop.wm.keybindings]
 switch-applications=['<Super>Tab']
 switch-applications-backward=['<Shift><Super>Tab']
@@ -18,8 +32,7 @@ interface-style='system'
 restore-session=false
 restore-window-size=false
 audible-bell=false
-profile-uuids=['2871e8027773ae74d6c87a5f659bbc74']
-default-profile-uuid='2871e8027773ae74d6c87a5f659bbc74'
 
 [org.gnome.shell] 
 favorite-apps=['org.mozilla.firefox.desktop', 'steam.desktop', 'io.github.kolunmi.Bazaar.desktop', 'org.gnome.Ptyxis.desktop', 'org.gnome.Nautilus.desktop']
+enabled-extensions=['appindicatorsupport@rgcjonas.gmail.com', 'user-theme@gnome-shell-extensions.gcampax.github.com', 'blur-my-shell@aunetx', 'caffeine@patapon.info', 'adw-gtk3-colorizer@NiffirgkcaJ.github.com', 'accent-directories@taiwbi.com', 'AlphabeticalAppGrid@stuarthayhurst', 'reboottouefi@ubaygd.com', 'hotedge@jonathan.jdoda.ca']

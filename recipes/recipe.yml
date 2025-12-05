@@ -254,9 +254,7 @@ modules:
   # add gschema overrides
   - type: gschema-overrides
     include:
-      - zz0-extensions.gschema.override # enable installed extensions
-      - zz1-theme.gschema.override # theme overrides
-      - zz2-global.gschema.override # everything else
+      - zz0-vedaos.gschema.override
 
   # install some dev tools
   - type: dnf
