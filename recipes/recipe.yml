@@ -343,6 +343,9 @@ modules:
         - bootc-fetch-apply-updates.service
         - akmods-keygen@akmods-keygen.service
         - akmods-keygen.target
+    user:
+      enabled:
+        - bazaar.service
 
   - type: initramfs
 
