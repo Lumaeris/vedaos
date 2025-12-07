@@ -22,9 +22,6 @@ sed -i '/^enabled=1/a\priority=90' /etc/yum.repos.d/negativo17-fedora-nvidia.rep
 
 dnf5 install -y "akmod-nvidia"
 
-echo "Setting kernel.conf to kernel-open"
-sed -i --sandbox "s/^MODULE_VARIANT=.*/MODULE_VARIANT=kernel-open/" /etc/nvidia/kernel.conf
-
 echo "Installing kmod..."
 akmods --force --kernels "${KERNEL_VERSION}" --kmod "nvidia"
 
