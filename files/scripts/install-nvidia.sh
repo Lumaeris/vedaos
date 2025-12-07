@@ -23,7 +23,7 @@ sed -i '/^enabled=1/a\priority=90' /etc/yum.repos.d/negativo17-fedora-nvidia.rep
 dnf5 install -y akmod-nvidia gcc-c++
 
 echo "Installing kmod..."
-akmods --force --kernels "${KERNEL_VERSION}" --kmod "nvidia" || true
+akmods --force --kernels "${KERNEL_VERSION}" --kmod "nvidia"
 
 # Depends on word splitting
 # shellcheck disable=SC2086
