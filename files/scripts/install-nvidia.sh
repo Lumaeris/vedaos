@@ -20,10 +20,10 @@ KERNEL_VERSION="$(ls /lib/modules)"
 curl --retry 3 -Lo /etc/yum.repos.d/negativo17-fedora-nvidia.repo https://negativo17.org/repos/fedora-nvidia.repo
 sed -i '/^enabled=1/a\priority=90' /etc/yum.repos.d/negativo17-fedora-nvidia.repo
 
-dnf5 install -y "akmod-nvidia"
+dnf5 install -y akmod-nvidia gcc-c++
 
 echo "Installing kmod..."
-akmods --force --kernels "${KERNEL_VERSION}" --kmod "nvidia"
+akmods --force --kernels "${KERNEL_VERSION}" --kmod "nvidia" || true
 
 # Depends on word splitting
 # shellcheck disable=SC2086
