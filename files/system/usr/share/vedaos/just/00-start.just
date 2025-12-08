@@ -30,7 +30,7 @@ install-default-flatpaks:
     flatpak --system -y install --reinstall --or-update ${FLATPAK_LIST}
 
 reset-steam:
-    #!/usr/bin/bash
+    #!/usr/bin/env bash
     STEAMPATH="$HOME/.local/share/Steam"
     # Get a list of the contents of steams top level directory except a list of folders/files we can skip to avoid losing data
     STEAMFILES=$(ls ~/.local/share/Steam/ | grep -vP "(userdata|compatibilitytools\.d|config|controller_base|steamapps|music)")
@@ -53,3 +53,21 @@ reset-steam:
     sleep 1
     vedaos-steam &
     exit 0
+
+toggle-updates:
+    #!/usr/bin/env bash
+    if systemctl is-enabled uupd.timer >/dev/null; then
+        systemctl disable uupd.timer
+        echo "Autoupdates has been disabled."
+    else
+        systemctl enable uupd.timer
+        echo "Autoupdates has been enabled."
+    fi
+
+restore-nvidia-settings:
+    #!/usr/bin/env bash
+    mkdir -p $HOME/.local/share/applications
+    if [ ! -f $HOME/.local/share/applications/nvidia-settings.desktop ]; then
+        cp /usr/share/applications/nvidia-settings.desktop $HOME/.local/share/applications/nvidia-settings.desktop
+        sed -i '/^Hidden=/d' $HOME/.local/share/applications/nvidia-settings.desktop
+    fi
