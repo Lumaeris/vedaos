@@ -319,6 +319,7 @@ modules:
       - "chmod +x /usr/bin/winetricks"
       - "sed -i 's@/usr/bin/steam@/usr/bin/vedaos-steam@g' /usr/share/applications/steam.desktop"
       - "dnf5 versionlock clear"
+      - "dnf5 clean all"
 
   # enable systemd services
   - type: systemd
