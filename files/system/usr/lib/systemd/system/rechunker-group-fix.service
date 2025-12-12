@@ -2,6 +2,7 @@
 Description=Fix groups
 Wants=local-fs.target
 After=local-fs.target
+Before=systemd-sysusers.service
 
 [Service]
 Type=oneshot
