@@ -9,18 +9,18 @@ Ready and fully functional for daily usage. Even though it's created for myself,
 ## What does it have?
 
 - Starting from `quay.io/fedora/fedora-bootc` instead of [Fedora Silverblue](https://fedoraproject.org/atomic-desktops/silverblue), that way we don't get any unwanted changes/packages from Silverblue.
-- Uses [CachyOS' kernel](https://github.com/CachyOS/linux-cachyos) (not LTO unfortunatelly because of NVIDIA bug of some sort).
+- Uses [CachyOS' kernel](https://github.com/CachyOS/linux-cachyos) (not Clang with Thin LTO because of NVIDIA bug of some sort).
 - One of the first [BlueBuild](https://blue-build.org/) images to switch to rpm-ostree's [`build-chunked-oci`](https://coreos.github.io/rpm-ostree/build-chunked-oci/) instead of relying on [hhd's rechunker](https://github.com/hhd-dev/rechunk) which had unnecessary fixes and file permission issues.
 - Includes a service to fix `/etc/group` and `/etc/gshadow` desynchronization caused by hhd's rechunker, provided by Tulip (@tulilirockz)! ([`/usr/bin/rechunker-group-fix`](https://github.com/Lumaeris/vedaos/blob/main/files/system/usr/bin/rechunker-group-fix) and [related systemd service](https://github.com/Lumaeris/vedaos/blob/main/files/system/usr/lib/systemd/system/rechunker-group-fix.service))
 - Same "batteries" you would expect from any [Universal Blue base image](https://github.com/ublue-os/main).
 - Necessary packages for [GNOME](https://gnome.org). Took an inspiration from [Bluefin LTS](https://github.com/ublue-os/bluefin-lts).
 - [Some extensions](#extensions) for GNOME!
-- Applied [MoreWaita](https://github.com/somepaulo/MoreWaita) and [adw-gtk3](https://github.com/lassekongo83/adw-gtk3) by default.
-- [NVIDIA Open drivers](https://github.com/NVIDIA/open-gpu-kernel-modules) are included out of the box (you can still use it on your AMD machine). Supporting GPUs starting from GTX 16xx and RTX series.
+- Applied [MoreWaita icon pack](https://github.com/somepaulo/MoreWaita) and [adw-gtk3 theme](https://github.com/lassekongo83/adw-gtk3) by default.
+- [NVIDIA Open drivers](https://github.com/NVIDIA/open-gpu-kernel-modules) are included out of the box (you can still use it on your AMD machine though). Supported GPUs are GTX 16xx and RTX series.
 - Natively available [Steam](https://steampowered.com). Do I need to say much?
 - [Gamescope](https://github.com/bazzite-org/gamescope) is here if needed.
 - [extest](https://github.com/bazzite-org/extest) library is included as well so Steam won't freak out of seeing any controller.
-- rpm-ostree is available for layering packages! ***But*** it's not adviced to do so, unless it's [Mullvad VPN](http://mullvad.net/) or something similar.
+- `rpm-ostree` is available for layering packages! ***But*** it's not adviced to do so, unless it's [Mullvad VPN](http://mullvad.net/) or something similar.
 - [Homebrew](https://brew.sh/) is available as well! [Universal Blue's tap](https://github.com/ublue-os/homebrew-tap) does work here (I'm using their VSCodium package just fine)!
 - [Tailscale](https://tailscale.com) since why not.
 - [Winetricks](https://github.com/Winetricks/winetricks). Still useful. `¯\_(ᵕ—ᴗ—)_/¯`
@@ -61,6 +61,7 @@ Here's a lil list of images that were done by my friendos! :D
 - [Zirconium](https://github.com/zirconium-dev/zirconium) - THE Niri bootc image. It already does have some users! I've PR'd NVIDIA support btw.
 - [XeniaOS](https://github.com/XeniaMeraki/XeniaOS) - Also a Niri bootc image, but this time using [Arch bootc](https://github.com/bootcrew/arch-bootc) image. Highly experimental.
 - [solarpowered](https://github.com/askpng/solarpowered) - Yet another personal image. We share some experiences with each other to resolve some issues and stuff.
+- [MizukiOS](https://github.com/koitorin/MizukiOS) - Niri bootc! Another one!! So many of these!!! It uses Bazzite GNOME as a base.
 - [Entire Bootcrew project](https://github.com/bootcrew)! Tulip really cooked hard here.
 
 ## Dependence on Universal Blue
@@ -75,7 +76,7 @@ This list only exists for informational purposes.
 - uupd - even though it was designed for ublue systems, it can still be used on any atomic system.
 - Steam Deck backgrounds repackaged by Bazzite.
 - Bazzite's fork of Gamescope.
-- Bazzite's fork of libextest.
+- Bazzite's fork of libextest (not really any different from upstream).
 
 ### In-direct
 
@@ -85,11 +86,8 @@ This list only exists for informational purposes.
 - BlueBuild was influenced by ublue, now it's independent from them.
 
 ## Verification
-These images are signed with [Sigstore](https://www.sigstore.dev/)'s [cosign](https://github.com/sigstore/cosign).
 
-### Verify `cosign.pub`
-
-Download the `cosign.pub` file from this repo and run the following command within the same directory:
+These images are signed with [Sigstore](https://www.sigstore.dev/)'s [cosign](https://github.com/sigstore/cosign). You can verify the signature by downloading the `cosign.pub` file from this repo and running the following command:
 
 ```bash
 cosign verify --key cosign.pub ghcr.io/lumaeris/vedaos
