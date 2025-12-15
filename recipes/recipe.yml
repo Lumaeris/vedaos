@@ -19,11 +19,22 @@ modules:
       - source: system
         destination: /
 
-  # delete chsh since we don't need it, create roothome dir, add fedora-multimedia
+  # remove leftovers from fedora-bootc
+  - type: dnf
+    remove:
+      packages:
+        - console-login-helper-messages
+        - chrony
+        - sssd*
+        - qemu-user-static*
+        - toolbox
+
+  # delete chsh since we don't need it, documentation, create roothome dir, add fedora-multimedia
   - type: script
     snippets:
       - "rm -f /usr/bin/chsh"
       - "rm -f /usr/bin/lchsh"
+      - "rm -rf /usr/share/doc"
       - "mkdir -p /var/roothome"
       - "dnf5 config-manager addrepo --from-repofile='https://negativo17.org/repos/fedora-multimedia.repo'"
       - "dnf5 config-manager setopt fedora-multimedia.priority=90"
@@ -231,13 +242,6 @@ modules:
         - gnome-backgrounds
         - steamdeck-backgrounds
 
-  # remove some leftovers
-  - type: dnf
-    remove:
-      packages:
-        - console-login-helper-messages
-        - toolbox
-
   # install gnome extensions
   - type: gnome-extensions
     install:
@@ -301,7 +305,7 @@ modules:
     snippets:
       - "mkdir -p /etc/flatpak/remotes.d/"
       - "curl --retry 3 -Lo /etc/flatpak/remotes.d/flathub.flatpakrepo https://dl.flathub.org/repo/flathub.flatpakrepo"
-      - "rm -rf /usr/lib/systemd/system/flatpak-add-fedora-repos.service"
+      - "rm -f /usr/lib/systemd/system/flatpak-add-fedora-repos.service"
 
   # some finishing touches
   - type: script
