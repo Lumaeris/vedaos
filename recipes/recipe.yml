@@ -29,12 +29,11 @@ modules:
         - qemu-user-static*
         - toolbox
 
-  # delete chsh since we don't need it, documentation, create roothome dir, add fedora-multimedia
+  # delete chsh since we don't need it, create roothome dir, add fedora-multimedia
   - type: script
     snippets:
       - "rm -f /usr/bin/chsh"
       - "rm -f /usr/bin/lchsh"
-      - "rm -rf /usr/share/doc"
       - "mkdir -p /var/roothome"
       - "dnf5 config-manager addrepo --from-repofile='https://negativo17.org/repos/fedora-multimedia.repo'"
       - "dnf5 config-manager setopt fedora-multimedia.priority=90"
@@ -322,6 +321,7 @@ modules:
       - "curl --retry 3 -Lo /usr/bin/winetricks https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks"
       - "chmod +x /usr/bin/winetricks"
       - "sed -i 's@/usr/bin/steam@/usr/bin/vedaos-steam@g' /usr/share/applications/steam.desktop"
+      - "rm -rf /usr/share/doc"
       - "dnf5 versionlock clear"
       - "dnf5 clean all"
 
