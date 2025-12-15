@@ -71,3 +71,12 @@ restore-nvidia-settings:
         cp /usr/share/applications/nvidia-settings.desktop $HOME/.local/share/applications/nvidia-settings.desktop
         sed -i '/^Hidden=/d' $HOME/.local/share/applications/nvidia-settings.desktop
     fi
+
+install-docker:
+    #!/usr/bin/env bash
+    echo "This script downloads lima and docker-cli from brew and it downloads bootc image made for lima in order to use Docker."
+    echo "https://github.com/tulilirockz/carinata"
+    echo "Press ENTER to continue, otherwise press CTRL+C."
+    read i
+    brew install lima docker
+    limactl create --name=docker --yes https://raw.githubusercontent.com/tulilirockz/carinata/refs/heads/main/docker-carinata-rootful.yaml
