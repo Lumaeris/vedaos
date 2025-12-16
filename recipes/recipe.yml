@@ -151,7 +151,7 @@ modules:
       - swap-kernel.sh
       - install-nvidia.sh
 
-  # install brew. updates would be handled with uupd (related systemd services are disabled at the end)
+  # install brew. updates would be handled with uupd
   - type: copy
     from: ghcr.io/projectbluefin/brew:latest
     src: /system_files
@@ -339,13 +339,12 @@ modules:
         - input-remapper.service
         - rechunker-group-fix.service
         - nvctk-cdi.service
+        - brew-setup.service
       disabled:
         - bootc-fetch-apply-updates.timer
         - bootc-fetch-apply-updates.service
         - akmods-keygen@akmods-keygen.service
         - akmods-keygen.target
-        - brew-update.timer
-        - brew-upgrade.timer
       masked:
         - bootc-fetch-apply-updates.timer
         - bootc-fetch-apply-updates.service
