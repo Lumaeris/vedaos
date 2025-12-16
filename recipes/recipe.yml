@@ -151,11 +151,11 @@ modules:
       - swap-kernel.sh
       - install-nvidia.sh
 
-  # install brew. updates would be handled with uupd
-  - type: brew
-    brew-analytics: false
-    auto-update: false
-    auto-upgrade: false
+  # install brew. updates would be handled with uupd (related systemd services are disabled at the end)
+  - type: copy
+    from: ghcr.io/projectbluefin/brew:latest
+    src: /system_files
+    dest: /
 
   # install gnome and a few things
   # took it from bluefin lts and zirconium :)
@@ -322,6 +322,7 @@ modules:
       - "chmod +x /usr/bin/winetricks"
       - "sed -i 's@/usr/bin/steam@/usr/bin/vedaos-steam@g' /usr/share/applications/steam.desktop"
       - "rm -rf /usr/share/doc"
+      - "echo 'HOMEBREW_NO_ANALYTICS=1' >> /etc/environment"
       - "dnf5 versionlock clear"
       - "dnf5 clean all"
 
@@ -343,6 +344,8 @@ modules:
         - bootc-fetch-apply-updates.service
         - akmods-keygen@akmods-keygen.service
         - akmods-keygen.target
+        - brew-update.timer
+        - brew-upgrade.timer
       masked:
         - bootc-fetch-apply-updates.timer
         - bootc-fetch-apply-updates.service
