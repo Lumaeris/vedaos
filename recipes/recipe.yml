@@ -226,6 +226,25 @@ modules:
         - fira-code-fonts
         - hyfetch
         - fastfetch
+        - jmtpfs
+        - NetworkManager-config-connectivity-fedora
+        - NetworkManager-openvpn
+        - NetworkManager-wwan
+        - cups
+        - fprintd
+        - fprintd-pam
+        - hplip
+        - hyperv-daemons
+        - ibus
+        - libratbag-ratbagd
+        - open-vm-tools
+        - open-vm-tools-desktop
+        - pcsc-lite
+        - qemu-guest-agent
+        - systemd-oomd-defaults
+        - whois
+        - wireguard-tools
+        - zram-generator-defaults
       exclude:
         - gnome-tour
 
