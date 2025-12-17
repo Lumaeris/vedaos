@@ -153,7 +153,7 @@ modules:
 
   # install brew. updates would be handled with uupd
   - type: copy
-    from: ghcr.io/projectbluefin/brew:latest
+    from: ghcr.io/ublue-os/brew:latest
     src: /system_files
     dest: /
 

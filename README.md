@@ -72,7 +72,7 @@ This list only exists for informational purposes.
 
 - ~~hhd's rechunker~~ - not anymore! We use upstream's `build-chunked-oci` as mentioned above.
 - Some packages marked as "batteries" - oversteer-udev, ublue-os-luks and ublue-os-udev-rules.
-- brew - https://github.com/projectbluefin/brew
+- brew - https://github.com/ublue-os/brew
 - uupd - even though it was designed for ublue systems, it can still be used on any atomic system.
 - Steam Deck backgrounds repackaged by Bazzite.
 - Bazzite's fork of Gamescope.
