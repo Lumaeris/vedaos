@@ -20,18 +20,7 @@ KERNEL_VERSION="$(ls /lib/modules)"
 curl --retry 3 -Lo /etc/yum.repos.d/negativo17-fedora-nvidia.repo https://negativo17.org/repos/fedora-nvidia.repo
 sed -i '/^enabled=1/a\priority=90' /etc/yum.repos.d/negativo17-fedora-nvidia.repo
 
-#dnf5 install -y akmod-nvidia gcc-c++
-
-# pin to 580 version since 590 is in beta apparently. remove it when fixed upstream
-# thanks secureblue for bringing this up
-PINNED_OPEN_VERSION="580.105.08"
-dnf5 install -y akmods
-cp /usr/sbin/akmodsbuild /usr/sbin/akmodsbuild.backup
-sed -i '/if \[\[ -w \/var \]\] ; then/,/fi/d' /usr/sbin/akmodsbuild
-dnf5 install -y "nvidia-kmod-common-${PINNED_OPEN_VERSION}" "akmod-nvidia-${PINNED_OPEN_VERSION}" "nvidia-modprobe-${PINNED_OPEN_VERSION}"
-mv /usr/sbin/akmodsbuild.backup /usr/sbin/akmodsbuild
-echo "Setting kernel.conf to kernel-open"
-sed -i --sandbox "s/^MODULE_VARIANT=.*/MODULE_VARIANT=kernel-open/" /etc/nvidia/kernel.conf
+dnf5 install -y akmod-nvidia gcc-c++
 
 echo "Installing kmod..."
 akmods --force --kernels "${KERNEL_VERSION}" --kmod "nvidia"
@@ -51,8 +40,7 @@ sed -i 's/^gpgcheck=0/gpgcheck=1/' /etc/yum.repos.d/nvidia-container-toolkit.rep
 sed -i 's/^enabled=0.*/enabled=1/' /etc/yum.repos.d/nvidia-container-toolkit.repo
 
 echo "Installing NVIDIA packages..."
-#dnf5 -y install nvidia-container-toolkit nvidia-driver-cuda libnvidia-fbc libva-nvidia-driver nvidia-driver nvidia-modprobe nvidia-persistenced nvidia-settings
-dnf5 -y install nvidia-container-toolkit "nvidia-driver-cuda-${PINNED_OPEN_VERSION}" "libnvidia-fbc-${PINNED_OPEN_VERSION}" libva-nvidia-driver "nvidia-driver-${PINNED_OPEN_VERSION}" "nvidia-modprobe-${PINNED_OPEN_VERSION}" "nvidia-persistenced-${PINNED_OPEN_VERSION}" "nvidia-settings-${PINNED_OPEN_VERSION}"
+dnf5 -y install nvidia-container-toolkit nvidia-driver-cuda libnvidia-fbc libva-nvidia-driver nvidia-driver nvidia-modprobe nvidia-persistenced nvidia-settings
 
 curl --retry 3 -L https://raw.githubusercontent.com/NVIDIA/dgx-selinux/master/bin/RHEL9/nvidia-container.pp -o nvidia-container.pp
 semodule -i nvidia-container.pp
