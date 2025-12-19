@@ -26,7 +26,7 @@ install-default-flatpaks:
                flatpak remote-delete "$remote"
            fi
        done
-    FLATPAK_LIST="$(curl https://raw.githubusercontent.com/Lumaeris/vedaos/main/installer/flatpaks | tr '\n' ' ')"
+    FLATPAK_LIST="$(curl https://raw.githubusercontent.com/Lumaeris/vedaos/main/files/flatpaks | tr '\n' ' ')"
     flatpak --system -y install --reinstall --or-update ${FLATPAK_LIST}
 
 reset-steam:

@@ -1,5 +1,5 @@
 ---
-name: Build ISOs
+name: Build ISO
 
 on:
   workflow_dispatch:
@@ -26,26 +26,30 @@ jobs:
       - name: Checkout
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
 
-      - name: Build ISO
+      - name: Build ISOs
+        uses: jasonn3/build-container-installer@c9ef3de33236e66781ec37bd0485e8009eaefe24 # v1.4.0
         id: build
-        uses: ublue-os/titanoboa@main
         with:
-          image-ref: ghcr.io/lumaeris/vedaos:latest
-          flatpaks-list: ${{ github.workspace }}/installer/flatpaks
-          hook-pre-initramfs: ${{ github.workspace }}/installer/preinitramfs.sh
-          hook-post-rootfs: ${{ github.workspace }}/installer/postrootfs.sh
-          iso-dest: vedaos-amd64.iso
+          arch: x86_64
+          image_name: vedaos
+          image_repo: ghcr.io/lumaeris
+          variant: 'Kinoite'
+          version: 43
+          image_tag: latest
+          iso_name: vedaos-amd64.iso
+          flatpak_remote_refs_dir: ${{ github.workspace }}/files
+          additional_templates: ${{ github.workspace }}/files/remove_root_password_prompt.tmpl
 
       - name: Rename ISO
         id: rename
         env:
-          OUTPUT_PATH: ${{ steps.build.outputs.iso-dest }}
+          OUTPUT_PATH: ${{ steps.build.outputs.iso_path }}
         run: |
           set -x
           mkdir -p output
           OUTPUT_DIRECTORY="$(realpath output)"
-          sha256sum "${OUTPUT_PATH}" | tee "vedaos-amd64.iso-CHECKSUM"
-          mv "${OUTPUT_PATH}" "${OUTPUT_DIRECTORY}/vedaos-amd64.iso"
+          mv "${OUTPUT_PATH}/vedaos-amd64.iso" "${OUTPUT_DIRECTORY}"
+          mv "${OUTPUT_PATH}/vedaos-amd64.iso-CHECKSUM" "${OUTPUT_DIRECTORY}"
           echo "output_directory=$OUTPUT_DIRECTORY" >> "${GITHUB_OUTPUT}"
 
       - name: Upload to Job Artifacts
