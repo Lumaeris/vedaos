@@ -1,0 +1,65 @@
+---
+name: Build ISOs
+
+on:
+  workflow_dispatch:
+
+env:
+  IMAGE_REGISTRY: "ghcr.io/${{ github.repository_owner }}"
+  IMAGE_NAME: "vedaos"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build ISOs
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+    permissions:
+      contents: read
+      packages: read
+      id-token: write
+
+    steps:
+      - name: Prepare environment
+        run: |
+          # Lowercase the image uri
+          echo "IMAGE_REGISTRY=${IMAGE_REGISTRY,,}" >> ${GITHUB_ENV}
+          echo "IMAGE_NAME=${IMAGE_NAME,,}" >> ${GITHUB_ENV}
+
+      - name: Free disk space
+        uses: hastd/free-disk-space@78ec0490f953d89f024c95d0c293e6307ceac02e # v0.1.1
+
+      - name: Checkout
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+
+      - name: Build ISO
+        id: build
+        uses: ublue-os/titanoboa@main
+        with:
+          image-ref: ${IMAGE_REGISTRY}/${IMAGE_NAME}:latest
+          flatpaks-list: ${{ github.workspace }}/installer/flatpaks
+          hook-post-rootfs: ${{ github.workspace }}/installer/postrootfs.sh
+          iso-dest: ${IMAGE_NAME}-amd64.iso
+
+      - name: Rename ISO
+        id: rename
+        env:
+          OUTPUT_PATH: ${{ steps.build.outputs.iso-dest }}
+        run: |
+          set -x
+          mkdir -p output
+          OUTPUT_DIRECTORY="$(realpath output)"
+          sha256sum "${OUTPUT_PATH}" | tee "${IMAGE_NAME}-amd64.iso-CHECKSUM"
+          mv "${OUTPUT_PATH}" "${OUTPUT_DIRECTORY}/${IMAGE_NAME}-amd64.iso"
+          echo "output_directory=$OUTPUT_DIRECTORY" >> "${GITHUB_OUTPUT}"
+
+      - name: Upload to Job Artifacts
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: vedaos-amd64
+          if-no-files-found: error
+          path: ${{ steps.rename.outputs.output_directory }}

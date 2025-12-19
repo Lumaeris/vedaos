@@ -1,4 +1,4 @@
-name: bluebuild
+name: Build Custom Image
 on:
   schedule:
     - cron:
