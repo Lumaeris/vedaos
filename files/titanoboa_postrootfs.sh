@@ -1,14 +1,11 @@
 #!/usr/bin/env bash
 
-dnf remove -y steam || true
+dnf remove -y gnome-software htop nvtop gnome-tour firefox || true
 
-systemctl disable tailscaled.service
 systemctl disable bootloader-update.service
-systemctl disable brew-setup.service
-systemctl disable uupd.timer
-systemctl disable rechunker-group-fix.service
-systemctl disable input-remapper.service
-systemctl --global disable bazaar.service
+systemctl disable rpm-ostreed-automatic.timer
+systemctl disable flatpak-system-update.timer
+systemctl --global disable flatpak-user-update.timer
 
 # Configure Anaconda
 
@@ -24,16 +21,17 @@ dnf install -y "${SPECS[@]}"
 
 # Anaconda Profile Detection
 
-tee /etc/anaconda/profile.d/vedaos.conf <<'EOF'
+rm -f /etc/anaconda/profile.d/fedora.conf || true
+tee /etc/anaconda/profile.d/fedora.conf <<'EOF'
 # Anaconda configuration file for VedaOS
 
 [Profile]
 # Define the profile.
-profile_id = vedaos
+profile_id = fedora
 
 [Profile Detection]
 # Match os-release values
-os_id = vedaos
+os_id = fedora
 
 [Network]
 default_on_boot = FIRST_WIRED_WITH_LINK
@@ -63,6 +61,21 @@ cat >/usr/share/glib-2.0/schemas/zz2-org.gnome.shell.gschema.override <<EOF
 [org.gnome.shell]
 welcome-dialog-last-shown-version='4294967295'
 favorite-apps = ['liveinst.desktop', 'org.mozilla.firefox.desktop', 'org.gnome.Nautilus.desktop']
+
+[org.gnome.desktop.wm.preferences]
+button-layout='appmenu:minimize,maximize,close'
+
+[org.gnome.desktop.interface]
+color-scheme='prefer-dark'
+enable-hot-corners=false
+accent-color='purple'
+
+[org.gnome.mutter]
+center-new-windows=true
+
+[org.gnome.desktop.background]
+picture-uri="file:///usr/share/backgrounds/gnome/symbolic-l.png"
+picture-uri-dark="file:///usr/share/backgrounds/gnome/symbolic-d.png"
 EOF
 
 glib-compile-schemas /usr/share/glib-2.0/schemas
