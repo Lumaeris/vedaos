@@ -25,15 +25,6 @@ jobs:
         recipe:
           - recipe.yml
     steps:
-      # mount /mnt as /var/lib/containers
-      - name: Mount BTRFS for podman storage
-        id: container-storage-action
-        uses: ublue-os/container-storage-action@911baca08baf30c8654933e9e9723cb399892140
-        continue-on-error: true
-        with:
-          target-dir: /var/lib/containers
-          mount-opts: compress-force=zstd:2
-          loopback-free: '1'
       # the build is fully handled by the reusable github action
       - name: Build Custom Image
         uses: blue-build/github-action@v1.10
@@ -42,6 +33,6 @@ jobs:
           cosign_private_key: ${{ secrets.SIGNING_SECRET }}
           registry_token: ${{ github.token }}
           pr_event_number: ${{ github.event.number }}
-          maximize_build_space: false
+          maximize_build_space: true
           build_chunked_oci: true
           retry_push_count: 3
