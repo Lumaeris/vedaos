@@ -31,9 +31,9 @@ jobs:
         uses: ublue-os/titanoboa@main
         with:
           image-ref: ghcr.io/lumaeris/vedaos:latest
-          flatpaks-list: ${{ github.workspace }}/installer/flatpaks
-          hook-pre-initramfs: ${{ github.workspace }}/installer/preinitramfs.sh
-          hook-post-rootfs: ${{ github.workspace }}/installer/postrootfs.sh
+          flatpaks-list: ${{ github.workspace }}/files/flatpaks
+          hook-pre-initramfs: ${{ github.workspace }}/files/titanoboa_preinitramfs.sh
+          hook-post-rootfs: ${{ github.workspace }}/files/titanoboa_postrootfs.sh
           iso-dest: vedaos-amd64.iso
 
       - name: Rename ISO
