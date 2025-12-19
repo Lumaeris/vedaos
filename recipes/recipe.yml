@@ -349,6 +349,8 @@ modules:
       - "chmod +x /usr/bin/winetricks"
       - "sed -i 's@/usr/bin/steam@/usr/bin/vedaos-steam@g' /usr/share/applications/steam.desktop"
       - "rm -rf /usr/share/doc"
+      - "rm -rf /usr/src"
+      - "rpm --erase --nodeps kernel-cachyos-devel akmod-nvidia"
       - "echo 'HOMEBREW_NO_ANALYTICS=1' >> /etc/environment"
       - "dnf5 versionlock clear"
       - "dnf5 clean all"
