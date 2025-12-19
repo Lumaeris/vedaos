@@ -32,6 +32,7 @@ jobs:
         with:
           image-ref: ghcr.io/lumaeris/vedaos:latest
           flatpaks-list: ${{ github.workspace }}/installer/flatpaks
+          hook-pre-initramfs: ${{ github.workspace }}/installer/preinitramfs.sh
           hook-post-rootfs: ${{ github.workspace }}/installer/postrootfs.sh
           iso-dest: vedaos-amd64.iso
 
