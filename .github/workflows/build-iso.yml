@@ -35,7 +35,7 @@ jobs:
           image-ref: ghcr.io/ublue-os/silverblue-main:latest
           container-image: ghcr.io/lumaeris/vedaos:latest
           flatpaks-list: ${{ github.workspace }}/files/flatpaks
-          hook-pre-initramfs: ${{ github.workspace }}/files/titanoboa_preinitramfs.sh
+          #hook-pre-initramfs: ${{ github.workspace }}/files/titanoboa_preinitramfs.sh
           hook-post-rootfs: ${{ github.workspace }}/files/titanoboa_postrootfs.sh
           iso-dest: vedaos-amd64.iso
 
