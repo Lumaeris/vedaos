@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
-dnf remove -y gnome-software htop nvtop gnome-tour firefox || true
+dnf remove -y gnome-software gnome-tour fedora-flathub-remote gnome-software-rpm-ostree totem-video-thumbnailer google-noto-sans-cjk-vf-fonts default-fonts-cjk-sans fedora-third-party || true
+rm -f /usr/lib/systemd/system/flatpak-add-fedora-repos.service || true
 
-systemctl disable bootloader-update.service
-systemctl disable rpm-ostreed-automatic.timer
-systemctl disable flatpak-system-update.timer
-systemctl --global disable flatpak-user-update.timer
+CSFG=/usr/lib/systemd/system-generators/coreos-sulogin-force-generator
+curl -sSLo ${CSFG} https://raw.githubusercontent.com/coreos/fedora-coreos-config/refs/heads/stable/overlay.d/05core/usr/lib/systemd/system-generators/coreos-sulogin-force-generator
+chmod +x ${CSFG}
 
 # Configure Anaconda
 
@@ -20,18 +20,16 @@ SPECS=(
 dnf install -y "${SPECS[@]}"
 
 # Anaconda Profile Detection
-
-rm -f /etc/anaconda/profile.d/fedora.conf || true
-tee /etc/anaconda/profile.d/fedora.conf <<'EOF'
+tee /etc/anaconda/profile.d/vedaos.conf <<'EOF'
 # Anaconda configuration file for VedaOS
 
 [Profile]
 # Define the profile.
-profile_id = fedora
+profile_id = vedaos
 
 [Profile Detection]
 # Match os-release values
-os_id = fedora
+os_id = vedaos
 
 [Network]
 default_on_boot = FIRST_WIRED_WITH_LINK
@@ -60,21 +58,21 @@ EOF
 cat >/usr/share/glib-2.0/schemas/zz2-org.gnome.shell.gschema.override <<EOF
 [org.gnome.shell]
 welcome-dialog-last-shown-version='4294967295'
-favorite-apps = ['liveinst.desktop', 'org.mozilla.firefox.desktop', 'org.gnome.Nautilus.desktop']
+favorite-apps=['liveinst.desktop', 'org.mozilla.firefox.desktop', 'org.gnome.Nautilus.desktop']
+enabled-extensions=['']
 
 [org.gnome.desktop.wm.preferences]
 button-layout='appmenu:minimize,maximize,close'
 
 [org.gnome.desktop.interface]
 color-scheme='prefer-dark'
-enable-hot-corners=false
 accent-color='purple'
 
 [org.gnome.mutter]
 center-new-windows=true
 
 [org.gnome.desktop.background]
-picture-uri="file:///usr/share/backgrounds/gnome/symbolic-l.png"
+picture-uri="file:///usr/share/backgrounds/gnome/symbolic-d.png"
 picture-uri-dark="file:///usr/share/backgrounds/gnome/symbolic-d.png"
 EOF
 
@@ -82,7 +80,7 @@ glib-compile-schemas /usr/share/glib-2.0/schemas
 
 # Configure
 . /etc/os-release
-echo "VedaOS release $VERSION_ID ($VERSION_CODENAME)" >/etc/system-release
+echo "VedaOS release $VERSION_ID" >/etc/system-release
 
 sed -i 's/ANACONDA_PRODUCTVERSION=.*/ANACONDA_PRODUCTVERSION=""/' /usr/{,s}bin/liveinst || true
 
@@ -109,3 +107,6 @@ mkdir -p "$target"
 rsync -aAXUHKP /var/lib/flatpak "$target"
 %end
 EOF
+
+rm -rf /usr/share/doc
+rm -rf /usr/share/man
