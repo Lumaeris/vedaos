@@ -23,6 +23,8 @@ SPECS=(
 )
 dnf install -y "${SPECS[@]}"
 
+mkdir -p /var/lib/rpm-state
+
 # Anaconda Profile Detection
 tee /etc/anaconda/profile.d/vedaos.conf <<'EOF'
 # Anaconda configuration file for VedaOS
@@ -57,12 +59,28 @@ hidden_spokes =
 hidden_webui_pages =
     root-password
     network
+
+[Localization]
+use_geolocation = False
 EOF
 
 cat >/usr/share/glib-2.0/schemas/zz2-org.gnome.shell.gschema.override <<EOF
 [org.gnome.shell]
 welcome-dialog-last-shown-version='4294967295'
-favorite-apps=['liveinst.desktop', 'org.mozilla.firefox.desktop', 'org.gnome.Nautilus.desktop']
+favorite-apps=['anaconda.desktop', 'org.mozilla.firefox.desktop', 'org.gnome.Nautilus.desktop']
+EOF
+
+# Disable suspend/sleep during live environment and initial setup
+# This prevents the system from suspending during installation or first-boot user creation
+tee /usr/share/glib-2.0/schemas/zz3-bluefin-installer-power.gschema.override <<EOF
+[org.gnome.settings-daemon.plugins.power]
+sleep-inactive-ac-type='nothing'
+sleep-inactive-battery-type='nothing'
+sleep-inactive-ac-timeout=0
+sleep-inactive-battery-timeout=0
+
+[org.gnome.desktop.session]
+idle-delay=uint32 0
 EOF
 
 glib-compile-schemas /usr/share/glib-2.0/schemas
@@ -72,6 +90,7 @@ glib-compile-schemas /usr/share/glib-2.0/schemas
 echo "VedaOS release $VERSION_ID" >/etc/system-release
 
 sed -i 's/ANACONDA_PRODUCTVERSION=.*/ANACONDA_PRODUCTVERSION=""/' /usr/{,s}bin/liveinst || true
+sed -i 's|Activities|in the dock|' /usr/share/anaconda/gnome/fedora-welcome || true
 
 # Interactive Kickstart
 tee -a /usr/share/anaconda/interactive-defaults.ks <<EOF
@@ -96,6 +115,3 @@ mkdir -p "$target"
 rsync -aAXUHKP /var/lib/flatpak "$target"
 %end
 EOF
-
-rm -rf /usr/share/doc
-rm -rf /usr/share/man
