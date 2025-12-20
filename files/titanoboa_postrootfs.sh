@@ -63,21 +63,6 @@ cat >/usr/share/glib-2.0/schemas/zz2-org.gnome.shell.gschema.override <<EOF
 [org.gnome.shell]
 welcome-dialog-last-shown-version='4294967295'
 favorite-apps=['liveinst.desktop', 'org.mozilla.firefox.desktop', 'org.gnome.Nautilus.desktop']
-enabled-extensions=['']
-
-[org.gnome.desktop.wm.preferences]
-button-layout='appmenu:minimize,maximize,close'
-
-[org.gnome.desktop.interface]
-color-scheme='prefer-dark'
-accent-color='purple'
-
-[org.gnome.mutter]
-center-new-windows=true
-
-[org.gnome.desktop.background]
-picture-uri="file:///usr/share/backgrounds/gnome/symbolic-d.png"
-picture-uri-dark="file:///usr/share/backgrounds/gnome/symbolic-d.png"
 EOF
 
 glib-compile-schemas /usr/share/glib-2.0/schemas
