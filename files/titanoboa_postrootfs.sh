@@ -12,14 +12,12 @@ systemctl --global disable bazaar.service
 
 # Configure Anaconda
 
-# Install Anaconda WebUI
+# Install Anaconda
 SPECS=(
     "libblockdev-btrfs"
     "libblockdev-lvm"
     "libblockdev-dm"
     "anaconda-live"
-    "anaconda-webui"
-    "firefox"
 )
 dnf install -y "${SPECS[@]}"
 
@@ -56,6 +54,7 @@ default_partitioning =
 hidden_spokes =
     NetworkSpoke
     PasswordSpoke
+
 hidden_webui_pages =
     root-password
     network
@@ -67,7 +66,7 @@ EOF
 cat >/usr/share/glib-2.0/schemas/zz2-org.gnome.shell.gschema.override <<EOF
 [org.gnome.shell]
 welcome-dialog-last-shown-version='4294967295'
-favorite-apps=['anaconda.desktop', 'org.mozilla.firefox.desktop', 'org.gnome.Nautilus.desktop']
+favorite-apps=['liveinst.desktop', 'org.mozilla.firefox.desktop', 'org.gnome.Nautilus.desktop']
 EOF
 
 # Disable suspend/sleep during live environment and initial setup
