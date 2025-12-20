@@ -7,7 +7,6 @@ cachy_kernel_pkgs=(
     kernel-cachyos-core
     kernel-cachyos-modules
     kernel-cachyos-devel-matched
-    kmod-nvidia
 )
 stock_kernel_pkgs=(
     kernel
