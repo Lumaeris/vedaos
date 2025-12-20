@@ -20,6 +20,7 @@ SPECS=(
     "anaconda-live"
     "anaconda-webui"
     "firefox"
+    "rsync"
 )
 dnf install -y "${SPECS[@]}"
 
