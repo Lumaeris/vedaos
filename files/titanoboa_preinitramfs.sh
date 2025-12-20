@@ -15,12 +15,11 @@ stock_kernel_pkgs=(
     kernel-modules-core
 )
 rpm --erase -v --nodeps "${cachy_kernel_pkgs[@]}"
+rm -rf /usr/lib/modules/*
 dnf -yq install "${stock_kernel_pkgs[@]}"
 
 imageref="$(podman images --format '{{ index .Names 0 }}\n' 'vedaos*' | head -1)"
 imageref="${imageref##*://}"
 imageref="${imageref%%:*}"
 
-# Include nvidia-gpu-firmware package.
-dnf install -yq nvidia-gpu-firmware || :
 dnf clean all -yq
