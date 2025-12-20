@@ -30,10 +30,7 @@ jobs:
         id: build
         uses: ublue-os/titanoboa@main
         with:
-          # quite ironic but that's possibly the only way to resolve selinux issues I had previously
-          # resulting ISO might be a bit bigger than usual but it's whatever
-          image-ref: quay.io/fedora-ostree-desktops/silverblue:43
-          container-image: ghcr.io/lumaeris/vedaos:latest
+          image-ref: ghcr.io/lumaeris/vedaos:latest
           flatpaks-list: ${{ github.workspace }}/files/flatpaks
           hook-pre-initramfs: ${{ github.workspace }}/files/titanoboa_preinitramfs.sh
           hook-post-rootfs: ${{ github.workspace }}/files/titanoboa_postrootfs.sh

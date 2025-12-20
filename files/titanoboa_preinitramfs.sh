@@ -1,9 +1,27 @@
 #!/usr/bin/env bash
 set -exo pipefail
 
-sed -i -f - /usr/lib/os-release <<EOF
-s|^NAME=.*|NAME=\"VedaOS\"|
-s|^PRETTY_NAME=.*|PRETTY_NAME=\"VedaOS 43\"|
-s|^ID=.*|ID=\"vedaos\"|
-s|^DEFAULT_HOSTNAME=.*|DEFAULT_HOSTNAME=\"vedaos\"|
-EOF
+# Swap kernel with vanilla and rebuild initramfs.
+cachy_kernel_pkgs=(
+    kernel-cachyos
+    kernel-cachyos-core
+    kernel-cachyos-modules
+    kernel-cachyos-devel-matched
+    kmod-nvidia
+)
+stock_kernel_pkgs=(
+    kernel
+    kernel-core
+    kernel-modules
+    kernel-modules-core
+)
+rpm --erase -v --nodeps "${cachy_kernel_pkgs[@]}"
+dnf -yq install "${stock_kernel_pkgs[@]}"
+
+imageref="$(podman images --format '{{ index .Names 0 }}\n' 'vedaos*' | head -1)"
+imageref="${imageref##*://}"
+imageref="${imageref%%:*}"
+
+# Include nvidia-gpu-firmware package.
+dnf install -yq nvidia-gpu-firmware || :
+dnf clean all -yq

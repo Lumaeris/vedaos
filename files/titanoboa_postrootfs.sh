@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 
-dnf remove -y gnome-software gnome-tour fedora-flathub-remote gnome-software-rpm-ostree totem-video-thumbnailer google-noto-sans-cjk-vf-fonts default-fonts-cjk-sans fedora-third-party || true
-rm -f /usr/lib/systemd/system/flatpak-add-fedora-repos.service || true
+dnf remove -y steam || true
 
-CSFG=/usr/lib/systemd/system-generators/coreos-sulogin-force-generator
-curl -sSLo ${CSFG} https://raw.githubusercontent.com/coreos/fedora-coreos-config/refs/heads/stable/overlay.d/05core/usr/lib/systemd/system-generators/coreos-sulogin-force-generator
-chmod +x ${CSFG}
+systemctl disable tailscaled.service
+systemctl disable bootloader-update.service
+systemctl disable brew-setup.service
+systemctl disable uupd.timer
+systemctl disable rechunker-group-fix.service
+systemctl disable input-remapper.service
+systemctl --global disable bazaar.service
 
 # Configure Anaconda
 
@@ -16,6 +19,7 @@ SPECS=(
     "libblockdev-dm"
     "anaconda-live"
     "anaconda-webui"
+    "firefox"
 )
 dnf install -y "${SPECS[@]}"
 
