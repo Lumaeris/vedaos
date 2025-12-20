@@ -18,6 +18,8 @@ SPECS=(
     "libblockdev-lvm"
     "libblockdev-dm"
     "anaconda-live"
+    "anaconda-webui"
+    "firefox"
 )
 dnf install -y "${SPECS[@]}"
 
@@ -66,7 +68,7 @@ EOF
 cat >/usr/share/glib-2.0/schemas/zz2-org.gnome.shell.gschema.override <<EOF
 [org.gnome.shell]
 welcome-dialog-last-shown-version='4294967295'
-favorite-apps=['liveinst.desktop', 'org.mozilla.firefox.desktop', 'org.gnome.Nautilus.desktop']
+favorite-apps=['anaconda.desktop', 'org.mozilla.firefox.desktop', 'org.gnome.Nautilus.desktop']
 EOF
 
 # Disable suspend/sleep during live environment and initial setup
@@ -101,7 +103,7 @@ EOF
 # Signed Images
 tee /usr/share/anaconda/post-scripts/install-configure-upgrade.ks <<EOF
 %post --erroronfail
-bootc switch --mutate-in-place --enforce-container-sigpolicy --transport registry ghcr.io/lumaeris/vedaos:latest
+sed -i 's/container-image-reference=.*/container-image-reference=ostree-image-signed:docker:\/\/ghcr.io\/lumaeris\/vedaos:latest/' /ostree/deploy/default/deploy/*.origin
 %end
 EOF
 
