@@ -46,13 +46,13 @@ Feel free to disable them and install your favorites using [Extension Manager](h
 
 ## Installation
 
-Realistically you *shouldn't* rebase from any existing installation since it does leave out some unnecessary leftovers as it usually does Bazzite. But if you have to, then here's a command (don't forget to add `--enforce-container-sigpolicy` after doing so and rebooting so you'll be on signed image):
+I did ISO mostly for myself :3c, here ya go: https://drive.google.com/file/d/12df9dw1gZOgqBHqiIs0-MXEEbKA1MT5c/view?usp=sharing (sha256: `65a5fad3cebedba0f8f997891931b19119bb67a31a9d70838b9f2a90d4c691bb`) or download it from GitHub action artifacts: https://github.com/Lumaeris/vedaos/actions/runs/20394427319. I'm ain't gonna setting up R2 storage just for this lol
+
+Alternatively, if you have to, here's a command to manually rebase to it from any other Fedora Atomic image (like Bluefin) (don't forget to add `--enforce-container-sigpolicy` after doing so and rebooting so you'll be on signed image):
 
 ```bash
 sudo bootc switch ghcr.io/lumaeris/vedaos
 ```
-
-I want to also do an ISO, but that's for later(TM).
 
 ## Interesting images
 
