@@ -92,7 +92,7 @@ glib-compile-schemas /usr/share/glib-2.0/schemas
 echo "VedaOS release $VERSION_ID" >/etc/system-release
 
 sed -i 's/ANACONDA_PRODUCTVERSION=.*/ANACONDA_PRODUCTVERSION=""/' /usr/{,s}bin/liveinst || true
-sed -i 's|Activities|in the dock|' /usr/share/anaconda/gnome/fedora-welcome || true
+sed -i 's|Activities|the dock|' /usr/share/anaconda/gnome/fedora-welcome || true
 
 # Interactive Kickstart
 tee -a /usr/share/anaconda/interactive-defaults.ks <<EOF
