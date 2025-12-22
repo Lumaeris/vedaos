@@ -4,8 +4,11 @@ on:
     - cron:
         "00 06 * * *" # build at 06:00 UTC every day
   push:
-    paths-ignore: # don't rebuild if only documentation has changed
+    paths-ignore: # don't rebuild if only documentation and titanoboa has changed
       - "**.md"
+      - "files/flatpaks"
+      - "files/titanoboa*.sh"
+      - ".github/workflows/*.yml"
   workflow_dispatch: # allow manually triggering builds
 concurrency:
   # only run one build at a time
