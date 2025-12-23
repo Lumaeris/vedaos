@@ -117,3 +117,6 @@ mkdir -p "$target"
 rsync -aAXUHKP /var/lib/flatpak "$target"
 %end
 EOF
+
+# include gparted just in case
+dnf -y install gparted
