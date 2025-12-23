@@ -46,7 +46,7 @@ Feel free to disable them and install your favorites using [Extension Manager](h
 
 ## Installation
 
-You can install it by using this Live ISO which also includes default Flatpaks (only used for troubleshooting and installation): https://drive.google.com/file/d/12df9dw1gZOgqBHqiIs0-MXEEbKA1MT5c/view?usp=sharing (sha256: `65a5fad3cebedba0f8f997891931b19119bb67a31a9d70838b9f2a90d4c691bb`) or download it from GitHub action artifacts: https://github.com/Lumaeris/vedaos/actions/runs/20394427319. (I'm not gonna setup R2 storage just for this lol)
+You can install it by using this Live ISO which also includes default Flatpaks (only used for troubleshooting and installation): https://drive.google.com/file/d/11EbMi847JNeKZMmTm4_x_31hisCVlhpB/view?usp=sharing (sha256: `0ed2cfba15023ab8d11dfe32d377228d5838edc4967e060482c3a0269ebb8d20`) or download it from GitHub action artifacts: https://github.com/Lumaeris/vedaos/actions/runs/20460110370. (I'm not gonna setup R2 storage just for this lol)
 
 Alternatively, if you have to, here's a command to manually rebase to it from any other Fedora Atomic image (like Bluefin) (don't forget to add `--enforce-container-sigpolicy` after doing so and rebooting so you'll be on signed image):
 
