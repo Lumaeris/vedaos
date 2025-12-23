@@ -40,3 +40,10 @@ audible-bell=false
 [org.gnome.shell] 
 favorite-apps=['org.mozilla.firefox.desktop', 'steam.desktop', 'io.github.kolunmi.Bazaar.desktop', 'org.gnome.Ptyxis.desktop', 'org.gnome.Nautilus.desktop']
 enabled-extensions=['appindicatorsupport@rgcjonas.gmail.com', 'user-theme@gnome-shell-extensions.gcampax.github.com', 'blur-my-shell@aunetx', 'caffeine@patapon.info', 'adw-gtk3-colorizer@NiffirgkcaJ.github.com', 'accent-directories@taiwbi.com', 'AlphabeticalAppGrid@stuarthayhurst', 'reboottouefi@ubaygd.com', 'hotedge@jonathan.jdoda.ca']
+
+[org.gnome.desktop.search-providers]
+enabled=['io.github.kolunmi.Bazaar.desktop']
+
+# Folder names & .desktop shortcut content is recognized as a relocatable schema
+[org.gnome.desktop.app-folders]
+folder-children=['Games', 'GamingUtilities', 'Utilities', 'Containers', 'Wine', 'YaST', 'Pardus', 'Development', 'Productivity']
