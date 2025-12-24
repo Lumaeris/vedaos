@@ -157,8 +157,7 @@ modules:
     src: /system_files
     dest: /
 
-  # install gnome and a few things
-  # took it from bluefin lts and zirconium :)
+  # install gnome and a few useful things
   - type: dnf
     repos:
       cleanup: true
@@ -244,6 +243,7 @@ modules:
         - whois
         - wireguard-tools
         - zram-generator-defaults
+        - thermald
       exclude:
         - gnome-tour
       
