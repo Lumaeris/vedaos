@@ -27,6 +27,7 @@ jobs:
       matrix:
         recipe:
           - recipe.yml
+          - recipe-lts.yml
     steps:
       # the build is fully handled by the reusable github action
       - name: Build Custom Image

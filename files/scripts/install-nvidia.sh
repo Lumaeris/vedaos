@@ -4,6 +4,12 @@
 # Tell this script to exit if there are any errors.
 set -oue pipefail
 
+LTS_BUILD=false
+
+if [ -f /tmp/ltsbuild ]; then
+    LTS_BUILD=true
+fi
+
 # create /var/tmp dir for akmod build
 mkdir -p /var/tmp
 chmod 1777 /var/tmp
@@ -17,8 +23,13 @@ dnf5 config-manager setopt fedora-multimedia.enabled=0
 KERNEL_VERSION="$(ls /lib/modules)"
 
 # download and enable fedora-nvidia repo
-curl --retry 3 -Lo /etc/yum.repos.d/negativo17-fedora-nvidia.repo https://negativo17.org/repos/fedora-nvidia.repo
-sed -i '/^enabled=1/a\priority=90' /etc/yum.repos.d/negativo17-fedora-nvidia.repo
+if $LTS_BUILD; then
+    curl --retry 3 -Lo /etc/yum.repos.d/fedora-nvidia-580.repo https://negativo17.org/repos/fedora-nvidia-580.repo
+    sed -i '/^enabled=1/a\priority=90' /etc/yum.repos.d/fedora-nvidia-580.repo
+else
+    curl --retry 3 -Lo /etc/yum.repos.d/negativo17-fedora-nvidia.repo https://negativo17.org/repos/fedora-nvidia.repo
+    sed -i '/^enabled=1/a\priority=90' /etc/yum.repos.d/negativo17-fedora-nvidia.repo
+fi
 
 dnf5 install -y akmod-nvidia gcc-c++
 
@@ -47,6 +58,7 @@ semodule -i nvidia-container.pp
 
 rm -f nvidia-container.pp
 rm -f /etc/yum.repos.d/negativo17-fedora-nvidia.repo
+rm -f /etc/yum.repos.d/fedora-nvidia-580.repo
 rm -f /etc/yum.repos.d/nvidia-container-toolkit.repo
 
 # Universal Blue specific Initramfs fixes
