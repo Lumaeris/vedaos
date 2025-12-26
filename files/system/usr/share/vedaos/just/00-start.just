@@ -2,14 +2,7 @@ default:
     @vjust --choose
 
 update:
-    #!/usr/bin/env bash
-    rpm-ostree update
-    flatpak update -y
-    brew update
-    brew upgrade
-    echo "If you want to also update Distrobox containers, press ENTER. Otherwise press CTRL+C."
-    read i
-    distrobox upgrade -a
+    sudo uupd
 
 enable-tpm2-unlock:
     sudo /usr/libexec/luks-enable-tpm2-autounlock
