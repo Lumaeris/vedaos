@@ -17,6 +17,7 @@ Ready and fully functional for daily usage. Even though it's created for myself,
 - [Some extensions](#extensions) for GNOME!
 - Applied [MoreWaita icon pack](https://github.com/somepaulo/MoreWaita) and [adw-gtk3 theme](https://github.com/lassekongo83/adw-gtk3) by default.
 - [NVIDIA Open drivers](https://github.com/NVIDIA/open-gpu-kernel-modules) are included out of the box (you can still use it on your AMD machine though). Supported GPUs are GTX 16xx and RTX series.
+- NVIDIA Legacy drivers for older GPUs are available through LTS branch (`vedaos:lts`).
 - Natively available [Steam](https://steampowered.com). Do I need to say much?
 - [Gamescope](https://github.com/bazzite-org/gamescope) is here if needed.
 - [extest](https://github.com/bazzite-org/extest) library is included as well so Steam won't freak out of seeing any controller.
@@ -71,7 +72,8 @@ This list only exists for informational purposes.
 ### Direct
 
 - ~~hhd's rechunker~~ - not anymore! We use upstream's `build-chunked-oci` as mentioned above.
-- Some packages marked as "batteries" - oversteer-udev, ublue-os-luks and ublue-os-udev-rules.
+- Some packages marked as "batteries" - oversteer-udev and ublue-os-udev-rules.
+- [Bluefin's Common OCI](https://github.com/projectbluefin/common) - used for getting LUKS script.
 - brew - https://github.com/ublue-os/brew
 - uupd - even though it was designed for ublue systems, it can still be used on any atomic system.
 - Steam Deck backgrounds repackaged by Bazzite.

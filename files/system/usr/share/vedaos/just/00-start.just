@@ -2,25 +2,33 @@ default:
     @vjust --choose
 
 update:
-    sudo uupd
+    #!/usr/bin/env bash
+    if gum confirm "Update the system without seeing logs?" ; then
+        sudo uupd
+    else
+        rpm-ostree update
+        flatpak update -y
+        brew update
+        brew upgrade
+        distrobox upgrade -a
+    fi
 
-enable-tpm2-unlock:
-    sudo /usr/libexec/luks-enable-tpm2-autounlock
-
-disable-tpm2-unlock:
-    sudo /usr/libexec/luks-disable-tpm2-autounlock
+tpm2-unlock:
+    /usr/bin/luks-tpm2-autounlock
 
 install-default-flatpaks:
     #!/usr/bin/env bash
-    flatpak remote-add --if-not-exists --system flathub https://flathub.org/repo/flathub.flatpakrepo
-    # Disable Fedora Flatpak remotes
-       for remote in fedora fedora-testing; do
-           if flatpak remote-list | grep -q "$remote"; then
-               flatpak remote-delete "$remote"
-           fi
-       done
-    FLATPAK_LIST="$(curl https://raw.githubusercontent.com/Lumaeris/vedaos/main/files/flatpaks | tr '\n' ' ')"
-    flatpak --system -y install --reinstall --or-update ${FLATPAK_LIST}
+    if gum confirm "Install default Flatpaks for VedaOS?" ; then
+        flatpak remote-add --if-not-exists --system flathub https://flathub.org/repo/flathub.flatpakrepo
+        # Disable Fedora Flatpak remotes
+        for remote in fedora fedora-testing; do
+            if flatpak remote-list | grep -q "$remote"; then
+                flatpak remote-delete "$remote"
+            fi
+        done
+        FLATPAK_LIST="$(curl https://raw.githubusercontent.com/Lumaeris/vedaos/main/files/flatpaks | tr '\n' ' ')"
+        flatpak --system -y install --reinstall --or-update ${FLATPAK_LIST}
+    fi
 
 reset-steam:
     #!/usr/bin/env bash
@@ -29,23 +37,23 @@ reset-steam:
     STEAMFILES=$(ls ~/.local/share/Steam/ | grep -vP "(userdata|compatibilitytools\.d|config|controller_base|steamapps|music)")
     echo "This script will ${b}remove${n} a bunch of files from $STEAMPATH and sign you out of steam!"
     echo "However your games, music, saves, controller profiles and compatibilitytools/custom-proton will not be touched."
-    echo "To cancel and abort this operation press CTRL+C now, to continue press ENTER."
-    read i
-    killall -9 steam
-    sleep 1
-    echo "Resetting Steam to a freshly installed state."
-    # Loop through each file and process it
-    for STEAMFILE in $STEAMFILES
-    do
-      if [ -d "$STEAMPATH/$STEAMFILE" ]; then
-        rm -rv "$STEAMPATH/$STEAMFILE"
-      elif [ -f "$STEAMPATH/$STEAMFILE" ]; then
-        rm -v "$STEAMPATH/$STEAMFILE"
-      fi
-    done
-    sleep 1
-    vedaos-steam &
-    exit 0
+    if gum confirm "Reset Steam now?" ; then
+        killall -9 steam
+        sleep 1
+        echo "Resetting Steam to a freshly installed state."
+        # Loop through each file and process it
+        for STEAMFILE in $STEAMFILES
+        do
+        if [ -d "$STEAMPATH/$STEAMFILE" ]; then
+            rm -rv "$STEAMPATH/$STEAMFILE"
+        elif [ -f "$STEAMPATH/$STEAMFILE" ]; then
+            rm -v "$STEAMPATH/$STEAMFILE"
+        fi
+        done
+        sleep 1
+        vedaos-steam &
+        exit 0
+    fi
 
 toggle-updates:
     #!/usr/bin/env bash
@@ -69,7 +77,7 @@ install-docker:
     #!/usr/bin/env bash
     echo "This script downloads lima and docker-cli from brew and it downloads bootc image made for lima in order to use Docker."
     echo "https://github.com/tulilirockz/carinata"
-    echo "Press ENTER to continue, otherwise press CTRL+C."
-    read i
-    brew install lima docker
-    limactl create --name=docker --yes https://raw.githubusercontent.com/tulilirockz/carinata/refs/heads/main/docker-carinata-rootful.yaml
+    if gum confirm "Install Lima and Docker now?" ; then
+        brew install lima docker
+        limactl create --name=docker --yes https://raw.githubusercontent.com/tulilirockz/carinata/refs/heads/main/docker-carinata-rootful.yaml
+    fi

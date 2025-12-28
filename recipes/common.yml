@@ -66,7 +66,6 @@ modules:
         - ublue-os/staging
     install:
       packages:
-        - ublue-os-luks
         - ublue-os-udev-rules
         - fedora-repos-archive
         - zstd
@@ -237,8 +236,15 @@ modules:
         - wireguard-tools
         - zram-generator-defaults
         - thermald
+        - gum
       exclude:
         - gnome-tour
+
+  # get new luks stuff from bluefin. gum is required which is installed on previous step
+  - type: copy
+    from: ghcr.io/projectbluefin/common:latest
+    src: /system_files/shared/usr/bin/luks*
+    dest: /usr/bin
       
   # adding terra just to install nerd fonts
   - type: script
