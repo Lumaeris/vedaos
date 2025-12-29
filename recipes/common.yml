@@ -316,6 +316,7 @@ modules:
       ID: vedaos
       ID_LIKE: fedora
       NAME: VedaOS
+      VERSION: 43 (Next)
       PRETTY_NAME: VedaOS 43
       DEFAULT_HOSTNAME: vedaos
       VERSION_CODENAME: Next
