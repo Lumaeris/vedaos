@@ -310,6 +310,12 @@ modules:
       - "dnf5 -y copr disable bazzite-org/bazzite"
       - "dnf5 -y copr disable bazzite-org/bazzite-multilib"
 
+  # downgrade flatpak for a time being due to errors while trying to build anything using gnome builder or foundry+flatpak-builder
+  # https://gitlab.gnome.org/GNOME/gnome-builder/-/issues/2387
+  - type: script
+    snippets:
+      - "dnf5 downgrade -y --allow-downgrade flatpak-1.16.1-1.fc43"
+
   # set new os-release values
   - type: os-release
     properties:
