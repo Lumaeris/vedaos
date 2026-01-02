@@ -1,6 +1,6 @@
 # VedaOS
 
-Opinionated custom image with Steam, GNOME and minimum installed packages, based on [fedora-bootc](https://docs.fedoraproject.org/en-US/bootc/). Personal project with frequent changes.
+Opinionated custom image with GNOME, preinstalled Steam and other goodies, based on [fedora-bootc](https://docs.fedoraproject.org/en-US/bootc/). Personal project with frequent changes.
 
 <img width="1920" height="1080" alt="Screenshot" src="https://github.com/user-attachments/assets/e5873fae-ac1f-41e4-b6e7-0adbfe73f39a" />
 

@@ -1,7 +1,7 @@
 ---
 # yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
 name: vedaos
-description: Opinionated custom image with Steam, GNOME and minimum installed packages, based on fedora-bootc.
+description: Opinionated custom image with GNOME, preinstalled Steam and other goodies, based on fedora-bootc.
 base-image: quay.io/fedora/fedora-bootc
 image-version: 43
 
