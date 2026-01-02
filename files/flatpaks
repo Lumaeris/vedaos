@@ -19,5 +19,6 @@ app/org.gnome.font-viewer/x86_64/stable
 app/org.gnome.Showtime/x86_64/stable
 app/page.tesk.Refine/x86_64/stable
 app/io.github.kolunmi.Bazaar/x86_64/stable
+app/com.ranfdev.DistroShelf/x86_64/stable
 runtime/org.gtk.Gtk3theme.adw-gtk3/x86_64/3.22
 runtime/org.gtk.Gtk3theme.adw-gtk3-dark/x86_64/3.22
