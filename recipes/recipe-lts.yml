@@ -6,6 +6,8 @@ base-image: quay.io/fedora/fedora-bootc
 image-version: 43
 alt-tags:
   - lts
+cosign-version: none
+nushell-version: none
 
 modules:
   # it's used to determine if lts is currently building

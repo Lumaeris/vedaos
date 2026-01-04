@@ -4,6 +4,8 @@ name: vedaos
 description: Opinionated custom image with GNOME, preinstalled Steam and other goodies, based on fedora-bootc.
 base-image: quay.io/fedora/fedora-bootc
 image-version: 43
+cosign-version: none
+nushell-version: none
 
 modules:
   - from-file: common.yml

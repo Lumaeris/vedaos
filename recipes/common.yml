@@ -1,4 +1,9 @@
 modules:
+  # remove bluebuild cli. it can be installed by user later
+  - type: script
+    snippets:
+      - "rm -f /usr/bin/bluebuild"
+
   # install fedora logos and dnf5-plugins that is needed for copr management and other actions
   - type: dnf
     install:

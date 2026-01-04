@@ -13,6 +13,12 @@ update:
         distrobox upgrade -a
     fi
 
+get-bluebuild-cli:
+    #!/usr/bin/env bash
+    if gum confirm "Install BlueBuild CLI?" ; then
+        bash <(curl -s https://raw.githubusercontent.com/blue-build/cli/main/install.sh)
+    fi
+
 tpm2-unlock:
     /usr/bin/luks-tpm2-autounlock
 
