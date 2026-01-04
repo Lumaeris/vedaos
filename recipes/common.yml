@@ -305,8 +305,7 @@ modules:
   # https://gitlab.gnome.org/GNOME/gnome-builder/-/issues/2387
   - type: script
     snippets:
-      - "dnf5 downgrade -y --allow-downgrade flatpak-1.16.1-1.fc43"
-      - "dnf5 downgrade -y --allow-downgrade flatpak-libs-1.16.1-1.fc43"
+      - "dnf5 downgrade -y --allow-downgrade flatpak-1.16.1-1.fc43 flatpak-libs-1.16.1-1.fc43"
 
   # set new os-release values
   - type: os-release
