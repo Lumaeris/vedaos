@@ -244,14 +244,6 @@ modules:
     from: ghcr.io/projectbluefin/common:latest
     src: /system_files/shared/usr/bin/luks*
     dest: /usr/bin
-      
-  # adding terra just to install nerd fonts
-  - type: script
-    snippets:
-      - "dnf5 -y install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release"
-      - "dnf5 -y install jetbrainsmono-nerd-fonts"
-      - "dnf5 -y remove terra-release"
-      - "rm -rf /etc/yum.repos.d/terra*"
 
   # install some backgrounds
   - type: dnf
@@ -353,7 +345,6 @@ modules:
       - "curl --retry 3 -Lo /usr/bin/winetricks https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks"
       - "chmod +x /usr/bin/winetricks"
       - "sed -i 's@/usr/bin/steam@/usr/bin/vedaos-steam@g' /usr/share/applications/steam.desktop"
-      - "fc-cache --force --really-force --system-only --verbose"
       - "rm -rf /usr/share/doc"
       - "rm -rf /usr/src"
       - "rpm --erase --nodeps akmod-nvidia"
