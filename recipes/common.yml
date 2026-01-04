@@ -126,10 +126,9 @@ modules:
         - xorg-x11-xauth
         - yubikey-manager
 
-  # install cosign directly from github, use CoreOS' generator for emergency/rescue boot, bunch of workarounds
+  # use CoreOS' generator for emergency/rescue boot, some workarounds
   - type: script
     scripts:
-      - install-cosign.sh
       - fix-brew.sh # we're doing it here so it won't error out in snippets
     snippets:
       - "curl --retry 3 -sSLo /usr/lib/systemd/system-generators/coreos-sulogin-force-generator https://raw.githubusercontent.com/coreos/fedora-coreos-config/refs/heads/stable/overlay.d/05core/usr/lib/systemd/system-generators/coreos-sulogin-force-generator"
