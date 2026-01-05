@@ -8,6 +8,7 @@ alt-tags:
   - lts
 cosign-version: none
 nushell-version: none
+blue-build-tag: none
 
 modules:
   # it's used to determine if lts is currently building
