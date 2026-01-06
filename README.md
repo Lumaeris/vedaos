@@ -2,7 +2,7 @@
 
 Opinionated custom image with GNOME, preinstalled Steam and other goodies, based on [fedora-bootc](https://docs.fedoraproject.org/en-US/bootc/). Personal project with frequent changes.
 
-<img width="1920" height="1080" alt="Screenshot" src="https://github.com/user-attachments/assets/e5873fae-ac1f-41e4-b6e7-0adbfe73f39a" />
+<img width="1920" height="1080" alt="Screenshot" src="https://github.com/user-attachments/assets/85fb2f68-5d01-4ba8-b922-b53c31a85375" />
 
 Ready and fully functional for daily usage. Even though it's created for myself, you can use it if all you need is native Steam, Flatpak and Homebrew apps :slightly_smiling_face:
 
