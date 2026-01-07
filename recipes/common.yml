@@ -306,6 +306,18 @@ modules:
       packages:
         - steam
 
+  # install bazzite's fork of iwd
+  - type: dnf
+    repos:
+      cleanup: true
+      copr:
+        - ublue-os/bazzite
+    install:
+      packages:
+        - repo: copr:copr.fedorainfracloud.org:ublue-os:bazzite
+          packages:
+            - iwd
+
   # give bazzite copr repos a priority, install gamescope
   - type: script
     snippets:
@@ -382,17 +394,16 @@ modules:
         - rechunker-group-fix.service
         - nvctk-cdi.service
         - brew-setup.service
+        - vedaos-iwd-switch.service
       disabled:
-        - bootc-fetch-apply-updates.timer
-        - bootc-fetch-apply-updates.service
-        - akmods-keygen@akmods-keygen.service
-        - akmods-keygen.target
         - rpm-ostree-countme.timer
+        - iwd.service
       masked:
         - bootc-fetch-apply-updates.timer
         - bootc-fetch-apply-updates.service
         - akmods-keygen@akmods-keygen.service
         - akmods-keygen.target
+        - wpa_supplicant.service
     user:
       enabled:
         - bazaar.service

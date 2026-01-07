@@ -52,7 +52,7 @@ You can install it by using this Live ISO which also includes default Flatpaks (
 Alternatively, if you have to, here's a command to manually rebase to it from any other Fedora Atomic image (like Bluefin) (don't forget to add `--enforce-container-sigpolicy` after doing so and rebooting so you'll be on signed image):
 
 ```bash
-sudo bootc switch ghcr.io/lumaeris/vedaos
+sudo bootc switch ghcr.io/lumaeris/vedaos:latest
 ```
 
 ## Interesting images
@@ -79,6 +79,7 @@ This list only exists for informational purposes.
 - Steam Deck backgrounds repackaged by Bazzite.
 - Bazzite's fork of Gamescope.
 - Bazzite's fork of libextest (not really any different from upstream).
+- Bazzite's fork of iwd.
 - [Titanoboa](https://github.com/ublue-os/titanoboa) for Live ISO. Would be used very rarely though.
 
 ### In-direct

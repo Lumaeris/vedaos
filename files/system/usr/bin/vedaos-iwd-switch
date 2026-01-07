@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# https://github.com/ublue-os/bazzite/blob/3b03eb43c26007b515b6ddf63e22fcd0b3bb6d49/system_files/desktop/shared/usr/libexec/bazzite-hardware-setup#L194
+# meant to be used with vedaos-iwd-switch.service
+
+nmcli -t -f UUID,TYPE connection show | awk -F: '$2=="802-11-wireless"{print $1}' | xargs -r nmcli connection delete
