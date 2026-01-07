@@ -8,7 +8,6 @@ systemctl disable brew-setup.service
 systemctl disable uupd.timer
 systemctl disable rechunker-group-fix.service
 systemctl disable input-remapper.service
-systemctl disable vedaos-iwd-switch.service
 systemctl --global disable bazaar.service
 
 # Configure Anaconda

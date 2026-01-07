@@ -79,7 +79,6 @@ This list only exists for informational purposes.
 - Steam Deck backgrounds repackaged by Bazzite.
 - Bazzite's fork of Gamescope.
 - Bazzite's fork of libextest (not really any different from upstream).
-- Bazzite's fork of iwd.
 - [Titanoboa](https://github.com/ublue-os/titanoboa) for Live ISO. Would be used very rarely though.
 
 ### In-direct

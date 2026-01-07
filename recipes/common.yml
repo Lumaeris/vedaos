@@ -306,13 +306,13 @@ modules:
       packages:
         - steam
 
-  # give bazzite copr repos a priority, install gamescope and iwd
+  # give bazzite copr repos a priority, install gamescope
   - type: script
     snippets:
       - "dnf5 -y copr enable ublue-os/bazzite"
       - "dnf5 -y copr enable ublue-os/bazzite-multilib"
       - "dnf5 -y config-manager setopt '*bazzite*'.priority=90"
-      - "dnf5 -y install gamescope-libs gamescope-shaders iwd"
+      - "dnf5 -y install gamescope-libs gamescope-shaders"
       - "dnf5 -y copr disable ublue-os/bazzite"
       - "dnf5 -y copr disable ublue-os/bazzite-multilib"
 
@@ -382,16 +382,13 @@ modules:
         - rechunker-group-fix.service
         - nvctk-cdi.service
         - brew-setup.service
-        - vedaos-iwd-switch.service
       disabled:
         - rpm-ostree-countme.timer
-        - iwd.service
       masked:
         - bootc-fetch-apply-updates.timer
         - bootc-fetch-apply-updates.service
         - akmods-keygen@akmods-keygen.service
         - akmods-keygen.target
-        - wpa_supplicant.service
     user:
       enabled:
         - bazaar.service
