@@ -32,7 +32,7 @@ modules:
       - "dnf5 config-manager setopt fedora-multimedia.priority=90"
       - "dnf5 config-manager setopt fedora-cisco-openh264.enabled=0"
   
-  # install packages from fedora-multimedia, install ocl-icd
+  # install packages from fedora-multimedia
   - type: dnf
     install:
       skip-unavailable: true
@@ -265,7 +265,7 @@ modules:
     repos:
       cleanup: true
       copr:
-        - bazzite-org/bazzite
+        - ublue-os/bazzite
     install:
       packages:
         - f43-backgrounds-gnome
@@ -309,12 +309,12 @@ modules:
   # give bazzite copr repos a priority, install gamescope
   - type: script
     snippets:
-      - "dnf5 -y copr enable bazzite-org/bazzite"
-      - "dnf5 -y copr enable bazzite-org/bazzite-multilib"
+      - "dnf5 -y copr enable ublue-os/bazzite"
+      - "dnf5 -y copr enable ublue-os/bazzite-multilib"
       - "dnf5 -y config-manager setopt '*bazzite*'.priority=90"
       - "dnf5 -y install gamescope-libs gamescope-shaders"
-      - "dnf5 -y copr disable bazzite-org/bazzite"
-      - "dnf5 -y copr disable bazzite-org/bazzite-multilib"
+      - "dnf5 -y copr disable ublue-os/bazzite"
+      - "dnf5 -y copr disable ublue-os/bazzite-multilib"
 
   # downgrade flatpak for a time being due to errors while trying to build anything using gnome builder or foundry+flatpak-builder
   # https://gitlab.gnome.org/GNOME/gnome-builder/-/issues/2387
@@ -355,7 +355,7 @@ modules:
       - "echo 'Hidden=true' >> /usr/share/applications/nvtop.desktop"
       - "echo 'Hidden=true' >> /usr/share/applications/nvidia-settings.desktop"
       - "mkdir -p /usr/lib/extest"
-      - "curl --retry 3 -Lo /usr/lib/extest/libextest.so https://github.com/bazzite-org/extest/releases/latest/download/libextest.so"
+      - "curl --retry 3 -Lo /usr/lib/extest/libextest.so https://github.com/ublue-os/extest/releases/latest/download/libextest.so"
       - "curl --retry 3 -Lo /usr/bin/winetricks https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks"
       - "chmod +x /usr/bin/winetricks"
       - "sed -i 's@/usr/bin/steam@/usr/bin/vedaos-steam@g' /usr/share/applications/steam.desktop"
