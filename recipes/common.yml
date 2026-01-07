@@ -107,6 +107,7 @@ modules:
         - pam-u2f
         - pam_yubico
         - pamu2fcfg
+        - pipewire-libs-extra
         - pipewire-plugin-libcamera
         - powerstat
         - smartmontools
