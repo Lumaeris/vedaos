@@ -306,25 +306,13 @@ modules:
       packages:
         - steam
 
-  # install bazzite's fork of iwd
-  - type: dnf
-    repos:
-      cleanup: true
-      copr:
-        - ublue-os/bazzite
-    install:
-      packages:
-        - repo: copr:copr.fedorainfracloud.org:ublue-os:bazzite
-          packages:
-            - iwd
-
-  # give bazzite copr repos a priority, install gamescope
+  # give bazzite copr repos a priority, install gamescope and iwd
   - type: script
     snippets:
       - "dnf5 -y copr enable ublue-os/bazzite"
       - "dnf5 -y copr enable ublue-os/bazzite-multilib"
       - "dnf5 -y config-manager setopt '*bazzite*'.priority=90"
-      - "dnf5 -y install gamescope-libs gamescope-shaders"
+      - "dnf5 -y install gamescope-libs gamescope-shaders iwd"
       - "dnf5 -y copr disable ublue-os/bazzite"
       - "dnf5 -y copr disable ublue-os/bazzite-multilib"
 
