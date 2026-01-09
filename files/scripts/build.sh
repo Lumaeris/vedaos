@@ -45,7 +45,7 @@ MULTIMEDIARPMS=(
     "mesa-va-drivers"
     "mesa-vulkan-drivers"
 )
-dnf5 -y --skip-unavailable install "${MULTIMEDIARPMS[@]}" ocl-icd
+dnf5 -y --setopt=skip_if_unavailable=False install "${MULTIMEDIARPMS[@]}" ocl-icd
 dnf5 versionlock add "${MULTIMEDIARPMS[@]}"
 
 # install so called "batteries" coined by ublue
