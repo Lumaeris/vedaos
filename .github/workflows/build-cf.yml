@@ -1,8 +1,5 @@
 name: Build Custom Image (Containerfile)
 on:
-  schedule:
-    - cron:
-        "00 06 * * *" # build at 06:00 UTC every day
   push:
     branches:
       - switch-to-containerfile
@@ -12,27 +9,53 @@ on:
       - "files/titanoboa*.sh"
       - ".github/workflows/*.yml"
   workflow_dispatch: # allow manually triggering builds
+
+env:
+  IMAGE_DESC: "Opinionated custom image with GNOME, preinstalled Steam and other goodies, based on fedora-bootc."
+  IMAGE_KEYWORDS: "bootc,fedora-atomic"
+  IMAGE_LOGO_URL: "https://avatars.githubusercontent.com/u/10499845?v=4"
+  IMAGE_NAME: "${{ github.event.repository.name }}"
+  IMAGE_REGISTRY: "ghcr.io/${{ github.repository_owner }}"
+  DEFAULT_TAG: "test"
+
 concurrency:
   # only run one build at a time
   group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
   cancel-in-progress: true
+
 jobs:
   build-image:
     name: Build Custom Image
     runs-on: ubuntu-latest
+
     permissions:
       contents: read
       packages: write
       id-token: write
+
     strategy:
       fail-fast: false # stop GH from cancelling all matrix builds if one fails
+
     steps:
+      - name: Prepare environment
+        run: |
+          # Lowercase the image uri
+          echo "IMAGE_REGISTRY=${IMAGE_REGISTRY,,}" >> ${GITHUB_ENV}
+          echo "IMAGE_NAME=${IMAGE_NAME,,}" >> ${GITHUB_ENV}
+
       - name: Mount BTRFS for podman storage
         id: container-storage-action
-        uses: ublue-os/container-storage-action@911baca08baf30c8654933e9e9723cb399892140
+        uses: ublue-os/container-storage-action@main
         # Fallback to the remove-unwanted-software-action if github doesn't allocate enough space
         # See: https://github.com/ublue-os/container-storage-action/pull/11
         continue-on-error: true 
         with:
           target-dir: /var/lib/containers
           mount-opts: compress-force=zstd:2
+
+      - name: Checkout
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+
+      - name: Build image
+        id: build
+        run: sudo podman build -t "${IMAGE_NAME}:${DEFAULT_TAG}" -f ./Containerfile .
