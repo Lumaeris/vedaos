@@ -10,8 +10,6 @@ dnf5 -y copr enable ublue-os/packages
 dnf5 -y copr disable ublue-os/packages
 dnf5 -y copr enable ublue-os/bazzite
 dnf5 -y copr disable ublue-os/bazzite
-dnf5 -y copr enable ublue-os/bazzite-multilib
-dnf5 -y copr disable ublue-os/bazzite-multilib
 dnf5 config-manager addrepo --from-repofile=https://pkgs.tailscale.com/stable/fedora/tailscale.repo
 dnf5 config-manager setopt tailscale-stable.enabled=0
 
@@ -214,5 +212,9 @@ dnf5 -y install foundry git flatpak-builder
 dnf5 -y install --setopt=install_weak_deps=False steam
 
 # give bazzite copr repos a priority, install gamescope
+dnf5 -y copr enable ublue-os/bazzite
+dnf5 -y copr enable ublue-os/bazzite-multilib
 dnf5 -y config-manager setopt '*bazzite*'.priority=90
-dnf5 -y install --enablerepo=copr:copr.fedorainfracloud.org:ublue-os:bazzite --enablerepo=copr:copr.fedorainfracloud.org:ublue-os:bazzite-multilib gamescope-libs gamescope-shaders
+dnf5 -y install gamescope-libs gamescope-shaders
+dnf5 -y copr disable ublue-os/bazzite
+dnf5 -y copr disable ublue-os/bazzite-multilib
