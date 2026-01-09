@@ -49,7 +49,66 @@ dnf5 -y --setopt=skip_if_unavailable=False install "${MULTIMEDIARPMS[@]}" ocl-ic
 dnf5 versionlock add "${MULTIMEDIARPMS[@]}"
 
 # install so called "batteries" coined by ublue
-dnf5 -y --enablerepo copr:copr.fedorainfracloud.org:ublue-os:packages install fedora-repos-archive zstd alsa-firmware apr apr-util distrobox fdk-aac ffmpeg ffmpeg-libs ffmpegthumbnailer flatpak-spawn fuse fzf google-noto-sans-balinese-fonts google-noto-sans-cjk-fonts google-noto-sans-javanese-fonts google-noto-sans-sundanese-fonts grub2-tools-extra heif-pixbuf-loader htop intel-vaapi-driver just libavcodec libcamera libcamera-gstreamer libcamera-ipa libheif libcamera-tools libfdk-aac libimobiledevice-utils libratbag-ratbagd libva-utils lshw net-tools nvme-cli nvtop openrgb-udev-rules openssl oversteer-udev pam-u2f pam_yubico pamu2fcfg pipewire-libs-extra pipewire-plugin-libcamera powerstat smartmontools solaar-udev squashfs-tools symlinks tcpdump tmux traceroute usbmuxd vim wireguard-tools wl-clipboard xhost xorg-x11-xauth yubikey-manager
+dnf5 -y --enablerepo=copr:copr.fedorainfracloud.org:ublue-os:packages install \
+    fedora-repos-archive \
+    zstd \
+    alsa-firmware \
+    apr \
+    apr-util \
+    distrobox \
+    fdk-aac \
+    ffmpeg \
+    ffmpeg-libs \
+    ffmpegthumbnailer \
+    flatpak-spawn \
+    fuse \
+    fzf \
+    google-noto-sans-balinese-fonts \
+    google-noto-sans-cjk-fonts \
+    google-noto-sans-javanese-fonts \
+    google-noto-sans-sundanese-fonts \
+    grub2-tools-extra \
+    heif-pixbuf-loader \
+    htop \
+    intel-vaapi-driver \
+    just \
+    libavcodec \
+    libcamera \
+    libcamera-gstreamer \
+    libcamera-ipa \
+    libheif \
+    libcamera-tools \
+    libfdk-aac \
+    libimobiledevice-utils \
+    libratbag-ratbagd \
+    libva-utils \
+    lshw \
+    net-tools \
+    nvme-cli \
+    nvtop \
+    openrgb-udev-rules \
+    openssl \
+    oversteer-udev \
+    pam-u2f \
+    pam_yubico \
+    pamu2fcfg \
+    pipewire-libs-extra \
+    pipewire-plugin-libcamera \
+    powerstat \
+    smartmontools \
+    solaar-udev \
+    squashfs-tools \
+    symlinks \
+    tcpdump \
+    tmux \
+    traceroute \
+    usbmuxd \
+    vim \
+    wireguard-tools \
+    wl-clipboard \
+    xhost \
+    xorg-x11-xauth \
+    yubikey-manager
 
 # use CoreOS' generator for emergency/rescue boot, some workarounds
 sed -Ei 's/secure_path = (.*)/secure_path = \1:\/home\/linuxbrew\/.linuxbrew\/bin/' /etc/sudoers
@@ -61,3 +120,99 @@ ln -s '/usr/share/fonts/google-noto-sans-cjk-fonts' '/usr/share/fonts/noto-cjk'
 # swap kernel and install nvidia drivers and kmod
 /ctx/scripts/swap-kernel.sh
 /ctx/scripts/install-nvidia.sh
+
+# install gnome and a few useful things
+dnf5 -y install -x gnome-tour --enablerepo=tailscale-stable --enablerepo=copr:copr.fedorainfracloud.org:ublue-os:packages \
+    input-remapper \
+    flatpak \
+    tailscale \
+    NetworkManager-adsl \
+    gdm \
+    gnome-bluetooth \
+    gnome-color-manager \
+    gnome-control-center \
+    gnome-remote-desktop \
+    gnome-session-wayland-session \
+    gnome-settings-daemon \
+    gnome-shell \
+    gnome-user-docs \
+    gvfs-fuse \
+    gvfs-goa \
+    gvfs-gphoto2 \
+    gvfs-mtp \
+    gvfs-smb \
+    libsane-hpaio \
+    nautilus \
+    orca \
+    ptyxis \
+    sane-backends-drivers-scanners \
+    xdg-desktop-portal-gnome \
+    xdg-user-dirs-gtk \
+    yelp-tools \
+    plymouth \
+    plymouth-system-theme \
+    systemd-container \
+    libcamera-v4l2 \
+    NetworkManager-wifi \
+    atheros-firmware \
+    brcmfmac-firmware \
+    iwlegacy-firmware \
+    iwlwifi-dvm-firmware \
+    iwlwifi-mvm-firmware \
+    mt7xxx-firmware \
+    nxpwireless-firmware \
+    realtek-firmware \
+    tiwilink-firmware \
+    alsa-firmware \
+    alsa-sof-firmware \
+    alsa-tools-firmware \
+    intel-audio-firmware \
+    gnome-disk-utility \
+    uupd \
+    unzip \
+    adw-gtk3-theme \
+    glibc-all-langpacks \
+    wget \
+    jetbrains-mono-fonts-all \
+    fuse-libs \
+    squashfuse-libs \
+    glycin-thumbnailer \
+    fira-code-fonts \
+    hyfetch \
+    fastfetch \
+    jmtpfs \
+    NetworkManager-config-connectivity-fedora \
+    NetworkManager-openvpn \
+    NetworkManager-wwan \
+    cups \
+    fprintd \
+    fprintd-pam \
+    hplip \
+    hyperv-daemons \
+    ibus \
+    libratbag-ratbagd \
+    open-vm-tools \
+    open-vm-tools-desktop \
+    pcsc-lite \
+    qemu-guest-agent \
+    systemd-oomd-defaults \
+    whois \
+    wireguard-tools \
+    zram-generator-defaults \
+    thermald \
+    gum
+
+# install some backgrounds
+dnf5 -y install --enablerepo=copr:copr.fedorainfracloud.org:ublue-os:bazzite f43-backgrounds-gnome gnome-backgrounds steamdeck-backgrounds
+
+# TODO: create gnome extensions get script
+
+# install some dev tools
+dnf5 -y install foundry git flatpak-builder
+
+# install steam
+dnf5 -y install --setopt=install_weak_deps=False steam
+
+# give bazzite copr repos a priority, install gamescope
+dnf5 -y config-manager setopt '*bazzite*'.priority=90
+dnf5 -y install --enablerepo=copr:copr.fedorainfracloud.org:ublue-os:bazzite --enablerepo=copr:copr.fedorainfracloud.org:ublue-os:bazzite-multilib gamescope-libs gamescope-shaders
