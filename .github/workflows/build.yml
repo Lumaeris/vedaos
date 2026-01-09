@@ -4,6 +4,8 @@ on:
     - cron:
         "00 06 * * *" # build at 06:00 UTC every day
   push:
+    branches:
+      - main
     paths-ignore: # don't rebuild if only documentation and titanoboa has changed
       - "**.md"
       - "files/flatpaks"
