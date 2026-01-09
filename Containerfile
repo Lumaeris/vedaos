@@ -6,7 +6,7 @@ COPY --from=ghcr.io/projectbluefin/common:latest /system_files/shared/usr/bin/lu
 COPY --from=ghcr.io/projectbluefin/common:latest /system_files/shared/usr/lib/dracut/fido* /files/usr/lib/dracut
 COPY --from=ghcr.io/projectbluefin/common:latest /system_files/shared/usr/lib/udev /files/usr/lib/udev
 COPY --from=ghcr.io/projectbluefin/common:latest /system_files/shared/usr/lib/modprobe.d/amd* /files/usr/lib/modprobe.d
-COPY --from=ghcr.io/projectbluefin/common:latest /system_files/bluefin/usr/lib/systemd/user/bazaar* /files/usr/lib/systemd/user
+COPY --from=ghcr.io/projectbluefin/common:latest /system_files/bluefin/usr/lib/systemd/user/bazaar.service /files/usr/lib/systemd/user/bazaar.service
 COPY --from=ghcr.io/ublue-os/brew:latest /system_files /files
 COPY cosign.pub /files/usr/lib/pki/containers/vedaos.pub
 
