@@ -19,7 +19,7 @@ dnf5 config-manager setopt tailscale-stable.enabled=0
 cp -avf "/ctx/files"/. /
 
 # remove leftovers from fedora-bootc
-dnf5 -y uninstall console-login-helper-messages chrony sssd* qemu-user-static* toolbox
+dnf5 -y remove console-login-helper-messages chrony sssd* qemu-user-static* toolbox
 
 # delete chsh since we don't need it, create roothome dir, add fedora-multimedia
 rm -f /usr/bin/chsh
