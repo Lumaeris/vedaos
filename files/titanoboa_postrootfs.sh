@@ -104,7 +104,7 @@ EOF
 # Signed Images
 tee /usr/share/anaconda/post-scripts/install-configure-upgrade.ks <<EOF
 %post --erroronfail
-sed -i 's/container-image-reference=.*/container-image-reference=ostree-image-signed:docker:\/\/ghcr.io\/lumaeris\/vedaos:latest/' /ostree/deploy/default/deploy/*.origin
+bootc switch --mutate-in-place --enforce-container-sigpolicy --transport registry ghcr.io/lumaeris/vedaos:latest
 %end
 EOF
 
