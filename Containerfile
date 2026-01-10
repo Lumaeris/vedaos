@@ -11,7 +11,6 @@ COPY --from=ghcr.io/projectbluefin/common:latest /system_files/bluefin/usr/lib/s
 COPY cosign.pub /files/usr/lib/pki/containers/vedaos.pub
 
 FROM quay.io/fedora/fedora-bootc:43
-ARG BUILD_FLAVOR="${BUILD_FLAVOR:-}"
 
 RUN --mount=type=tmpfs,dst=/var \
     --mount=type=tmpfs,dst=/tmp \

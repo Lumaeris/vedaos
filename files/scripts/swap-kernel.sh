@@ -3,12 +3,6 @@
 # Tell this script to exit if there are any errors.
 set -oue pipefail
 
-LTS_BUILD=false
-
-if [[ "${BUILD_FLAVOR}" == "lts" ]] ; then
-    LTS_BUILD=true
-fi
-
 # Remove Fedora kernel & remove leftover files
 dnf5 -y remove kernel* && rm -r -f /usr/lib/modules/*
 
@@ -32,11 +26,7 @@ chmod +x 05-rpmostree.install 50-dracut.install
 popd
 
 # install kernel
-if $LTS_BUILD; then
-    dnf5 -y install --allowerasing kernel-cachyos-lts kernel-cachyos-lts-devel-matched akmods
-else
-    dnf5 -y install --allowerasing kernel-cachyos kernel-cachyos-devel-matched akmods
-fi
+dnf5 -y install --allowerasing kernel-cachyos kernel-cachyos-devel-matched akmods
 
 pushd /usr/lib/kernel/install.d
 mv -f 05-rpmostree.install.bak 05-rpmostree.install

@@ -17,7 +17,6 @@ Ready and fully functional for daily usage. Even though it's created for myself,
 - [Some extensions](#extensions) for GNOME!
 - Applied [MoreWaita icon pack](https://github.com/somepaulo/MoreWaita) and [adw-gtk3 theme](https://github.com/lassekongo83/adw-gtk3) by default.
 - [NVIDIA Open drivers](https://github.com/NVIDIA/open-gpu-kernel-modules) are included out of the box (you can still use it on your AMD machine though). Supported GPUs are GTX 16xx and RTX series.
-- NVIDIA Legacy drivers for older GPUs are available through LTS branch (`vedaos:lts`).
 - Natively available [Steam](https://steampowered.com). Do I need to say much?
 - [Gamescope](https://github.com/bazzite-org/gamescope) is here if needed.
 - [extest](https://github.com/bazzite-org/extest) library is included as well so Steam won't freak out of seeing any controller.
@@ -28,7 +27,6 @@ Ready and fully functional for daily usage. Even though it's created for myself,
 - [foundry](https://gitlab.gnome.org/GNOME/foundry). kolunmi suggested it to me as an alternative for GNOME Builder. It requires [flatpak-builder](https://github.com/flatpak/flatpak-builder) to be installed, which it is now.
 - [Podman](https://podman.io/) is here. Podman Compose was preincluded as well but it can be installed via brew instead.
 - [distrobox](https://distrobox.it/)! A better alternative to toolbx.
-- Using [BlueBuild](https://blue-build.org/) as a toolkit to create these images! It really does a heavy-lifting so we don't have to manually fix something that broke just because.
 - Oh, we also have an autoupdater - [uupd](https://github.com/ublue-os/uupd)!
 
 ### Extensions
@@ -86,7 +84,6 @@ This list only exists for informational purposes.
 - Package lists taken from ublue base image and Bluefin LTS.
 - Some specific useful fixes from them.
 - The reason I started using Fedora Atomic in a first place :P.
-- BlueBuild was influenced by ublue, now it's independent from them.
 
 ## Verification
 

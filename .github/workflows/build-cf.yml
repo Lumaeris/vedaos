@@ -37,21 +37,13 @@ jobs:
 
     strategy:
       fail-fast: false # stop GH from cancelling all matrix builds if one fails
-      matrix:
-        flavor: ["", "lts"]
 
     steps:
       - name: Prepare environment
-        env:
-          BUILD_FLAVOR: ${{ matrix.flavor }}
         run: |
           # Lowercase the image uri
           echo "IMAGE_REGISTRY=${IMAGE_REGISTRY,,}" >> ${GITHUB_ENV}
           echo "IMAGE_NAME=${IMAGE_NAME,,}" >> ${GITHUB_ENV}
-          # Determine the branch
-          if [ "${BUILD_FLAVOR}" = "lts" ] ; then
-            echo "DEFAULT_TAG=test-lts" >> $GITHUB_ENV
-          fi
 
       - name: Get current date
         id: date
@@ -105,9 +97,7 @@ jobs:
 
       - name: Build image
         id: build
-        env:
-          BUILD_FLAVOR: ${{ matrix.flavor }}
-        run: sudo podman build "--build-arg=BUILD_FLAVOR=${BUILD_FLAVOR}" -t "${IMAGE_NAME}:${DEFAULT_TAG}" -f ./Containerfile .
+        run: sudo podman build -t "${IMAGE_NAME}:${DEFAULT_TAG}" -f ./Containerfile .
 
       - name: Rechunk Image
         run: sudo podman run --rm --privileged -v /var/lib/containers:/var/lib/containers --entrypoint /usr/libexec/bootc-base-imagectl "localhost/${IMAGE_NAME}:${DEFAULT_TAG}" rechunk --max-layers 96 "localhost/${IMAGE_NAME}:${DEFAULT_TAG}" "${IMAGE_REGISTRY}/${IMAGE_NAME}:${DEFAULT_TAG}"
@@ -130,13 +120,8 @@ jobs:
           TAGS: ${{ steps.metadata.outputs.tags }}
           LABELS: ${{ steps.metadata.outputs.labels }}
           MAX_RETRIES: 3
-          BUILD_FLAVOR: ${{ matrix.flavor }}
         run: |
           set -x
-
-          if [ "${BUILD_FLAVOR}" = "lts" ] ; then
-            TAGS=$(echo -e $TAGS | head -n 2)
-          fi
 
           #while IFS= read -r LABEL; do
           #  sudo podman manifest annotate --index --annotation "${LABEL}" "${IMAGE_REGISTRY}/${IMAGE_NAME}"
