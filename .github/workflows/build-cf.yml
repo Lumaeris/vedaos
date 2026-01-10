@@ -69,7 +69,7 @@ jobs:
           tags: |
             type=raw,value=${{ env.DEFAULT_TAG }}
             type=raw,value=${{ env.DEFAULT_TAG }}.{{date 'YYYYMMDD'}}
-            type=raw,value=${{ matrix.flavor != 'lts' && '{{date 'YYYYMMDD'}}' || '' }}
+            type=raw,value={{date 'YYYYMMDD'}}
             type=sha,enable=${{ github.event_name == 'pull_request' }}
             type=ref,event=pr
           labels: |
@@ -130,8 +130,13 @@ jobs:
           TAGS: ${{ steps.metadata.outputs.tags }}
           LABELS: ${{ steps.metadata.outputs.labels }}
           MAX_RETRIES: 3
+          BUILD_FLAVOR: ${{ matrix.flavor }}
         run: |
           set -x
+
+          if [ "${BUILD_FLAVOR}" = "lts" ] ; then
+            TAGS=$(echo -e $TAGS | head -n 2)
+          fi
 
           #while IFS= read -r LABEL; do
           #  sudo podman manifest annotate --index --annotation "${LABEL}" "${IMAGE_REGISTRY}/${IMAGE_NAME}"
