@@ -21,9 +21,7 @@ RUN --mount=type=tmpfs,dst=/var \
 RUN rm -rf /var/* && \
     rm -rf /tmp/* && \
     rm -rf /usr/etc && \
-    rm -rf /boot && \
-    mkdir /boot && \
-    mkdir /var/tmp && \
-    mkdir /var/roothome && \
+    rm -rf /boot/* && \
+    mkdir /var/{tmp,roothome} && \
     chmod -R 1777 /var/tmp && \
     bootc container lint
