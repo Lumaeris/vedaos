@@ -22,6 +22,8 @@ RUN rm -rf /var/* && \
     rm -rf /tmp/* && \
     rm -rf /usr/etc && \
     rm -rf /boot/* && \
-    mkdir /var/{tmp,roothome} && \
+    rm -rf /opt && \
+    mkdir /var/{tmp,roothome,opt} && \
+    ln -s /var/opt /opt && \
     chmod -R 1777 /var/tmp && \
     bootc container lint
