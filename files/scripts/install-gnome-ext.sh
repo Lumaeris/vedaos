@@ -9,7 +9,6 @@ set -oue pipefail
 EXTENSION="$@"
 
 GNOME_VER=$(gnome-shell --version | sed 's/[^0-9]*\([0-9]*\).*/\1/')
-echo "Gnome version: ${GNOME_VER}"
 
 echo "Testing connection with https://extensions.gnome.org/..."
 if ! curl -fLsS --retry 5 -o /dev/null --head "https://extensions.gnome.org/"; then
