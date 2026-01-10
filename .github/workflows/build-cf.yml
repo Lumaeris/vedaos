@@ -1,13 +1,15 @@
 name: Build Custom Image (Containerfile)
 on:
+  #schedule:
+  #  - cron:
+  #      "00 06 * * *" # build at 06:00 UTC every day
   push:
-    branches:
-      - switch-to-containerfile
     paths-ignore: # don't rebuild if only documentation and titanoboa has changed
       - "**.md"
       - "files/flatpaks"
       - "files/titanoboa*.sh"
       - ".github/workflows/*.yml"
+  #pull_request:
   workflow_dispatch: # allow manually triggering builds
 
 env:
@@ -35,13 +37,59 @@ jobs:
 
     strategy:
       fail-fast: false # stop GH from cancelling all matrix builds if one fails
+      matrix:
+        flavor: ["", "lts"]
 
     steps:
       - name: Prepare environment
+        env:
+          BUILD_FLAVOR: ${{ matrix.flavor }}
         run: |
           # Lowercase the image uri
           echo "IMAGE_REGISTRY=${IMAGE_REGISTRY,,}" >> ${GITHUB_ENV}
           echo "IMAGE_NAME=${IMAGE_NAME,,}" >> ${GITHUB_ENV}
+          # Determine the branch
+          if [ "${BUILD_FLAVOR}" = "lts" ] ; then
+            echo "DEFAULT_TAG=test-lts" >> $GITHUB_ENV
+          fi
+
+      - name: Get current date
+        id: date
+        run: |
+          # This generates a timestamp like what is defined on the ArtifactHub documentation
+          # E.G: 2022-02-08T15:38:15Z'
+          # https://artifacthub.io/docs/topics/repositories/container-images/
+          # https://linux.die.net/man/1/date
+          echo "date=$(date -u +%Y\-%m\-%d\T%H\:%M\:%S\Z)" >> $GITHUB_OUTPUT
+
+      - name: Image Metadata
+        uses: docker/metadata-action@318604b99e75e41977312d83839a89be02ca4893 # v5
+        id: metadata
+        with:
+          tags: |
+            type=raw,value=${{ env.DEFAULT_TAG }}
+            type=raw,value=${{ env.DEFAULT_TAG }}.{{date 'YYYYMMDD'}}
+            type=raw,value={{date 'YYYYMMDD'}}
+            type=sha,enable=${{ github.event_name == 'pull_request' }}
+            type=ref,event=pr
+          labels: |
+            io.artifacthub.package.readme-url=https://raw.githubusercontent.com/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}/refs/heads/main/README.md
+            org.opencontainers.image.created=${{ steps.date.outputs.date }}
+            org.opencontainers.image.description=${{ env.IMAGE_DESC }}
+            org.opencontainers.image.documentation=https://raw.githubusercontent.com/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}/refs/heads/main/README.md
+            org.opencontainers.image.source=https://github.com/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}/blob/main/Containerfile
+            org.opencontainers.image.title=${{ env.IMAGE_NAME }}
+            org.opencontainers.image.url=https://github.com/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}
+            org.opencontainers.image.vendor=${{ github.repository_owner }}
+            org.opencontainers.image.version=${{ env.DEFAULT_TAG }}.{{date 'YYYYMMDD'}}
+            io.artifacthub.package.deprecated=false
+            io.artifacthub.package.keywords=${{ env.IMAGE_KEYWORDS }}
+            io.artifacthub.package.license=Apache-2.0
+            io.artifacthub.package.logo-url=${{ env.IMAGE_LOGO_URL }}
+            io.artifacthub.package.prerelease=false
+            containers.bootc=1
+          sep-tags: " "
+          sep-annotations: " "
 
       - name: Mount BTRFS for podman storage
         id: container-storage-action
@@ -49,13 +97,19 @@ jobs:
         with:
           target-dir: /var/lib/containers
           mount-opts: compress-force=zstd:2
+      
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@v4.0.0
+        #if: github.event_name != 'pull_request'
 
       - name: Checkout
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
 
       - name: Build image
         id: build
-        run: sudo podman build -t "${IMAGE_NAME}:${DEFAULT_TAG}" -f ./Containerfile .
+        env:
+          BUILD_FLAVOR: ${{ matrix.flavor }}
+        run: sudo podman build "--build-arg=BUILD_FLAVOR=${BUILD_FLAVOR}" -t "${IMAGE_NAME}:${DEFAULT_TAG}" -f ./Containerfile .
 
       - name: Rechunk Image
         run: sudo podman run --rm --privileged -v /var/lib/containers:/var/lib/containers --entrypoint /usr/libexec/bootc-base-imagectl "localhost/${IMAGE_NAME}:${DEFAULT_TAG}" rechunk --max-layers 96 "localhost/${IMAGE_NAME}:${DEFAULT_TAG}" "localhost/${IMAGE_NAME}:${DEFAULT_TAG}"
@@ -75,20 +129,17 @@ jobs:
         env:
           IMAGE_REGISTRY: ${{ env.IMAGE_REGISTRY }}
           IMAGE_NAME: ${{ env.IMAGE_NAME }}
-          IMAGE_DIGEST: ${{ steps.load.outputs.digest }}
-          #PLATFORM: amd64
+          TAGS: ${{ steps.metadata.outputs.tags }}
           MAX_RETRIES: 3
         run: |
           set -x
 
           for i in $(seq "${MAX_RETRIES}"); do
-            sudo podman push --digestfile=/tmp/digestfile "localhost/${IMAGE_NAME}:${DEFAULT_TAG}" "${IMAGE_REGISTRY}/${IMAGE_NAME}:${DEFAULT_TAG}" && break || sleep $((5 * i));
+            for tag in ${TAGS}; do
+              sudo podman push --digestfile=/tmp/digestfile "localhost/${IMAGE_NAME}:${DEFAULT_TAG}" "${IMAGE_REGISTRY}/${IMAGE_NAME}:${tag}" && break || sleep $((5 * i));
+            done
           done
           echo "remote_image_digest=$(< /tmp/digestfile)" | tee "${GITHUB_OUTPUT}"
-
-      - name: Install Cosign
-        uses: sigstore/cosign-installer@v4.0.0
-        if: github.event_name != 'pull_request'
 
       - name: Sign Image
         #if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)

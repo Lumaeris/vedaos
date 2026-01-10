@@ -16,10 +16,8 @@ dnf5 config-manager setopt tailscale-stable.enabled=0
 # copying system files over to the system
 cp -avf "/ctx/files"/. /
 
-# remove leftovers from fedora-bootc
+# remove leftovers from fedora-bootc, add fedora-multimedia
 dnf5 -y remove console-login-helper-messages chrony sssd* qemu-user-static* toolbox
-
-# delete chsh since we don't need it, add fedora-multimedia
 rm -f /usr/bin/chsh
 rm -f /usr/bin/lchsh
 dnf5 config-manager addrepo --from-repofile=https://negativo17.org/repos/fedora-multimedia.repo
@@ -107,16 +105,9 @@ dnf5 -y --enablerepo=copr:copr.fedorainfracloud.org:ublue-os:packages install \
     xorg-x11-xauth \
     yubikey-manager
 
-# use CoreOS' generator for emergency/rescue boot, some workarounds
-sed -Ei 's/secure_path = (.*)/secure_path = \1:\/home\/linuxbrew\/.linuxbrew\/bin/' /etc/sudoers
-curl --retry 3 -sSLo /usr/lib/systemd/system-generators/coreos-sulogin-force-generator https://raw.githubusercontent.com/coreos/fedora-coreos-config/refs/heads/stable/overlay.d/05core/usr/lib/systemd/system-generators/coreos-sulogin-force-generator
-chmod +x /usr/lib/systemd/system-generators/coreos-sulogin-force-generator
-mv '/usr/share/doc/just/README.中文.md' '/usr/share/doc/just/README.zh-cn.md'
-ln -s '/usr/share/fonts/google-noto-sans-cjk-fonts' '/usr/share/fonts/noto-cjk'
-
 # swap kernel and install nvidia drivers and kmod
-/ctx/scripts/swap-kernel.sh
-/ctx/scripts/install-nvidia.sh
+/ctx/swap-kernel.sh
+/ctx/install-nvidia.sh
 
 # install gnome and a few useful things
 dnf5 -y install -x gnome-tour --enablerepo=tailscale-stable --enablerepo=copr:copr.fedorainfracloud.org:ublue-os:packages \
@@ -205,7 +196,7 @@ dnf5 -y install --enablerepo=copr:copr.fedorainfracloud.org:ublue-os:bazzite f43
 # install gnome extensions. this script is already compiling gschemas so I don't need to do it again
 for extension in 19 517 615 3193 4222 4269 5105 7535 8084
 do
-    /ctx/scripts/install-gnome-ext.sh $extension
+    /ctx/install-gnome-ext.sh $extension
 done
 
 # install some dev tools
@@ -252,7 +243,7 @@ curl --retry 3 -Lo /etc/flatpak/remotes.d/flathub.flatpakrepo https://dl.flathub
 rm -f /usr/lib/systemd/system/flatpak-add-fedora-repos.service
 
 # some finishing touches
-/ctx/scripts/install-morewaita.sh
+/ctx/install-morewaita.sh
 sed -i 's|uupd|& --disable-module-distrobox|' /usr/lib/systemd/system/uupd.service
 echo 'Hidden=true' >> /usr/share/applications/htop.desktop
 echo 'Hidden=true' >> /usr/share/applications/nvtop.desktop
@@ -267,6 +258,11 @@ rm -rf /usr/src
 rpm --erase --nodeps akmod-nvidia
 rpm --erase --nodeps kernel-cachyos-devel || true
 rpm --erase --nodeps kernel-cachyos-lts-devel || true
+sed -Ei 's/secure_path = (.*)/secure_path = \1:\/home\/linuxbrew\/.linuxbrew\/bin/' /etc/sudoers
+curl --retry 3 -sSLo /usr/lib/systemd/system-generators/coreos-sulogin-force-generator https://raw.githubusercontent.com/coreos/fedora-coreos-config/refs/heads/stable/overlay.d/05core/usr/lib/systemd/system-generators/coreos-sulogin-force-generator
+chmod +x /usr/lib/systemd/system-generators/coreos-sulogin-force-generator
+mv '/usr/share/doc/just/README.中文.md' '/usr/share/doc/just/README.zh-cn.md'
+ln -s '/usr/share/fonts/google-noto-sans-cjk-fonts' '/usr/share/fonts/noto-cjk'
 dnf5 versionlock clear
 dnf5 clean all
 

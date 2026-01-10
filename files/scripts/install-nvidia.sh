@@ -6,7 +6,7 @@ set -oue pipefail
 
 LTS_BUILD=false
 
-if [ -f /tmp/ltsbuild ]; then
+if [[ "${BUILD_FLAVOR}" =~ "lts" ]] ; then
     LTS_BUILD=true
 fi
 
