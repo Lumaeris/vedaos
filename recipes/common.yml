@@ -125,16 +125,6 @@ modules:
         - xorg-x11-xauth
         - yubikey-manager
 
-  # use CoreOS' generator for emergency/rescue boot, some workarounds
-  - type: script
-    scripts:
-      - fix-brew.sh # we're doing it here so it won't error out in snippets
-    snippets:
-      - "curl --retry 3 -sSLo /usr/lib/systemd/system-generators/coreos-sulogin-force-generator https://raw.githubusercontent.com/coreos/fedora-coreos-config/refs/heads/stable/overlay.d/05core/usr/lib/systemd/system-generators/coreos-sulogin-force-generator"
-      - "chmod +x /usr/lib/systemd/system-generators/coreos-sulogin-force-generator"
-      - "mv '/usr/share/doc/just/README.中文.md' '/usr/share/doc/just/README.zh-cn.md'"
-      - "ln -s '/usr/share/fonts/google-noto-sans-cjk-fonts' '/usr/share/fonts/noto-cjk'"
-
   # swap kernel and install nvidia drivers and kmod
   - type: script
     scripts:
@@ -347,6 +337,7 @@ modules:
   - type: script
     scripts:
       - install-morewaita.sh
+      - fix-brew.sh # we're doing it here so it won't error out in snippets
     snippets:
       - "sed -i 's|uupd|& --disable-module-distrobox|' /usr/lib/systemd/system/uupd.service"
       - "sed -i '/^REDHAT_BUGZILLA_PRODUCT=/d;/^REDHAT_BUGZILLA_PRODUCT_VERSION=/d;/^REDHAT_SUPPORT_PRODUCT=/d;/^REDHAT_SUPPORT_PRODUCT_VERSION=/d;/^SUPPORT_END=/d' /usr/lib/os-release"
@@ -364,6 +355,9 @@ modules:
       - "rpm --erase --nodeps kernel-cachyos-devel || true"
       - "rpm --erase --nodeps kernel-cachyos-lts-devel || true"
       - "rm -f /tmp/ltsbuild"
+      - "curl --retry 3 -sSLo /usr/lib/systemd/system-generators/coreos-sulogin-force-generator https://raw.githubusercontent.com/coreos/fedora-coreos-config/refs/heads/stable/overlay.d/05core/usr/lib/systemd/system-generators/coreos-sulogin-force-generator"
+      - "chmod +x /usr/lib/systemd/system-generators/coreos-sulogin-force-generator"
+      - "ln -s '/usr/share/fonts/google-noto-sans-cjk-fonts' '/usr/share/fonts/noto-cjk'"
       - "dnf5 versionlock clear"
       - "dnf5 clean all"
 
