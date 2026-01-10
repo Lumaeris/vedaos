@@ -17,4 +17,10 @@ RUN --mount=type=tmpfs,dst=/var \
     --mount=type=bind,from=ctx,source=/,dst=/ctx \
     /ctx/scripts/build.sh
 
-RUN rm -rf /var/* && mkdir /var/tmp && bootc container lint
+RUN rm -rf /var/* && \
+    rm -rf /tmp/* && \
+    rm -rf /usr/etc && \
+    rm -rf /boot && mkdir /boot && \
+    mkdir /var/tmp && \
+    chmod -R 1777 /var/tmp && \
+    bootc container lint
