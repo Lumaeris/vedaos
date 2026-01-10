@@ -244,8 +244,8 @@ s|^DEFAULT_HOSTNAME=.*|DEFAULT_HOSTNAME=\"vedaos\"|
 /^REDHAT_SUPPORT_PRODUCT=/d
 /^REDHAT_SUPPORT_PRODUCT_VERSION=/d
 /^SUPPORT_END=/d
-$a\ID_LIKE=\"fedora\"
 EOF
+echo 'ID_LIKE="fedora"' >> /usr/lib/os-release
 
 # add flathub, a way better flatpak repo, and remove fedora flatpaks
 mkdir -p /etc/flatpak/remotes.d/
