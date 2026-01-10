@@ -105,6 +105,8 @@ dnf5 -y --enablerepo=copr:copr.fedorainfracloud.org:ublue-os:packages install \
     xorg-x11-xauth \
     yubikey-manager
 
+mv '/usr/share/doc/just/README.中文.md' '/usr/share/doc/just/README.zh-cn.md'
+
 # swap kernel and install nvidia drivers and kmod
 /ctx/swap-kernel.sh
 /ctx/install-nvidia.sh
@@ -261,7 +263,6 @@ rpm --erase --nodeps kernel-cachyos-lts-devel || true
 sed -Ei 's/secure_path = (.*)/secure_path = \1:\/home\/linuxbrew\/.linuxbrew\/bin/' /etc/sudoers
 curl --retry 3 -sSLo /usr/lib/systemd/system-generators/coreos-sulogin-force-generator https://raw.githubusercontent.com/coreos/fedora-coreos-config/refs/heads/stable/overlay.d/05core/usr/lib/systemd/system-generators/coreos-sulogin-force-generator
 chmod +x /usr/lib/systemd/system-generators/coreos-sulogin-force-generator
-mv '/usr/share/doc/just/README.中文.md' '/usr/share/doc/just/README.zh-cn.md'
 ln -s '/usr/share/fonts/google-noto-sans-cjk-fonts' '/usr/share/fonts/noto-cjk'
 dnf5 versionlock clear
 dnf5 clean all
