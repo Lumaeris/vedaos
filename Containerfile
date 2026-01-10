@@ -16,3 +16,5 @@ RUN --mount=type=tmpfs,dst=/var \
     --mount=type=tmpfs,dst=/tmp \
     --mount=type=bind,from=ctx,source=/,dst=/ctx \
     /ctx/scripts/build.sh
+
+RUN rm -rf /var/* && mkdir /var/tmp && bootc container lint
