@@ -17,10 +17,13 @@ RUN --mount=type=tmpfs,dst=/var \
     --mount=type=bind,from=ctx,source=/,dst=/ctx \
     /ctx/scripts/build.sh
 
+# optimizing the image so bootc won't complain
 RUN rm -rf /var/* && \
     rm -rf /tmp/* && \
     rm -rf /usr/etc && \
-    rm -rf /boot && mkdir /boot && \
+    rm -rf /boot && \
+    mkdir /boot && \
     mkdir /var/tmp && \
+    mkdir /var/roothome && \
     chmod -R 1777 /var/tmp && \
     bootc container lint

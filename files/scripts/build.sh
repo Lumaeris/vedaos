@@ -19,10 +19,9 @@ cp -avf "/ctx/files"/. /
 # remove leftovers from fedora-bootc
 dnf5 -y remove console-login-helper-messages chrony sssd* qemu-user-static* toolbox
 
-# delete chsh since we don't need it, create roothome dir, add fedora-multimedia
+# delete chsh since we don't need it, add fedora-multimedia
 rm -f /usr/bin/chsh
 rm -f /usr/bin/lchsh
-mkdir -p /var/roothome
 dnf5 config-manager addrepo --from-repofile=https://negativo17.org/repos/fedora-multimedia.repo
 dnf5 config-manager setopt fedora-multimedia.priority=90
 dnf5 config-manager setopt fedora-cisco-openh264.enabled=0
