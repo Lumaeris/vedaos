@@ -105,8 +105,6 @@ dnf5 -y --enablerepo=copr:copr.fedorainfracloud.org:ublue-os:packages install \
     xorg-x11-xauth \
     yubikey-manager
 
-mv '/usr/share/doc/just/README.中文.md' '/usr/share/doc/just/README.zh-cn.md'
-
 # swap kernel and install nvidia drivers and kmod
 /ctx/swap-kernel.sh
 /ctx/install-nvidia.sh
