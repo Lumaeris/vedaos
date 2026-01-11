@@ -4,9 +4,8 @@
 # Tell this script to exit if there are any errors.
 set -oue pipefail
 
-pushd . > /dev/null
 dir="$(mktemp -d)"
-cd "${dir}"
+pushd "${dir}" > /dev/null
 git clone https://github.com/somepaulo/MoreWaita --depth=1
 mkdir -p /usr/share/icons/MoreWaita
 shopt -s extglob

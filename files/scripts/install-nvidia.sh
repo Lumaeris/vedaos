@@ -20,18 +20,20 @@ dnf5 install -y mesa-dri-drivers.i686 mesa-filesystem.i686 mesa-libEGL.i686 mesa
 # Disable Multimedia
 dnf5 config-manager setopt fedora-multimedia.enabled=0
 
-KERNEL_VERSION="$(ls /lib/modules)"
+KERNEL_VERSION="$(find "/usr/lib/modules" -maxdepth 1 -type d ! -path "/usr/lib/modules" -exec basename '{}' ';' | sort | tail -n 1)"
 
 # download and enable fedora-nvidia repo
 if $LTS_BUILD; then
-    curl --retry 3 -Lo /etc/yum.repos.d/fedora-nvidia-580.repo https://negativo17.org/repos/fedora-nvidia-580.repo
-    sed -i '/^enabled=1/a\priority=90' /etc/yum.repos.d/fedora-nvidia-580.repo
+    dnf5 config-manager addrepo --from-repofile=https://negativo17.org/repos/fedora-nvidia-580.repo
+    dnf5 config-manager setopt fedora-nvidia-580.enabled=0
+    sed -i '/^enabled=/a\priority=90' /etc/yum.repos.d/fedora-nvidia-580.repo
 else
-    curl --retry 3 -Lo /etc/yum.repos.d/negativo17-fedora-nvidia.repo https://negativo17.org/repos/fedora-nvidia.repo
-    sed -i '/^enabled=1/a\priority=90' /etc/yum.repos.d/negativo17-fedora-nvidia.repo
+    dnf5 config-manager addrepo --from-repofile=https://negativo17.org/repos/fedora-nvidia.repo
+    dnf5 config-manager setopt fedora-nvidia.enabled=0
+    sed -i '/^enabled=/a\priority=90' /etc/yum.repos.d/fedora-nvidia.repo
 fi
 
-dnf5 install -y akmod-nvidia gcc-c++
+dnf5 -y install --enablerepo=fedora-nvidia akmod-nvidia gcc-c++
 
 echo "Installing kmod..."
 akmods --force --kernels "${KERNEL_VERSION}" --kmod "nvidia"
@@ -46,20 +48,17 @@ modinfo /usr/lib/modules/${KERNEL_VERSION}/extra/nvidia/nvidia{,-drm,-modeset,-p
 # shellcheck disable=SC2086
 modinfo -l /usr/lib/modules/${KERNEL_VERSION}/extra/nvidia/nvidia{,-drm,-modeset,-peermem,-uvm}.ko.xz
 
-curl --retry 3 -L https://nvidia.github.io/libnvidia-container/stable/rpm/nvidia-container-toolkit.repo -o /etc/yum.repos.d/nvidia-container-toolkit.repo
-sed -i 's/^gpgcheck=0/gpgcheck=1/' /etc/yum.repos.d/nvidia-container-toolkit.repo
-sed -i 's/^enabled=0.*/enabled=1/' /etc/yum.repos.d/nvidia-container-toolkit.repo
+dnf5 config-manager addrepo --from-repofile=https://nvidia.github.io/libnvidia-container/stable/rpm/nvidia-container-toolkit.repo
+dnf5 config-manager setopt nvidia-container-toolkit.enabled=0
+dnf5 config-manager setopt nvidia-container-toolkit.gpgcheck=1
 
-echo "Installing NVIDIA packages..."
-dnf5 -y install nvidia-container-toolkit nvidia-driver-cuda libnvidia-fbc libva-nvidia-driver nvidia-driver nvidia-modprobe nvidia-persistenced nvidia-settings
+dnf5 -y install --enablerepo=fedora-nvidia nvidia-driver-cuda libnvidia-fbc libva-nvidia-driver nvidia-driver nvidia-modprobe nvidia-persistenced nvidia-settings
+
+dnf5 -y install --enablerepo=nvidia-container-toolkit nvidia-container-toolkit
 
 curl --retry 3 -L https://raw.githubusercontent.com/NVIDIA/dgx-selinux/master/bin/RHEL9/nvidia-container.pp -o nvidia-container.pp
 semodule -i nvidia-container.pp
-
 rm -f nvidia-container.pp
-rm -f /etc/yum.repos.d/negativo17-fedora-nvidia.repo
-rm -f /etc/yum.repos.d/fedora-nvidia-580.repo
-rm -f /etc/yum.repos.d/nvidia-container-toolkit.repo
 
 # Universal Blue specific Initramfs fixes
 cp /etc/modprobe.d/nvidia-modeset.conf /usr/lib/modprobe.d/nvidia-modeset.conf

@@ -21,16 +21,16 @@ modules:
         - sssd*
         - qemu-user-static*
         - toolbox
-
-  # delete chsh since we don't need it, create roothome dir, add fedora-multimedia
   - type: script
     snippets:
-      - "rm -f /usr/bin/chsh"
-      - "rm -f /usr/bin/lchsh"
-      - "mkdir -p /var/roothome"
-      - "dnf5 config-manager addrepo --from-repofile='https://negativo17.org/repos/fedora-multimedia.repo'"
-      - "dnf5 config-manager setopt fedora-multimedia.priority=90"
-      - "dnf5 config-manager setopt fedora-cisco-openh264.enabled=0"
+      - rm -f /usr/bin/chsh /usr/bin/lchsh
+
+  # add fedora-multimedia and disable openh264 repo
+  - type: script
+    snippets:
+      - dnf5 config-manager addrepo --from-repofile='https://negativo17.org/repos/fedora-multimedia.repo'
+      - dnf5 config-manager setopt fedora-multimedia.priority=90
+      - dnf5 config-manager setopt fedora-cisco-openh264.enabled=0
   
   # install packages from fedora-multimedia
   - type: dnf
@@ -55,7 +55,7 @@ modules:
   # lock rpms from fedora-multimedia
   - type: script
     snippets:
-      - "dnf5 versionlock add intel-gmmlib intel-mediasdk intel-vpl-gpu-rt libheif libva libva-intel-media-driver mesa-dri-drivers mesa-filesystem mesa-libEGL mesa-libGL mesa-libgbm mesa-va-drivers mesa-vulkan-drivers"
+      - dnf5 versionlock add intel-gmmlib intel-mediasdk intel-vpl-gpu-rt libheif libva libva-intel-media-driver mesa-dri-drivers mesa-filesystem mesa-libEGL mesa-libGL mesa-libgbm mesa-va-drivers mesa-vulkan-drivers
 
   # install so called "batteries" coined by ublue
   - type: dnf
@@ -298,18 +298,18 @@ modules:
   # give bazzite copr repos a priority, install gamescope
   - type: script
     snippets:
-      - "dnf5 -y copr enable ublue-os/bazzite"
-      - "dnf5 -y copr enable ublue-os/bazzite-multilib"
-      - "dnf5 -y config-manager setopt '*bazzite*'.priority=90"
-      - "dnf5 -y install gamescope-libs gamescope-shaders"
-      - "dnf5 -y copr disable ublue-os/bazzite"
-      - "dnf5 -y copr disable ublue-os/bazzite-multilib"
+      - dnf5 -y copr enable ublue-os/bazzite
+      - dnf5 -y copr enable ublue-os/bazzite-multilib
+      - dnf5 -y config-manager setopt '*bazzite*'.priority=90
+      - dnf5 -y install gamescope-libs gamescope-shaders
+      - dnf5 -y copr disable ublue-os/bazzite
+      - dnf5 -y copr disable ublue-os/bazzite-multilib
 
   # downgrade flatpak for a time being due to errors while trying to build anything using gnome builder or foundry+flatpak-builder
   # https://gitlab.gnome.org/GNOME/gnome-builder/-/issues/2387
   - type: script
     snippets:
-      - "dnf5 downgrade -y --allow-downgrade flatpak-1.16.1-1.fc43 flatpak-libs-1.16.1-1.fc43"
+      - dnf5 downgrade -y --allow-downgrade flatpak-1.16.1-1.fc43 flatpak-libs-1.16.1-1.fc43
 
   # set new os-release values
   - type: os-release
@@ -329,37 +329,38 @@ modules:
   # add flathub, a way better flatpak repo, and remove fedora flatpaks
   - type: script 
     snippets:
-      - "mkdir -p /etc/flatpak/remotes.d/"
-      - "curl --retry 3 -Lo /etc/flatpak/remotes.d/flathub.flatpakrepo https://dl.flathub.org/repo/flathub.flatpakrepo"
-      - "rm -f /usr/lib/systemd/system/flatpak-add-fedora-repos.service"
+      - mkdir -p /etc/flatpak/remotes.d/
+      - curl --retry 3 -Lo /etc/flatpak/remotes.d/flathub.flatpakrepo https://dl.flathub.org/repo/flathub.flatpakrepo
+      - rm -f /usr/lib/systemd/system/flatpak-add-fedora-repos.service
 
   # some finishing touches
   - type: script
     scripts:
       - install-morewaita.sh
-      - fix-brew.sh # we're doing it here so it won't error out in snippets
     snippets:
-      - "sed -i 's|uupd|& --disable-module-distrobox|' /usr/lib/systemd/system/uupd.service"
-      - "sed -i '/^REDHAT_BUGZILLA_PRODUCT=/d;/^REDHAT_BUGZILLA_PRODUCT_VERSION=/d;/^REDHAT_SUPPORT_PRODUCT=/d;/^REDHAT_SUPPORT_PRODUCT_VERSION=/d;/^SUPPORT_END=/d' /usr/lib/os-release"
-      - "echo 'Hidden=true' >> /usr/share/applications/htop.desktop"
-      - "echo 'Hidden=true' >> /usr/share/applications/nvtop.desktop"
-      - "echo 'Hidden=true' >> /usr/share/applications/nvidia-settings.desktop"
-      - "mkdir -p /usr/lib/extest"
-      - "curl --retry 3 -Lo /usr/lib/extest/libextest.so https://github.com/ublue-os/extest/releases/latest/download/libextest.so"
-      - "curl --retry 3 -Lo /usr/bin/winetricks https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks"
-      - "chmod +x /usr/bin/winetricks"
-      - "sed -i 's@/usr/bin/steam@/usr/bin/vedaos-steam@g' /usr/share/applications/steam.desktop"
-      - "rm -rf /usr/share/doc"
-      - "rm -rf /usr/src"
-      - "rpm --erase --nodeps akmod-nvidia"
-      - "rpm --erase --nodeps kernel-cachyos-devel || true"
-      - "rpm --erase --nodeps kernel-cachyos-lts-devel || true"
-      - "rm -f /tmp/ltsbuild"
-      - "curl --retry 3 -sSLo /usr/lib/systemd/system-generators/coreos-sulogin-force-generator https://raw.githubusercontent.com/coreos/fedora-coreos-config/refs/heads/stable/overlay.d/05core/usr/lib/systemd/system-generators/coreos-sulogin-force-generator"
-      - "chmod +x /usr/lib/systemd/system-generators/coreos-sulogin-force-generator"
-      - "ln -s '/usr/share/fonts/google-noto-sans-cjk-fonts' '/usr/share/fonts/noto-cjk'"
-      - "dnf5 versionlock clear"
-      - "dnf5 clean all"
+      - mkdir -p /var/roothome
+      - sed -Ei 's/secure_path = (.*)/secure_path = \1:\/home\/linuxbrew\/.linuxbrew\/bin/' /etc/sudoers
+      - sed -i 's|uupd|& --disable-module-distrobox|' /usr/lib/systemd/system/uupd.service
+      - sed -i '/^REDHAT_BUGZILLA_PRODUCT=/d;/^REDHAT_BUGZILLA_PRODUCT_VERSION=/d;/^REDHAT_SUPPORT_PRODUCT=/d;/^REDHAT_SUPPORT_PRODUCT_VERSION=/d;/^SUPPORT_END=/d' /usr/lib/os-release
+      - sed -i 's@\[Desktop Entry\]@\[Desktop Entry\]\nHidden=true@g' /usr/share/applications/htop.desktop
+      - sed -i 's@\[Desktop Entry\]@\[Desktop Entry\]\nHidden=true@g' /usr/share/applications/nvtop.desktop
+      - sed -i 's@\[Desktop Entry\]@\[Desktop Entry\]\nHidden=true@g' /usr/share/applications/nvidia-settings.desktop
+      - mkdir -p /usr/lib/extest
+      - curl --retry 3 -Lo /usr/lib/extest/libextest.so https://github.com/ublue-os/extest/releases/latest/download/libextest.so
+      - curl --retry 3 -Lo /usr/bin/winetricks https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks
+      - chmod +x /usr/bin/winetricks
+      - sed -i 's@/usr/bin/steam@/usr/bin/vedaos-steam@g' /usr/share/applications/steam.desktop
+      - rm -rf /usr/share/doc
+      - rm -rf /usr/src
+      - rpm --erase --nodeps akmod-nvidia
+      - rpm --erase --nodeps kernel-cachyos-devel || true
+      - rpm --erase --nodeps kernel-cachyos-lts-devel || true
+      - rm -f /tmp/ltsbuild
+      - curl --retry 3 -sSLo /usr/lib/systemd/system-generators/coreos-sulogin-force-generator https://raw.githubusercontent.com/coreos/fedora-coreos-config/refs/heads/stable/overlay.d/05core/usr/lib/systemd/system-generators/coreos-sulogin-force-generator
+      - chmod +x /usr/lib/systemd/system-generators/coreos-sulogin-force-generator
+      - ln -s '/usr/share/fonts/google-noto-sans-cjk-fonts' '/usr/share/fonts/noto-cjk'
+      - dnf5 versionlock clear
+      - dnf5 clean all
 
   # enable systemd services
   - type: systemd
