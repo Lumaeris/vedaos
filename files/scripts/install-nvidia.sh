@@ -25,15 +25,13 @@ KERNEL_VERSION="$(find "/usr/lib/modules" -maxdepth 1 -type d ! -path "/usr/lib/
 # download and enable fedora-nvidia repo
 if $LTS_BUILD; then
     dnf5 config-manager addrepo --from-repofile=https://negativo17.org/repos/fedora-nvidia-580.repo
-    dnf5 config-manager setopt fedora-nvidia-580.enabled=0
     sed -i '/^enabled=/a\priority=90' /etc/yum.repos.d/fedora-nvidia-580.repo
 else
     dnf5 config-manager addrepo --from-repofile=https://negativo17.org/repos/fedora-nvidia.repo
-    dnf5 config-manager setopt fedora-nvidia.enabled=0
     sed -i '/^enabled=/a\priority=90' /etc/yum.repos.d/fedora-nvidia.repo
 fi
 
-dnf5 -y install --enablerepo=fedora-nvidia akmod-nvidia gcc-c++
+dnf5 -y install akmod-nvidia gcc-c++
 
 echo "Installing kmod..."
 akmods --force --kernels "${KERNEL_VERSION}" --kmod "nvidia"
@@ -52,9 +50,7 @@ dnf5 config-manager addrepo --from-repofile=https://nvidia.github.io/libnvidia-c
 dnf5 config-manager setopt nvidia-container-toolkit.enabled=0
 dnf5 config-manager setopt nvidia-container-toolkit.gpgcheck=1
 
-dnf5 -y install --enablerepo=fedora-nvidia nvidia-driver-cuda libnvidia-fbc libva-nvidia-driver nvidia-driver nvidia-modprobe nvidia-persistenced nvidia-settings
-
-dnf5 -y install --enablerepo=nvidia-container-toolkit nvidia-container-toolkit
+dnf5 -y install --enablerepo=nvidia-container-toolkit nvidia-container-toolkit nvidia-driver-cuda libnvidia-fbc libva-nvidia-driver nvidia-driver nvidia-modprobe nvidia-persistenced nvidia-settings
 
 curl --retry 3 -L https://raw.githubusercontent.com/NVIDIA/dgx-selinux/master/bin/RHEL9/nvidia-container.pp -o nvidia-container.pp
 semodule -i nvidia-container.pp
@@ -66,6 +62,12 @@ cp /etc/modprobe.d/nvidia-modeset.conf /usr/lib/modprobe.d/nvidia-modeset.conf
 sed -i 's@omit_drivers@force_drivers@g' /usr/lib/dracut/dracut.conf.d/99-nvidia.conf
 # as we need forced load, also mustpre-load intel/amd iGPU else chromium web browsers fail to use hardware acceleration
 sed -i 's@ nvidia @ i915 amdgpu nvidia @g' /usr/lib/dracut/dracut.conf.d/99-nvidia.conf
+
+if $LTS_BUILD; then
+    dnf5 config-manager setopt fedora-nvidia-580.enabled=0
+else
+    dnf5 config-manager setopt fedora-nvidia.enabled=0
+fi
 
 # Enable Multimedia back
 dnf5 config-manager setopt fedora-multimedia.enabled=1
