@@ -6,8 +6,7 @@ on:
   push:
     paths-ignore: # don't rebuild if only documentation and titanoboa has changed
       - "**.md"
-      - "files/flatpaks"
-      - "files/titanoboa*.sh"
+      - "files/installer/*"
       - ".github/workflows/*.yml"
   workflow_dispatch: # allow manually triggering builds
 concurrency:
