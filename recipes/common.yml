@@ -21,6 +21,8 @@ modules:
         - sssd*
         - qemu-user-static*
         - toolbox
+
+  # footgun. see https://github.com/ublue-os/main/issues/598
   - type: script
     snippets:
       - rm -f /usr/bin/chsh /usr/bin/lchsh
