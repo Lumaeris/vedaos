@@ -97,6 +97,7 @@ sed -i 's|Activities|the dock|' /usr/share/anaconda/gnome/fedora-welcome || true
 # Interactive Kickstart
 tee -a /usr/share/anaconda/interactive-defaults.ks <<EOF
 ostreecontainer --url=ghcr.io/lumaeris/vedaos:latest --transport=containers-storage --no-signature-verification
+# bootc --source-imgref ghcr.io/lumaeris/vedaos:latest
 %include /usr/share/anaconda/post-scripts/install-configure-upgrade.ks
 %include /usr/share/anaconda/post-scripts/install-flatpaks.ks
 EOF
