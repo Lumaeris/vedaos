@@ -42,4 +42,4 @@ jobs:
           # mitigate a problem that occures while rechunking an image with nvidia drivers referencing an older build
           # this flag forces build-chunked-oci to ignore it and do it over again, like it did before cli v0.9.28
           # https://github.com/bootc-dev/bootc/issues/1885
-          build_opts: --rechunk-clear-plan
+          rechunk_clear_plan: true
