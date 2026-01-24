@@ -74,7 +74,6 @@ This list only exists for informational purposes.
 - ~~hhd's rechunker~~ - not anymore! We use upstream's `build-chunked-oci` as mentioned above.
 - Legacy package marked as "batteries" - oversteer-udev.
 - [Bluefin's Common OCI](https://github.com/projectbluefin/common) - used for getting LUKS stuff, udev rules and some internal stuff.
-- brew - https://github.com/ublue-os/brew
 - uupd - even though it was designed for ublue systems, it can still be used on any atomic system.
 - Steam Deck backgrounds repackaged by Bazzite.
 - Bazzite's fork of Gamescope.

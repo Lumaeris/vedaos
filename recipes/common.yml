@@ -133,12 +133,6 @@ modules:
       - swap-kernel.sh
       - install-nvidia.sh
 
-  # install brew. updates would be handled with uupd
-  - type: copy
-    from: ghcr.io/ublue-os/brew:latest
-    src: /system_files
-    dest: /
-
   # install gnome and a few useful things
   - type: dnf
     repos:
@@ -290,6 +284,16 @@ modules:
         - foundry
         - git
         - flatpak-builder
+  
+  # install brew. updates would be handled with uupd
+  - type: dnf
+    repos:
+      cleanup: true
+      copr:
+        - secureblue/homebrew
+    install:
+      packages:
+        - homebrew
 
   # install steam
   - type: dnf
@@ -373,6 +377,7 @@ modules:
         - rechunker-group-fix.service
         - nvctk-cdi.service
         - brew-setup.service
+        - brew-unlink-packages.timer
       disabled:
         - rpm-ostree-countme.timer
       masked:
