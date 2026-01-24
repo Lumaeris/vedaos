@@ -2,7 +2,7 @@ name: Build Custom Image
 on:
   schedule:
     - cron:
-        "00 06 * * *" # build at 06:00 UTC every day
+        "00 06 * * SUN" # build at 06:00 UTC on Sunday
   push:
     paths-ignore: # don't rebuild if only documentation and titanoboa has changed
       - "**.md"
