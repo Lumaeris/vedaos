@@ -1,5 +1,10 @@
 # VedaOS
 
+> [!WARNING]
+> To be discontinued. While it was a great learning project and my main atomic system for several months, I don't think I need to do all the work and try to "optimize" my experience. Most of the changes are already in Bluefin and Bazzite, which I suggest to try out instead of this particular one. Or maybe Ultramarine Bootc, whenever it happens to finally be released. Little to no changes will be made after adding this note, and it will be discontinued around the time when Fedora 44 comes to live.
+>
+> I mainly did this image due to growing frustation towards one particular former contributor of Bazzite, which thankfully was banned to ever contribute to Bazzite and Universal Blue permanently. I wouldn't go deep into this, but anyway from this alone (and eventual creation of Open Gaming Collective) I'm happy to daily-drive Bazzite once again. :P
+
 Opinionated custom image with GNOME, preinstalled Steam and other goodies, based on [fedora-bootc](https://docs.fedoraproject.org/en-US/bootc/). Personal project with frequent changes.
 
 <img width="1920" height="1080" alt="Screenshot" src="https://github.com/user-attachments/assets/85fb2f68-5d01-4ba8-b922-b53c31a85375" />
