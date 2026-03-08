@@ -56,8 +56,11 @@ curl --retry 3 -L https://raw.githubusercontent.com/NVIDIA/dgx-selinux/master/bi
 semodule -i nvidia-container.pp
 rm -f nvidia-container.pp
 
-# Universal Blue specific Initramfs fixes
-cp /etc/modprobe.d/nvidia-modeset.conf /usr/lib/modprobe.d/nvidia-modeset.conf
+# Universal Blue specific Initramfs fixes (for NVIDIA LTS)
+if $LTS_BUILD; then
+    cp /etc/modprobe.d/nvidia-modeset.conf /usr/lib/modprobe.d/nvidia-modeset.conf
+fi
+
 # we must force driver load to fix black screen on boot for nvidia desktops
 sed -i 's@omit_drivers@force_drivers@g' /usr/lib/dracut/dracut.conf.d/99-nvidia.conf
 # as we need forced load, also mustpre-load intel/amd iGPU else chromium web browsers fail to use hardware acceleration
