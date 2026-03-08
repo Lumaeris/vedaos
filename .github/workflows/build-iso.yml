@@ -21,7 +21,7 @@ jobs:
 
     steps:
       - name: Free disk space
-        uses: hastd/free-disk-space@78ec0490f953d89f024c95d0c293e6307ceac02e # v0.1.1
+        uses: hastd/free-disk-space@68572aeaadb7f76bd408246328e95926323402b5 # v0.1.2
 
       - name: Mount BTRFS for podman storage
         id: container-storage-action
