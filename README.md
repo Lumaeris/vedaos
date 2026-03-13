@@ -1,9 +1,11 @@
 # VedaOS
 
 > [!WARNING]
-> To be discontinued. While it was a great learning project and my main atomic system for several months, I don't think I need to do all the work and try to "optimize" my experience. Most of the changes are already in Bazzite, which I suggest to try out instead of this particular one. Or maybe Ultramarine Bootc, whenever it happens to finally be released. Little to no changes will be made after adding this note, and it will be discontinued around the time when Fedora 44 comes to live.
+> ~~To be discontinued. While it was a great learning project and my main atomic system for several months, I don't think I need to do all the work and try to "optimize" my experience. Most of the changes are already in Bazzite, which I suggest to try out instead of this particular one. Or maybe Ultramarine Bootc, whenever it happens to finally be released. Little to no changes will be made after adding this note, and it will be discontinued around the time when Fedora 44 comes to live.~~
 >
-> I mainly did this image due to growing frustation towards one particular former contributor of Bazzite, which thankfully was banned to ever contribute to Bazzite and Universal Blue permanently. I wouldn't go deep into this, but anyway from this alone (and eventual creation of Open Gaming Collective) I'm happy to daily-drive Bazzite once again. :P
+> I mainly did this image due to growing frustation towards one particular former contributor of Bazzite, which thankfully was banned to ever contribute to Bazzite and Universal Blue permanently. ~~I wouldn't go deep into this, but anyway from this alone (and eventual creation of Open Gaming Collective) I'm happy to daily-drive Bazzite once again. :P~~
+>
+> UPD (13.03.2026): I've changed my mind. Bazzite is cool and all, but I like to thinker with some things sometimes and currently I don't really like how they're manually packaging NVIDIA drivers which was set up by the very same former contributor. Oh well. Anyway, starting today I removed rechunker group fix so you'd have to use older image, and I want to eventually move it to Containerfile approach which I'm mostly comfortable nowadays.
 
 Opinionated custom image with GNOME, preinstalled Steam and other goodies, based on [fedora-bootc](https://docs.fedoraproject.org/en-US/bootc/). Personal project with frequent changes.
 
@@ -14,7 +16,7 @@ Ready and fully functional for daily usage. Even though it's created for myself,
 ## What does it have?
 
 - Starting from `quay.io/fedora/fedora-bootc` instead of [Fedora Silverblue](https://fedoraproject.org/atomic-desktops/silverblue), that way we don't get any unwanted changes/packages from Silverblue.
-- Uses [CachyOS' kernel](https://github.com/CachyOS/linux-cachyos) (not Clang with Thin LTO because of NVIDIA bug of some sort).
+- Uses [CachyOS' kernel](https://github.com/CachyOS/linux-cachyos) (not Clang with Thin LTO because of NVIDIA bug of some sort; planning to move to OGC kernel once it's available).
 - One of the first [BlueBuild](https://blue-build.org/) images to switch to rpm-ostree's [`build-chunked-oci`](https://coreos.github.io/rpm-ostree/build-chunked-oci/) instead of relying on [hhd's rechunker](https://github.com/hhd-dev/rechunk) which had unnecessary fixes and file permission issues.
 - Same "batteries" you would expect from any [Universal Blue base image](https://github.com/ublue-os/main).
 - Necessary packages for [GNOME](https://gnome.org). Took an inspiration from [Bluefin LTS](https://github.com/ublue-os/bluefin-lts).
