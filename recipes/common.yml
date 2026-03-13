@@ -365,13 +365,6 @@ modules:
       - dnf5 versionlock clear
       - dnf5 clean all
 
-  # assign layers for some huge files
-  - type: script
-    snippets:
-      - setfattr -n user.component -v "homebrew" /usr/share/homebrew.tar.zst
-      - setfattr -n user.component -v "rpmdb-ostree" /usr/lib/sysimage/rpm-ostree-base-db/rpmdb.sqlite
-      - setfattr -n user.component -v "initramfs" /usr/lib/modules/$(find "/usr/lib/modules" -maxdepth 1 -type d ! -path "/usr/lib/modules" -exec basename '{}' ';' | sort | tail -n 1)/initramfs.img
-
   # enable systemd services
   - type: systemd
     system:
@@ -396,6 +389,16 @@ modules:
       enabled:
         - bazaar.service
 
-  - type: initramfs
+  # regenerate initramfs
+  - type: script
+    scripts:
+      - regen-initramfs.sh
+
+  # assign layers for some huge files
+  - type: script
+    snippets:
+      - setfattr -n user.component -v "homebrew" /usr/share/homebrew.tar.zst
+      - setfattr -n user.component -v "rpmdb-ostree" /usr/lib/sysimage/rpm-ostree-base-db/rpmdb.sqlite
+      - setfattr -n user.component -v "initramfs" /usr/lib/modules/$(find "/usr/lib/modules" -maxdepth 1 -type d ! -path "/usr/lib/modules" -exec basename '{}' ';' | sort | tail -n 1)/initramfs.img
 
   - type: signing
