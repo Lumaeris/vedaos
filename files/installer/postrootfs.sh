@@ -6,7 +6,6 @@ systemctl disable tailscaled.service
 systemctl disable bootloader-update.service
 systemctl disable brew-setup.service
 systemctl disable uupd.timer
-systemctl disable rechunker-group-fix.service
 systemctl disable input-remapper.service
 systemctl --global disable bazaar.service
 

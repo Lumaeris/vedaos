@@ -376,7 +376,6 @@ modules:
         - uupd.timer
         - flatpak-add-flathub-repos.service
         - input-remapper.service
-        - rechunker-group-fix.service
         - nvctk-cdi.service
         - brew-setup.service
       disabled:
