@@ -1,9 +1,9 @@
 modules:
-  # install fedora logos and dnf5-plugins that is needed for copr management and other actions
+  # install generic logos and dnf5-plugins that is needed for copr management and other actions
   - type: dnf
     install:
       packages:
-        - fedora-logos
+        - generic-logos
         - dnf5-plugins
 
   # copying system files over to the system
