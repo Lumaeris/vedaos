@@ -37,3 +37,6 @@ cp "${tmp_release_file}" /etc/os-release
 rm "${tmp_release_file}" "${temp_conf_file}"
 
 chmod 0600 "/usr/lib/modules/${qualified_kernel}/initramfs.img"
+
+# assign a layer for it
+setfattr -n user.component -v "initramfs" "/usr/lib/modules/${qualified_kernel}/initramfs.img"
