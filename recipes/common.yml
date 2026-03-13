@@ -145,11 +145,6 @@ modules:
     src: /system_files
     dest: /
 
-  # assign a layer for homebrew
-  - type: script
-    snippets:
-      - setfattr -n user.component -v "homebrew" /usr/share/homebrew.tar.zst
-
   # install gnome and a few useful things
   - type: dnf
     repos:
@@ -369,6 +364,12 @@ modules:
       - ln -s '/usr/share/fonts/google-noto-sans-cjk-fonts' '/usr/share/fonts/noto-cjk'
       - dnf5 versionlock clear
       - dnf5 clean all
+
+  # assign layers for homebrew and rpmdb
+  - type: script
+    snippets:
+      - setfattr -n user.component -v "homebrew" /usr/share/homebrew.tar.zst
+      - setfattr -n user.component -v "rpmdb-ostree" /usr/lib/sysimage/rpm-ostree-base-db/rpmdb.sqlite
 
   # enable systemd services
   - type: systemd
