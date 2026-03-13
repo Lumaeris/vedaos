@@ -127,6 +127,12 @@ modules:
         - xorg-x11-xauth
         - yubikey-manager
 
+  # swap to rpm-ostree 2025.12 for the time being
+  # https://github.com/coreos/rpm-ostree/issues/5567
+  - type: script
+    snippets:
+      - dnf5 -y swap rpm-ostree rpm-ostree-2025.12-1.fc$(rpm -E %fedora)
+
   # swap kernel and install nvidia drivers and kmod
   - type: script
     scripts:
