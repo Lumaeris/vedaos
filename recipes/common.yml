@@ -365,11 +365,12 @@ modules:
       - dnf5 versionlock clear
       - dnf5 clean all
 
-  # assign layers for homebrew and rpmdb
+  # assign layers for homebrew, rpmdb and morewaita
   - type: script
     snippets:
       - setfattr -n user.component -v "homebrew" /usr/share/homebrew.tar.zst
       - setfattr -n user.component -v "rpmdb-ostree" /usr/lib/sysimage/rpm-ostree-base-db/rpmdb.sqlite
+      - setfattr -n user.component -v "morewaita" /usr/share/icons/MoreWaita
 
   # enable systemd services
   - type: systemd
